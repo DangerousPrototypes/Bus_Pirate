@@ -1,0 +1,7 @@
+Bus Pirate v3.5- Two versions, SOIC and SSOP PIC chips. Same as v3b with reduced part count.
+
+Bus Pirate v4 - Original pre-production version sold at Seeed for $50.
+
+Bus Pirate v4a - v4 resized to fit Seeed case. First production version.
+
+Bus Pirate v4.1 - Small rerouting of v4, not yet resized to fit v4a case.
