@@ -1,0 +1,42 @@
+{| class="wikitable" border="1"
+|+ E:/Work/dp/Bus_Pirate/hardware/BusPirate-v3.5a-SSOP.brd
+!Part!!Quantity!!Value!!Package
+|-
+|C1-C6||6||0.1uF||C603
+|-
+|C7,C8,C9||3||1uF||C603
+|-
+|C10,C11||2||10uF||SMC_A
+|-
+|H1,H2,H3,H4||4||MOUNT-PAD-ROUND3.0||3,0-PAD
+|-
+|I/O||1||HEADER2X5-SHRD-PTH||PINSHRD_PTH_2X05
+|-
+|IC1||1||PIC24FJ64GA002||SSOP28
+|-
+|IC2||1||FT232RL||SSOP28
+|-
+|IC3||1||4066||TSSOP14
+|-
+|ICSP||1||HEADER_PRG_PIC_ICSP||HEADER_PRG_1X05_ICSP_B
+|-
+|J1||1||CONN_USB||CONN_USB_MINI-B@1
+|-
+|L1||1||700mA+ ferrite||WE-KI_0805_B
+|-
+|LED1-LED2,LED2A-LED2,LED3A-LED2,LED4A,LED4A||8||||CHIP-LED0805
+|-
+|R1,R5||2||2K||R603
+|-
+|R2,R3,R4,R6||4||1K1||R603
+|-
+|RN1,RN2,RN3||3||10k||RN8P-4R-CRA06S
+|-
+|U$1||1||||DP-LOGO
+|-
+|U$2||1||||DP-LOGO-BOTTOM
+|-
+|VR1,VR2||2||MIC5205-3.3YM5||SOT-23-5
+|-
+|VR3||1||MIC5205-5.0YM5||SOT-23-5
+|}
