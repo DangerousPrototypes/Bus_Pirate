@@ -21,6 +21,7 @@ Features
     AVR STK500 v2 programmer clone
     Scriptable from Perl, Python, etc.
     A bootloader for easy USB firmware updates
+    Open source (CC 0)
 
 Support
 
