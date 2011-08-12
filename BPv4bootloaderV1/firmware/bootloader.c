@@ -37,9 +37,10 @@ struct _bootstruct {
 
 } bootstruct;
 
-#define PROT_BL
-#define BLSTARTADDR 0x400L
-#define BLENDADDR 0x23FFL
+#define  HAS_PAGES
+#define  PROT_BL
+#define  PROT_GOTO
+#define  PROT_CONFIG
 
 void bootloader(void) {
     int i;
@@ -99,7 +100,7 @@ void bootloader(void) {
 	                bootstruct.enableerase = 1;        
 	                break;
 	            case 2: //protect the bootloader and write the row
-	                blprot();
+	                WritePage();
 	                break;
 	            default: //unknown command
 	                bootstruct.blreturn = 'U';
@@ -108,7 +109,7 @@ void bootloader(void) {
     } while (!bldone);
 }
 
-void blprot() {
+void WritePage() {
     BYTE i;
     int dataword;
     unsigned int offset;

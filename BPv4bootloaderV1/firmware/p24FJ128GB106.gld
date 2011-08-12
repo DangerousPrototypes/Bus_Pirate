@@ -24,6 +24,7 @@ MEMORY
   config1        : ORIGIN = 0x157FE,       LENGTH = 0x2
 }
 
+
 __CONFIG3 = 0x157FA;
 __CONFIG2 = 0x157FC;
 __CONFIG1 = 0x157FE;
@@ -83,7 +84,6 @@ SECTIONS
         *(.libc) *(.libm) *(.libdsp);  /* keep together in this order */
         *(.lib*);
   } >program
-
 
   /*
   ** User-Defined Section in Program Memory
