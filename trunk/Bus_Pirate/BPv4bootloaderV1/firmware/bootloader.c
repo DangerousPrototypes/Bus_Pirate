@@ -21,6 +21,10 @@ long fulladdress;
 BYTE bldone = 0;
 extern BYTE cdc_In_buffer[64];
 extern BYTE cdc_Out_buffer[64];
+#define VER_H 0x04
+#define VER_L 0x06
+
+unsigned int userversion  __attribute__((space(prog),address(BLENDADDR-9))) = ((VER_H<<8)|VER_L); 
 
 int foo __attribute__((section("mysection"),address(0x2000)));
 
@@ -42,9 +46,13 @@ struct _bootstruct {
 #define  PROT_GOTO
 #define  PROT_CONFIG
 
+
 void bootloader(void) {
-    int i;
+	volatile unsigned int i,j;
+	BYTE crc;
+
     bootstruct.enableerase = 0;
+
     do {
         do {
             usb_handler();
@@ -56,8 +64,8 @@ void bootloader(void) {
 	//send device and protocol info
     WaitInReady();
     cdc_In_buffer[0] = DEVICEID; //answer OK
-    cdc_In_buffer[1] = 4;
-    cdc_In_buffer[2] = 0;
+    cdc_In_buffer[1] = VER_H;
+    cdc_In_buffer[2] = VER_L;
     putUnsignedCharArrayUsbUsart(cdc_In_buffer, 3);
 
 	//if no errors below we return K for OK
@@ -65,17 +73,25 @@ void bootloader(void) {
 
     // MAIN BOOTLOADER LOOP HERE
     do {
+error:
         	usb_handler();
         	WaitInReady();
             cdc_In_buffer[0] = bootstruct.blreturn; //answer OK
             putUnsignedCharArrayUsbUsart(cdc_In_buffer, 1);
+			
+			crc=0;
 
 			//get bootloader command
             usbbufgetbyte(&bootstruct.addrU);
+			crc+=bootstruct.addrU;
             usbbufgetbyte(&bootstruct.addrH);
+			crc+=bootstruct.addrH;
             usbbufgetbyte(&bootstruct.addrL);
+			crc+=bootstruct.addrL;
             usbbufgetbyte(&bootstruct.cmd);
+			crc+=bootstruct.cmd;
             usbbufgetbyte(&bootstruct.datasize);
+			crc+=bootstruct.datasize;
 
             TBLPAG = bootstruct.addrU;
 
@@ -83,14 +99,20 @@ void bootloader(void) {
             if (bootstruct.datasize > 1) {
                 for (i = 0; i < bootstruct.datasize - 1; i++) {
                     usbbufgetbyte(&bootstruct.data[i]);
+					crc+=bootstruct.data[i];
                 }
             }
 	
 			//get checksum
             usbbufgetbyte(&bootstruct.checksum);
-
+			crc+=bootstruct.checksum;
             // TODO add checksum computation and check
-        
+			if(crc!=0){
+				bootstruct.blreturn='N';//return checksum error
+				goto error;
+
+			}
+
 			//calculate flash address
         	//fulladdress = ( ((bootstruct.addrU) << 16) + ((bootstruct.addrH) << 8) + bootstruct.addrL);
         	fulladdress = (bootstruct.addrU); 
@@ -107,6 +129,15 @@ void bootloader(void) {
 	            case 2: //protect the bootloader and write the row
 	                WritePage();
 	                break;
+				case 0xff:
+					 U1CONbits.USBEN=0; //USB off
+					//delay a while so computer sees us turn off USB
+					j=0xFFFF;
+					while(j--){
+						i=0xFFFF;
+						while(i--);
+					}
+					asm("RESET");//reset								
 	            default: //unknown command
 	                bootstruct.blreturn = 'U';
 	                break;

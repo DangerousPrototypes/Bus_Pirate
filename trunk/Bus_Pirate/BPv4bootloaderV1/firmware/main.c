@@ -19,14 +19,16 @@
 #include "globals.h"
 #include "configwords.h"	// JTR only included in main.c
 #include "descriptors.h"	// JTR Only included in main.c
+#include "bootloader.h"
 
 void usb_start(void);
 void initCDC(void);
 void usb_init(ROMPTR const unsigned char*, ROMPTR const unsigned char*, ROMPTR const unsigned char*, int);
 void Initialize(void);
 void bootloader(void);
-
+void userjumpin(void);
 extern volatile unsigned char usb_device_state;
+void startpoint(void);
 
 #pragma code
 
@@ -73,7 +75,18 @@ int main(void) {
 
 	PGD_PU=0;	//pullup off
 	PGC_TRIS=1;//input
+	startpoint();
+    return 0;
+}
 
+
+//fixed location to jump from user space
+//really bad! Can't figure out how to put a goto to a label from C, was easy in ASM...
+void __attribute__((space(prog),address(BLENDADDR-7))) userjumpin(){
+	startpoint();
+}
+
+void startpoint(){
     Initialize(); //setup bus pirate
 	LedSetup();
     uLedOff();
@@ -95,7 +108,6 @@ int main(void) {
     } while (usb_device_state < CONFIGURED_STATE); // JTR addition. Do not proceed until device is configured.
     vLedOn();
     bootloader();
-    return 0;
 }
 
 void Initialize(void) {
