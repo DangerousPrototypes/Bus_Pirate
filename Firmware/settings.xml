@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ds30LoaderSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Debugmode>false</Debugmode>
+  <CheckVerStart>false</CheckVerStart>
+  <WindowOnTop>false</WindowOnTop>
+  <WindowWidth>335</WindowWidth>
+  <WindowHeight>448</WindowHeight>
+  <Filename>E:\Work\dp\Bus_Pirate\Firmware\bpv6-rc.hex</Filename>
+  <DefaultStartSettings>
+    <AdvancedMode>false</AdvancedMode>
+    <AdvancedModeAllow>true</AdvancedModeAllow>
+    <FilenameAllow>false</FilenameAllow>
+    <Portname />
+    <PortnameAllow>true</PortnameAllow>
+    <Baudrate />
+    <BaudrateAllow>true</BaudrateAllow>
+    <Familyname />
+    <FamilynameAllow>true</FamilynameAllow>
+    <Devicename />
+    <DevicenameAllow>true</DevicenameAllow>
+    <WriteProgram>false</WriteProgram>
+    <WriteProgramAllow>true</WriteProgramAllow>
+    <WriteEEPROM>false</WriteEEPROM>
+    <WriteEEPROMAllow>true</WriteEEPROMAllow>
+    <WriteConfigs>false</WriteConfigs>
+    <WriteConfigsAllow>true</WriteConfigsAllow>
+    <NoGoto>false</NoGoto>
+    <NoGotoAllow>true</NoGotoAllow>
+    <IgnoreBLOverwrite>false</IgnoreBLOverwrite>
+    <IgnoreBLOverwriteAllow>true</IgnoreBLOverwriteAllow>
+    <CustomBl>false</CustomBl>
+    <CustomBlAllow>true</CustomBlAllow>
+    <CustomBlPlacementP>1</CustomBlPlacementP>
+    <CustomBlPlacementPAllow>true</CustomBlPlacementPAllow>
+    <CustomBlSizeP>1</CustomBlSizeP>
+    <CustomBlSizePAllow>true</CustomBlSizePAllow>
+    <Polltime>500</Polltime>
+    <PolltimeAllow>true</PolltimeAllow>
+    <Timeout>5000</Timeout>
+    <TimeoutAllow>true</TimeoutAllow>
+    <CommandReset>false</CommandReset>
+    <CommandResetAllow>true</CommandResetAllow>
+    <ResetCommand />
+    <ResetCommandAllow>true</ResetCommandAllow>
+    <ResetBaudrate>9600</ResetBaudrate>
+    <ResetBaudrateAllow>true</ResetBaudrateAllow>
+    <DTRReset>false</DTRReset>
+    <DTRResetAllow>true</DTRResetAllow>
+    <ManualReset>true</ManualReset>
+    <ManualResetAllow>true</ManualResetAllow>
+    <RTSReset>false</RTSReset>
+    <RTSResetAllow>true</RTSResetAllow>
+    <ResetTime>1000</ResetTime>
+    <ResetTimeAllow>true</ResetTimeAllow>
+    <ActivateDTR>false</ActivateDTR>
+    <ActivateDTRAllow>true</ActivateDTRAllow>
+    <ActivateRTS>false</ActivateRTS>
+    <ActivateRTSAllow>true</ActivateRTSAllow>
+    <TermSwithTo>false</TermSwithTo>
+    <TermBaudrate />
+    <TermRxType>0</TermRxType>
+    <TermTxType>0</TermTxType>
+    <TermTx />
+  </DefaultStartSettings>
+</ds30LoaderSettings>
