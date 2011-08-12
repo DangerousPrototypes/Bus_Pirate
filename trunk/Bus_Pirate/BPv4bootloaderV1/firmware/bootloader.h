@@ -15,7 +15,24 @@
 // ;------------------------------------------------------------------------------
 
 #include "boot_config.h"
-
+#define PAGESIZER	8
+#define ROWSIZEW	64
+#ifdef  __PIC24FJ256GB106__
+//#include      "p24FJ256GB106.inc"
+#define         IS_24FJ                 1
+#define         VALID_DEV               1
+#define         FLASHSIZE               0x2AC00
+#define         RAM_START               0x800
+#define         RAM_SIZEB               16384
+#define         DEVICEID        241
+#define         EESIZEB         0
+#define         HAS_UART2               1
+#define         HAS_UART3               1
+#define         HAS_UART4               1
+#define         HAS_PPS                 1
+#define         BLSTARTADDR 0x400L
+#define         BLENDADDR 0x1FFFL
+#endif
 #ifdef  __PIC24FJ128GB206__
 //#include      "p24FJ128GB206.inc"
 #define         IS_24FJ                         1
@@ -250,22 +267,6 @@
 #define         RAM_SIZEB               16384
 #define         DEVICEID                237
 #define         EESIZEB                 0
-#define         HAS_UART2               1
-#define         HAS_UART3               1
-#define         HAS_UART4               1
-#define         HAS_PPS                 1
-#define         BLSTARTADDR 0x400L
-#define         BLENDADDR 0x23FFL
-#endif
-#ifdef  __PIC24FJ256GB106__
-//#include      "p24FJ256GB106.inc"
-#define         IS_24FJ                 1
-#define         VALID_DEV               1
-#define         FLASHSIZE               0x2AC00
-#define         RAM_START               0x800
-#define         RAM_SIZEB               16384
-#define         DEVICEID        241
-#define         EESIZEB         0
 #define         HAS_UART2               1
 #define         HAS_UART3               1
 #define         HAS_UART4               1

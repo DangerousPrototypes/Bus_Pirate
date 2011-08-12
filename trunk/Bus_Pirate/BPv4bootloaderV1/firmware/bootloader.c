@@ -6,7 +6,7 @@ extern struct _irtoyusbbuffer usbbuf;
 void usbbufservice(void);
 void bootloader(void);
 void usb_handler(void);
-void blprot(void);
+void WritePage(void);
 void __builtin_write_NVM(void);
 void __builtin_tblwtl(unsigned int offset, unsigned int data);
 void __builtin_tblwth(unsigned int offset, unsigned int data);
@@ -92,7 +92,12 @@ void bootloader(void) {
             // TODO add checksum computation and check
         
 			//calculate flash address
-        	fulladdress = ( ((bootstruct.addrU) << 16) + ((bootstruct.addrH) << 8) + bootstruct.addrL);
+        	//fulladdress = ( ((bootstruct.addrU) << 16) + ((bootstruct.addrH) << 8) + bootstruct.addrL);
+        	fulladdress = (bootstruct.addrU); 
+			fulladdress=fulladdress<<8;
+			fulladdress+=bootstruct.addrH;
+			fulladdress=fulladdress<<8;
+			fulladdress+=bootstruct.addrL;
 
 			//do command
 	        switch (bootstruct.cmd) {
@@ -116,23 +121,55 @@ void WritePage() {
     BYTE errflag = 0;
 
 	//check that we don't overwrite any important bootloader stuff
-#ifdef PROT_BL
+
+
+    #ifdef PROT_GOTO
+        if (fulladdress == 0x0000) {//protect jump vector
+            bootstruct.data[0] = 0x04; //replace with bootloader start address
+            bootstruct.data[1] = (unsigned char) (BLSTARTADDR);
+            bootstruct.data[2] = (unsigned char) (BLSTARTADDR >> 8);
+            bootstruct.data[3] = 0x00;
+            bootstruct.data[4] = (unsigned char) ((BLSTARTADDR >> 16) && 0xFF);
+            bootstruct.data[5] = 0x00;
+            } // EDIT to add this
+    #endif
+           
+    #ifdef PROT_BL       
+            if ((fulladdress <= BLENDADDR) && (fulladdress >= BLSTARTADDR)) {//protect config words
+                bootstruct.blreturn = 'P'; 
+                errflag = 1;
+            }
+    #endif       
+
+    #ifdef PROT_CONFIG  // best guess not tested yet
+            if (fulladdress >= (FLASHSIZE - (2 * (PAGESIZER * ROWSIZEW)))) {//protect config page
+                bootstruct.blreturn = 'P';
+                errflag = 1;
+            }
+    #endif
+/*
+
     if (fulladdress == 0x0000) {//protect jump vector
+#ifdef PROT_CONFIG
 		bootstruct.data[0]=0x04; //replace with bootloader start address
 		bootstruct.data[1]=(unsigned char)(BLSTARTADDR);
 		bootstruct.data[2]=(unsigned char)(BLSTARTADDR>>8);
 		bootstruct.data[3]=0x00;
 		bootstruct.data[4]=(unsigned char) ((BLSTARTADDR >> 16) && 0xFF);
 		bootstruct.data[5]=0x00;
+#endif
     }else if ((fulladdress<=BLENDADDR) && (fulladdress>=BLSTARTADDR)) {//protect bootloader
-        bootstruct.blreturn = 'P'; //fail silently for now.... 
+#ifdef PROT_BL
+        bootstruct.blreturn = 'P'; 
         errflag = 1;
-    }else if (fulladdress >= (FLASHSIZE-0x400)) {//protect config words (allow update but force to original configs?)
+#endif
+	}else if (fulladdress >= (FLASHSIZE - (2 * (PAGESIZER * ROWSIZEW)))) {//protect config page
+#ifdef PROT_CONFIG
         bootstruct.blreturn = 'P';
         errflag = 1;
-    }
-#endif    
-
+#endif
+    } 
+*/
     if (!errflag) { //if no protection error, write row
 
 		//erase page if enabled

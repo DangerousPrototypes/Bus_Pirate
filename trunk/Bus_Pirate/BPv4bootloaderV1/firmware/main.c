@@ -31,18 +31,59 @@ extern volatile unsigned char usb_device_state;
 #pragma code
 
 int main(void) {
+	volatile int i;
     //asm("DISI #16"); //Disable interrupts
 
+	//configure PGC PGD for jumper test
+	//PGC is output
+	#define PGC_OUT LATBbits.LATB6
+	#define PGC_TRIS TRISBbits.TRISB6
+	#define PGC_PU CNPU2bits.CN24PUE
+	#define PGC_IN PORTBbits.RB6
+
+	#define PGD_IN PORTBbits.RB7
+	#define PGD_TRIS TRISBbits.TRISB7
+	#define PGD_PU CNPU2bits.CN25PUE
+	
+	AD1PCFGL=0xFFFF;//all digital
+
+	//PGD is input with pullup
+	//TRISB|=0b10000000; //
+	PGD_TRIS=1; //input
+	//CNPU2|=0b1000000000; //
+	PGD_PU=1;	//pullup on
+
+	PGC_OUT=0;
+	PGC_TRIS=0;
+
+	i=5000;
+	while(i--);
+
+	for(i=0; i<20; i++){
+//(PORTCbits.RC14==1)||
+		//if((PORTBbits.RB7==1)){ //go to user space on first mis-match
+		if((PGD_IN==1)){ //go to user space on first mis-match
+			//continue to bootloader, or exit
+			asm (".equ BLJUMPADDRESS, 0x2000");
+			asm volatile ("mov #BLJUMPADDRESS, w1 \n" //bootloader location
+						  "goto w1 \n");
+	
+		}
+	}
+
+	PGD_PU=0;	//pullup off
+	PGC_TRIS=1;//input
+
     Initialize(); //setup bus pirate
+	LedSetup();
     uLedOff();
     mLedOff();
     vLedOn();
 
-
     usb_init(cdc_device_descriptor, cdc_config_descriptor, cdc_str_descs, USB_NUM_STRINGS); // TODO: Remove magic with macro
     usb_start();
     initCDC(); // Setup CDC defaults.
-       vLedOff();
+    vLedOff();
     //wait for the USB connection to enumerate
     do {
         //if (!TestUsbInterruptEnabled()) //JTR3 added
@@ -63,20 +104,16 @@ void Initialize(void) {
     CLKDIV = 0x0000; // Set PLL prescaler (1:1)
     TBLPAG = 0;
 
-    AD1PCFGL = 0x7FD8; //BPv4 has five analog pins b0, b1, b2, b5, b15
+	//all high-z to protect everything
+	AD1PCFGL=0xFFFF;//all digital
     AD1PCFGH = 0x2;
-    TRISB = 0x8027; // JTR Analog pins as inputs.
-    TRISC = 0x0000;
-    TRISD = 0x0000;
-    TRISE = 0x0000;
-    TRISF = 0x0000;
-    TRISG = 0x0000;
-    LATB = 0x0000;
-    LATC = 0x0000;
-    LATD = 0x0000;
-    LATE = 0x0000;
-    LATF = 0x0000;
-    LATG = 0x0000;
+	//TRISA=0xFFFF;
+	TRISB=0xFFFF;
+	TRISC=0xFFFF;
+	TRISD=0xFFFF;
+	TRISE=0xFFFF;
+	TRISF=0xFFFF;
+	TRISG=0xFFFF;
     OSCCONbits.SOSCEN = 0;
 }
 
