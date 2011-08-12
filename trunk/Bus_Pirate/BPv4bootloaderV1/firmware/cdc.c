@@ -100,39 +100,6 @@ void user_configured_init(void) {
     // This function belongs to the current USB function and IS NOT generic. This is CLASS specific
     // and will vary from implementation to implementation.
 
-
-    // JTR many commented out lines came from initCDC()
-
-    //int i;
-    //	#if defined(__18F14K50)
-    //				for (i=1; i<MAX_CHIP_EP; i++) {   // JTR change index from 0 to 1 as EP0 already armed
-    //	#else
-    //				for (i=1; i<16; i++) {
-    //	#endif
-    //					/* Configure buffer descriptors */
-    //	#if USB_PP_BUF_MODE == 0
-    //					usb_bdt[USB_CALC_BD(i, USB_DIR_OUT, USB_PP_EVEN)].BDCNT  = endpoints[i].buffer_size;
-    //					usb_bdt[USB_CALC_BD(i, USB_DIR_OUT, USB_PP_EVEN)].BDSTAT = UOWN + DTSEN;
-    //					usb_bdt[USB_CALC_BD(i, USB_DIR_IN, USB_PP_EVEN)].BDCNT  = 0;
-    //					usb_bdt[USB_CALC_BD(i, USB_DIR_IN, USB_PP_EVEN)].BDSTAT = DTS + DTSEN;	// Set DTS => First packet inverts, ie. is Data0
-    //	#else
-    //					// TODO: Implement Ping-Pong buffering setup.
-    //					#error "PP Mode not implemented yet"
-    //#endif
-    //}
-
-
-    // JTR change. Handle only IN requirements for the NOTICE INTERRUPT EP. There is no OUT NOTICE INTERRUPT EP
-    // JTR discontinued using this.
-    //  usb_register_endpoint(1, USB_EP_IN, CDC_NOTICE_BUFFER_SIZE, NULL, cdc_acm_in_buffer, NULL, cdc_acm_in);
-
-    // JTR DEBUG temp disable handlers and replace with NULLs. This is for testing purposes only.
-    // as we do not want handlers for the CDC at this time.
-    //  usb_register_endpoint(2, USB_EP_INOUT, CDC_BUFFER_SIZE, cdc_Out_buffer, cdc_In_buffer, cdc_rx, cdc_tx);
-
-    // JTR discontinued using this
-    //  usb_register_endpoint(2, USB_EP_INOUT, CDC_BUFFER_SIZE, cdc_Out_buffer, cdc_In_buffer, NULL, NULL);
-
     usb_unset_in_handler(1);
     usb_unset_in_handler(2);
     usb_unset_out_handler(2); // JTR Macro has bug fix
@@ -207,7 +174,7 @@ void cdc_setup(void) {
                     }
                     memcpy(rbdp->BDADDR, (const void *) &linecodeing, reply_len);
                     usb_ack_dat1(rbdp, reply_len); // JTR common addition for STD and CLASS ACK
-                    usb_set_in_handler(0, cdc_get_line_coding); // JTR why bother? There is nothing more to do.
+                    //usb_set_in_handler(0, cdc_get_line_coding); // JTR why bother? There is nothing more to do.
                     break;
 
                 case CDC_SET_CONTROL_LINE_STATE: // Optional
