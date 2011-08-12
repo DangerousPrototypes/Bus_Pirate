@@ -21,6 +21,8 @@ typedef unsigned char BYTE;
 #include "usb_stack.h"
 #include "cdc.h"
 
+#define LedSetup() TRISBbits.TRISB8=0;TRISBbits.TRISB9=0;TRISBbits.TRISB10=0
+
 #define uLedOn() LATBbits.LATB10 = 0
 #define uLedOff() LATBbits.LATB10 = 1
 #define uLedToggle() LATBbits.LATB10 ^= LATBbits.LATB10
