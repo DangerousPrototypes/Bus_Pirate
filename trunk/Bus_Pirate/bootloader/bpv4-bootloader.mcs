@@ -1,0 +1,84 @@
+[Header]
+MagicCookie={0b13fe8c-dfe0-40eb-8900-6712719559a7}
+Version=1.0
+[File000]
+Location=E:\Work\dp\Bus_Pirate\BPv4bootloaderV1\firmware\bootloader.o
+Folder=Intermediary
+DeviceName=PIC24FJ256GB106
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\mplabc30\v3.25\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|bootloader.c|cdc.c|main.c|usb_stack.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=
+[File001]
+Location=E:\Work\dp\Bus_Pirate\BPv4bootloaderV1\firmware\cdc.o
+Folder=Intermediary
+DeviceName=PIC24FJ256GB106
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\mplabc30\v3.25\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|bootloader.c|cdc.c|main.c|usb_stack.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=
+[File002]
+Location=E:\Work\dp\Bus_Pirate\BPv4bootloaderV1\firmware\main.o
+Folder=Intermediary
+DeviceName=PIC24FJ256GB106
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\mplabc30\v3.25\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|bootloader.c|cdc.c|main.c|usb_stack.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=
+[File003]
+Location=E:\Work\dp\Bus_Pirate\BPv4bootloaderV1\firmware\usb_stack.o
+Folder=Intermediary
+DeviceName=PIC24FJ256GB106
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files\Microchip\mplabc30\v3.25\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|bootloader.c|cdc.c|main.c|usb_stack.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=
+[File004]
+Location=E:\Work\dp\Bus_Pirate\BPv4bootloaderV1\firmware\bpv4-bootloader.cof
+Folder=Output
+DeviceName=PIC24FJ256GB106
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={433C3D55-811D-409D-A6BF-159CF9355B42}
+LanguageToolLocation=C:\Program Files\Microchip\mplabc30\v3.25\bin\pic30-ld.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|bootloader.c|cdc.c|main.c|usb_stack.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
+SuiteArgsString=
+ToolArgsString=-Map="$(BINDIR_)$(TARGETBASE).map" --report-mem -o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)"
+TraceCmdString=
+DebugOptions=
+[File005]
+Location=E:\Work\dp\Bus_Pirate\BPv4bootloaderV1\firmware\bpv4-bootloader.hex
+Folder=Output
+DeviceName=PIC24FJ256GB106
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={433C3D55-811D-409D-A6BF-159CF9355B42}
+LanguageToolLocation=C:\Program Files\Microchip\mplabc30\v3.25\bin\pic30-ld.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|bootloader.c|cdc.c|main.c|usb_stack.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
+SuiteArgsString=
+ToolArgsString=-Map="$(BINDIR_)$(TARGETBASE).map" --report-mem -o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)"
+TraceCmdString=
+DebugOptions=
+[TOOL_LOC_STAMPS]
+tool_loc{069BD372-6CA0-40D4-BF2F-5DC806D05083}=C:\Program Files\Microchip\mplabc30\v3.25\bin\pic30-gcc.exe
+tool_loc{433C3D55-811D-409D-A6BF-159CF9355B42}=C:\Program Files\Microchip\mplabc30\v3.25\bin\pic30-ld.exe
