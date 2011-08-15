@@ -131,7 +131,7 @@ int __stdcall select(int nfds, fd_set* readfds, fd_set* writefds, fd_set* except
 {
     time_t maxtc = time(0) + (timeout->tv_sec);
     COMSTAT cs = {0};
-    unsigned long dwErrors = 0;
+// JTR not used so get rig of warning    unsigned long dwErrors = 0;
 
     if( readfds->fd_count != 1 )
     {
@@ -173,6 +173,12 @@ unsigned int sleep(unsigned int sec)
 
 /* macro definitions */
 
+/* type definitions */
+
+typedef unsigned char  uint8;
+typedef unsigned short uint16;
+typedef unsigned long  uint32;
+
 #if !defined OS
 #define OS UNKNOWN
 #endif
@@ -180,18 +186,11 @@ unsigned int sleep(unsigned int sec)
 #define BOOTLOADER_HELLO_STR "\xC1"
 #define BOOTLOADER_OK 0x4B
 #define BOOTLOADER_PROT 'P'
-
-#define PIC_FLASHSIZE 0x2AC00 //was 0xac00
-
-#define PIC_NUM_PAGES 512
+#define PIC_WORD_SIZE  (3)
 #define PIC_NUM_ROWS_IN_PAGE  8
 #define PIC_NUM_WORDS_IN_ROW 64
-
-#define PIC_WORD_SIZE  (3)
 #define PIC_ROW_SIZE  (PIC_NUM_WORDS_IN_ROW * PIC_WORD_SIZE)
 #define PIC_PAGE_SIZE (PIC_NUM_ROWS_IN_PAGE  * PIC_ROW_SIZE)
-
-
 #define PIC_ROW_ADDR(p,r)		(((p) * PIC_PAGE_SIZE) + ((r) * PIC_ROW_SIZE))
 #define PIC_WORD_ADDR(p,r,w)	(PIC_ROW_ADDR(p,r) + ((w) * PIC_WORD_SIZE))
 #define PIC_PAGE_ADDR(p)		(PIC_PAGE_SIZE * (p))
@@ -200,12 +199,19 @@ unsigned int sleep(unsigned int sec)
 #define HEADER_LENGTH PAYLOAD_OFFSET
 #define LENGTH_OFFSET 4
 #define COMMAND_OFFSET 3
+#define IS_24FJ 1
+#define PIC_NUM_PAGES 512
 
-/* type definitions */
+//#define flashsize 0x2AC00 //was 0xac00
+//#define PIC_NUM_PAGES 512
 
-typedef unsigned char  uint8;
-typedef unsigned short uint16;
-typedef unsigned long  uint32;
+//unsigned short pic_num_pages;
+unsigned short family = IS_24FJ;
+unsigned long flashsize = 0x2AC00;
+unsigned short eesizeb  = 0;
+unsigned long blstartaddr = 0x400L; // not currently used
+unsigned long blendaddr = 0x23FFL; // not currently used
+
 
 /* global settings, command line arguments */
 
@@ -395,7 +401,7 @@ int readHEX(const char* file, uint8* bout, unsigned long max_length, uint8* page
                 fprintf(stderr, "Misaligned data, line %d\n", line_no);
                 return -1;
             }
-            else if( f_addr >= PIC_FLASHSIZE )
+            else if( f_addr >= flashsize )
             {
                 fprintf(stderr, "Current record address is higher than maximum allowed, line %d\n", line_no);
                 return -1;
@@ -504,14 +510,14 @@ int sendFirmware(int fd, uint8* data, uint8* pages_used)
 
         if( pages_used[page] != 1 )
         {
-            if( g_verbose && u_addr < PIC_FLASHSIZE)
+            if( g_verbose && u_addr < flashsize)
             {
                 fprintf(stdout, "Skipping page %ld [ %06lx ], not used\n", page, u_addr);
             }
             continue;
         }
 
-        if( u_addr >= PIC_FLASHSIZE )
+        if( u_addr >= flashsize )
         {
             fprintf(stderr, "Address out of flash\n");
             return -1;
@@ -572,15 +578,6 @@ int sendFirmware(int fd, uint8* data, uint8* pages_used)
             done += PIC_ROW_SIZE;
         }
     }
-
-    command[0]=0;
-    command[1]=0;
-    command[2]=0;
-    command[3]=0xff;
-    command[4]=1;
-    command[5]=makeCrc(command, 5);
-    write(fd, command, 6);
-    //close(dev_fd);
 
     return done;
 }
@@ -736,7 +733,7 @@ int main (int argc, const char** argv)
         printf("Parsing HEX file [%s]\n", g_hexfile_path);
 
         res = readHEX(g_hexfile_path, bin_buff, (0xFFFFFF * sizeof(uint8)), pages_used);
-        if( res <= 0 || res > PIC_FLASHSIZE )
+        if( res <= 0 || res > flashsize )
         {
             fprintf(stderr, "Could not load HEX file, result=%d\n", res);
             goto Error;
@@ -803,93 +800,413 @@ int main (int argc, const char** argv)
     printf("Device ID [%02x]:",buffer[0]);
     switch(buffer[0])
     {
-    case 0xd4:
-        printf("PIC24FJ64GA002\n");
-        break;
+//    case 0xd4:
+//        printf("PIC24FJ64GA002\n");
+//        break;
     case  9:
         printf("PIC24FJ128GB206\n");
+        //    __PIC24FJ128GB206__
+        family = IS_24FJ;
+        flashsize = 0x15800;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 17:
         printf("PIC24FJ128GB210\n");
+//    __PIC24FJ128GB210__
+        family = IS_24FJ;
+        flashsize = 0x15800;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
+
         break;
     case 18:
         printf("PIC24FJ256GB206\n");
+        //    __PIC24FJ256GB206__
+        family = IS_24FJ;
+        flashsize = 0x2AC00;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 19:
         printf("PIC24FJ256GB210\n");
+        //    __PIC24FJ256GB210__
+        family = IS_24FJ;
+        flashsize = 0x2AC00;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 191:
         printf("PIC24FJ256DA206\n");
+        //    __PIC24FJ256DA206__
+        family = IS_24FJ;
+        flashsize = 0x2AC00;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 192:
         printf("PIC24FJ256DA210\n");
+        //    __PIC24FJ256DA210__
+        family = IS_24FJ;
+        flashsize = 0x2AC00;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 217:
         printf("PIC24FJ64GB106\n");
+        //    __PIC24FJ64GB106__
+        family = IS_24FJ;
+        flashsize = 0xAC00;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 218:
         printf("PIC24FJ64GB108\n");
+        //    __PIC24FJ64GB108__
+        family = IS_24FJ;
+        flashsize = 0xAC00;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 219:
         printf("PIC24FJ64GB110\n");
+        //    __PIC24FJ64GB110__
+        family = IS_24FJ;
+        flashsize = 0xAC00;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 229:
         printf("PIC24FJ128GB106\n");
+        //    __PIC24FJ128GB106__
+        family = IS_24FJ;
+        flashsize = 0x15800;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 230:
         printf("PIC24FJ128GB108\n");
+        //    __PIC24FJ128GB108__
+        family = IS_24FJ;
+        flashsize = 0x15800;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 231:
         printf("PIC24FJ128GB110\n");
+        //    __PIC24FJ128GB110__
+        family = IS_24FJ;
+        flashsize = 0x15800;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 235:
         printf("PIC24FJ192GB106\n");
+        //    __PIC24FJ192GB106__
+        family = IS_24FJ;
+        flashsize = 0x20C00;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 236:
         printf("PIC24FJ192GB108\n");
+        //    __PIC24FJ192GB108__
+        family = IS_24FJ;
+        flashsize = 0x20C00;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 237:
         printf("PIC24FJ192GB110\n");
+        //    __PIC24FJ192GB110__
+        family = IS_24FJ;
+        flashsize = 0x20C00;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 241:
         printf("PIC24FJ256GB106\n");
+        //    __PIC24FJ256GB106__
+#define IS_24FJ                 1
+        flashsize = 0x2AC00;
+        eesizeb  =         0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 242:
         printf("PIC24FJ256GB108\n");
+        //    __PIC24FJ256GB108__
+        family = IS_24FJ;
+        flashsize = 0x2AC00;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 243:
         printf("PIC24FJ256GB110\n");
+        //    __PIC24FJ256GB110__
+        family = IS_24FJ;
+        flashsize = 0x2AC00;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 244:
         printf("PIC24FJ32GB002\n");
+        //    __PIC24FJ32GB002__
+        family = IS_24FJ;
+        flashsize = 0x5800;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 245:
         printf("PIC24FJ32GB004\n");
+        //    __PIC24FJ32GB004__
+        family = IS_24FJ;
+        flashsize = 0x5800;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 246:
         printf("PIC24FJ64GB002\n");
+        //    __PIC24FJ64GB002__
+        family = IS_24FJ;
+        flashsize = 0xAC00;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 247:
         printf("PIC24FJ64GB004\n");
+        //    __PIC24FJ64GB004__
+        family = IS_24FJ;
+        flashsize = 0xAC00;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 250:
-        printf("PIC24FJ128DA106\n");
+        printf("PIC24FJ128DA106\n");//    __PIC24FJ128DA106__
+        family = IS_24FJ;
+        flashsize = 0x15800;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 251:
         printf("PIC24FJ128DA110\n");
+        //    __PIC24FJ128DA110__
+        family = IS_24FJ;
+        flashsize = 0x15800;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 252:
         printf("PIC24FJ128DA206\n");
+        //    __PIC24FJ128DA206__
+        family = IS_24FJ;
+        flashsize = 0x15800;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 253:
         printf("PIC24FJ128DA210\n");
+        //    __PIC24FJ128DA210__
+        family = IS_24FJ;
+        flashsize = 0x15800;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 254:
         printf("PIC24FJ256DA106\n");
+        //    __PIC24FJ256DA106__
+        family = IS_24FJ;
+        flashsize = 0x2AC00;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
     case 255:
         printf("PIC24FJ256DA110\n");
+        //    __PIC24FJ256DA110__
+        family = IS_24FJ;
+        flashsize = 0x2AC00;
+        eesizeb  = 0;
+        blstartaddr = 0x400L;
+        blendaddr = 0x23FFL;
         break;
+    case	206:
+        printf("PIC24FJ16GA002\n");
+        flashsize = 	0x2C00;
+
+        break;
+
+    case	207:
+        printf("PIC24FJ16GA004\n");
+        flashsize = 	0x2C00;
+
+        break;
+
+
+    case	208:
+        printf("PIC24FJ32GA002\n");
+        flashsize = 	0x5800;
+
+        break;
+
+    case	209:
+        printf("PIC24FJ32GA004\n");
+        flashsize = 	0x5800;
+
+        break;
+
+    case	210:
+        printf("PIC24FJ48GA002\n");
+        flashsize = 	0x8400;
+
+        break;
+
+    case	211:
+        printf("PIC24FJ48GA004\n");
+        flashsize = 	0x8400;
+
+        break;
+
+
+    case	212:
+        printf("PIC24FJ64GA002\n");
+        flashsize = 	0xAC00;
+
+        break;
+
+    case	213:
+        printf("PIC24FJ64GA004\n");
+        flashsize = 	0xAC00;
+
+        break;
+
+    case	214:
+        printf("PIC24FJ64GA006\n");
+        flashsize = 	0xAC00;
+
+        break;
+
+        printf("PIC24FJ64GA008\n");
+        flashsize = 	0xAC00;
+    case	215:
+        break;
+
+    case	216:
+        printf("PIC24FJ64GA010\n");
+        flashsize = 	0xAC00;
+
+        break;
+
+    case	220:
+            printf("PIC24FJ96GA006\n");
+        flashsize = 	0x10000;
+
+        break;
+
+    case	221:
+        printf("PIC24FJ96GA008\n");
+        flashsize = 	0x10000;
+
+        break;
+
+    case	222:
+        printf("PIC24FJ96GA010\n");
+        flashsize = 	0x10000;
+
+        break;
+
+
+    case	223:
+        printf("PIC24FJ128GA006\n");
+        flashsize = 	0x15800;
+
+        break;
+
+    case	224:
+        printf("PIC24FJ128GA008\n");
+        flashsize = 	0x15800;
+
+        break;
+
+    case	225:
+            printf("PIC24FJ128GA010\n");
+        flashsize = 	0x15800;
+
+        break;
+
+    case	226:
+        printf("PIC24FJ128GA106\n");
+        flashsize = 	0x15800;
+
+        break;
+
+    case	227:
+        printf("PIC24FJ128GA108\n");
+        flashsize = 	0x15800;
+        break;
+
+    case	228:
+        printf("PIC24FJ128GA110\n");
+        flashsize = 	0x15800;
+        break;
+
+    case	232:
+        printf("PIC24FJ192GA106\n");
+        flashsize = 	0x20C00;
+        break;
+
+    case	233:
+        printf("PIC24FJ192GA108\n");
+        flashsize = 	0x20C00;
+        break;
+
+    case	234:
+        printf("PIC24FJ192GA110\n");
+        flashsize = 	0x20C00;
+        break;
+
+    case	238:
+        printf("PIC24FJ256GA106\n");
+        flashsize = 	0x2AC00;
+
+        break;
+
+    case	239:
+        printf("PIC24FJ256GA108\n");
+        flashsize = 	0x2AC00;
+        break;
+
+    case	240:
+        printf("PIC24FJ256GA110\n");
+        flashsize = 	0x2AC00;
+        break;
+
+
     default:
         printf("UNKNOWN");
         fprintf(stderr, "Unsupported device (%02x:UNKNOWN)\n", buffer[0]);
