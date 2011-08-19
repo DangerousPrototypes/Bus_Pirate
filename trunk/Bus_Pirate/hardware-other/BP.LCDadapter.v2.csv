@@ -1,0 +1,16 @@
+Part,Value,Package
+,,
+BLA,1x2 0.1” pin header,1X02
+BLC,1x2 0.1” pin header,1X02
+C1,0.1uF capacitor,805
+IC1,74HCT595,SO16
+JP1,5X2 0.1” shrouded header,2X5-SHROUDED
+LCD1,14x1 0.1” female header,14x1 (female)
+LED1,Yellow LED,805
+R1,10K potentiometer,CA6V/6mm
+R2,1K resistor,805
+,,
+CABLE,6cm 1x10 cable with 2 2x5 female connectors,
+,This cable connects the Bus Pirate to the LCD adapter,
+,It needs 2x5 female connectors on each end.,
+,Length can be very short >6cm.,
