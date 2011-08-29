@@ -71,21 +71,57 @@ int main(void) {
 
     //wait for the USB connection to enumerate
 #if defined (BUSPIRATEV4)
+/*
     do {
-        if (!TestUsbInterruptEnabled()) //JTR3 added
-            usb_handler(); ////service USB tasks Guaranteed one pass in polling mode even when usb_device_state == CONFIGURED_STATE
+        //if (!TestUsbInterruptEnabled()) //JTR3 added
+        //usb_handler(); ////service USB tasks Guaranteed one pass in polling mode even when usb_device_state == CONFIGURED_STATE
+
         if ((usb_device_state < DEFAULT_STATE)) { // JTR2 no suspendControl available yet || (USBSuspendControl==1) ){
         } else if (usb_device_state < CONFIGURED_STATE) {
         }
+
     } while (usb_device_state < CONFIGURED_STATE); // JTR addition. Do not proceed until device is configured.
 
     ArmCDCInDB(); // Set up CDC IN double buffer
+*/
+
+    while (1) {
+        do {
+
+            if ((usb_device_state < DEFAULT_STATE)) { // JTR2 no suspendControl available yet || (USBSuspendControl==1) ){
+            } else if (usb_device_state < CONFIGURED_STATE) {
+            }else if((usb_device_state == CONFIGURED_STATE)){
+				    ArmCDCInDB(); // Set up CDC IN double buffer
+			}
+
+        } while (usb_device_state < CONFIGURED_STATE);
+
+//        usbbufservice(); //service USB buffer system
+				WaitInReady();
+				*InPtr = 01;
+				InPtr++;
+				SendCDC_In_ArmNext(1);
+				FAST_usb_handler();
+//			#endif
+
+
+		}//if byte
+
+
+
+
+
+
+
+
+
+
     //enable timer 1 with interrupts,
     //service with function in main.c.
-    IEC0bits.T1IE = 1;
-    IFS0bits.T1IF = 0;
-    PR1 = 0xFFFF;
-    T1CON = 0x8000; //8010
+    //IEC0bits.T1IE = 1;
+    //IFS0bits.T1IF = 0;
+    //PR1 = 0xFFFF;
+    //T1CON = 0x8000; //8010
 #endif
     serviceuser();
     return 0;
@@ -130,7 +166,10 @@ void Initialize(void) {
     initCDC(); // JTR this function has been highly modified It no longer sets up CDC endpoints.
     usb_init(cdc_device_descriptor, cdc_config_descriptor, cdc_str_descs, USB_NUM_STRINGS); // TODO: Remove magic with macro
     usb_start();
-    //usbbufflush(); //setup the USB byte buffer
+    EnableUsbInterrupt(USB_STALL + USB_IDLE + USB_TRN + USB_ACTIV + USB_SOF + USB_UERR + USB_URST);
+    //	EnableUsbInterrupt(USB_TRN + USB_SOF + USB_UERR + USB_URST);
+    EnableUsbInterrupts();
+    usbbufflush(); //setup the USB byte buffer
 #endif
 
 
@@ -187,7 +226,6 @@ void __attribute__ ((interrupt,no_auto_psv)) _T1Interrupt(){
 
 #ifdef BUSPIRATEV4
 #pragma interrupt _USB1Interrupt
-
 void __attribute__((interrupt, no_auto_psv)) _USB1Interrupt() {
 
     //USB interrupt
@@ -195,7 +233,7 @@ void __attribute__((interrupt, no_auto_psv)) _USB1Interrupt() {
     //IRQ flag	IFS5bits.USB1IF
     //IRQ priority IPC21<10:8>
     //{
-    usb_handler();
+	usb_handler();
     IFS5bits.USB1IF = 0; //	PIR2bits.USBIF = 0;
     //}
 }

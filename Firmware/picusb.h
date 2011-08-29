@@ -23,8 +23,8 @@ entries common to both PIC families.
 
  */
 
-#ifndef picusb_h
-#define picusb_h
+#ifndef _picusb
+#define _picusb
 
 // JTR TODO Add support for the PIC24E and dsPIC33E parts when they are released.
 
@@ -82,6 +82,7 @@ entries common to both PIC families.
 
 /* COMMON PIC DEFINES TO BOTH PIC18 AND PIC24 */
 
+// JTR moved from usb_stack.h
 #define UOWN    0x80
 #define DTS     0x40
 #define KEN     0x20
@@ -103,6 +104,8 @@ entries common to both PIC families.
 
 #define MyProcessor     // JTR check that a PIC is defined
 #include <p18cxxx.h>
+
+#define UART_BAUD_setup(x)  SPBRG1 = x & 0xFFu; SPBRGH1 = (x >> 8) & 0xFFu
 
 #define USTAT_ODD_EVEN (2)      // JTR may be required for ping-pong BD* calculations and are different from PIC18 to PIC24
 #define USTAT_ODD_EVEN_SHIFT (1)
@@ -165,7 +168,8 @@ typedef unsigned char usb_uep_t;
 
 #define UsbInterruptFlags()                     (UIR)
 #define UsbErrorInterruptFlags()                (UEIR)
-
+#define TestGlobalUsbInterruptFlag()            PIR2bits.USBIF
+#define ClearGlobalUsbInterruptFlag()           PIR2bits.USBIF = 0
 #define TestUsbTrfInterruptFlag()               UIR (x)
 #define ClearUsbInterruptFlag(x)                UIR &= ~(x)
 #define ClearAllUsbInterruptFlags()             UIR = 0
@@ -178,6 +182,7 @@ typedef unsigned char usb_uep_t;
 #define DisableAllUsbErrorInterrupts()          UEIE = 0
 #define EnableUsbInterrupts()                   PIE2bits.USBIE = 1
 #define EnableUsbInterrupt(x)                   UIE |= (x)
+#define TestUsbInterruptEnabled()               (PIE2bits.USBIE)
 #define EnableAllUsbInterrupts()                UIE = 0xFF
 #define EnableUsbErrorInterrupt(x)              UEIE |= (x)
 #define EnableAllUsbErrorInterrupts()           UEIE = 0xFF
@@ -315,6 +320,8 @@ typedef struct BDENTRY {
 #define MyProcessor
 #include <p24fxxxx.h>
 
+#define UART_BAUD_setup(x) U2BRG = x
+
 #define USTAT_ODD_EVEN (4)              // JTR PIC24 fixup potentially ?? Only required when ping-pong buffering is enabled. 
 #define USTAT_ODD_EVEN_SHIFT (2)        // JTR these are required for BD* calculations and are different for the PIC24
 
@@ -388,13 +395,15 @@ typedef unsigned int usb_uep_t; // JTR PIC24 fixup potentially ?? changed from c
 #define DisableAllUsbInterrupts()               U1IE = 0
 #define DisableUsbErrorInterrupt(x)             U1EIE &= ~(x)
 #define DisableAllUsbErrorInterrupts()          U1EIE = 0       
-#define TestUsbInterruptEnabled()               (IEC5bits.USB1IE)
 #define EnableUsbInterrupts()                   IEC5bits.USB1IE=1 //PIE2bits.USBIE = 1 /*FIX*/
+#define TestUsbInterruptEnabled()               (IEC5bits.USB1IE)
 #define EnableUsbInterrupt(x)                   U1IE |= (x)
 #define EnableAllUsbInterrupts()                U1IE = 0x00FF
 #define EnableUsbErrorInterrupt(x)              U1EIE |= (x)
 #define EnableAllUsbErrorInterrupts()           U1EIE = 0x00FF
 #define EnableUSBHighInterrupts()
+#define ClearGlobalUsbInterruptFlag()           IFS5bits.USB1IF = 0
+#define TestGlobalUsbInterruptFlag()            IFS5bits.USB1IF
 
 /* UCON */
 #define ResetPPbuffers()                        do {U1CONbits.PPBRST = 1; U1CONbits.PPBRST=0;} while(0)
@@ -409,6 +418,11 @@ typedef unsigned int usb_uep_t; // JTR PIC24 fixup potentially ?? changed from c
 /* UADDR */
 #define SetUsbAddress(x)                        (U1ADDR = (x))
 #define GetUsbAddress()                         (U1ADDR)
+
+/* USTAT */
+
+// JTR moved to usb_stack.h 
+//typedef unsigned char usb_status_t;
 
 #define GetUsbTransaction()                     (U1STAT)
 #define USB_STAT2EP(x)                          ((x>>4)&0x0F) //((x>>3)&0x0F)   JTR PIC24 fixups

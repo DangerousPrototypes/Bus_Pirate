@@ -2,11 +2,11 @@
 #define GLOBALS_H
 
 // =================== GLOBAL TYPEDEFS
-typedef unsigned char u8;
+/*typedef unsigned char u8;
 typedef unsigned int u16;
 typedef unsigned long u32;
 typedef unsigned char BYTE;
-
+*/
 #define INVALID 0xFF
 
 #define FALSE   0

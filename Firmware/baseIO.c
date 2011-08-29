@@ -16,10 +16,7 @@
 #include "globals.h"
 #include "busPirateCore.h"//need access to bpConfig
 extern struct _bpConfig bpConfig; //holds persistant bus pirate settings (see base.h) need hardware version info
-//extern BYTE cdc_In_buffer[64];
-extern BYTE CDC_In_count;
-extern BYTE *InPtr;
-extern BYTE *OutPtr;
+
 //add byte to buffer, pause if full
 //uses PIC 4 byte UART FIFO buffer
 
@@ -31,6 +28,11 @@ static struct _usbbuffer {
     unsigned char cnt;
     unsigned char rdptr;
 } ubuf;
+
+extern BYTE cdc_In_buffer[64];
+BYTE CDC_In_count;
+extern BYTE *InPtr;
+extern BYTE *OutPtr;
 
 //USB output buffer
 #define USB_OUT_BUF 64
@@ -455,7 +457,7 @@ void UART1TX(char c) {
     *InPtr = c;
     InPtr++;
     CDC_In_count++;
-    if (CDC_In_count > 62) {
+    if (CDC_In_count > 62) {//62
         SendCDC_In_ArmNext(CDC_In_count);
         FAST_usb_handler();
     }
@@ -479,6 +481,20 @@ unsigned char UART1TXRdy(void) {
 
 //is data available in RX buffer?
 unsigned char UART1RXRdy(void) {
+
+    if (ubuf.cnt == 0) {
+         WaitOutReady();
+         ubuf.cnt = getsUSBUSART(ubuf.inBuf, CDC_BUFFER_SIZE); //JTR2
+        if(ubuf.cnt>0) ubuf.rdptr = 0;
+    }
+
+		if(ubuf.cnt>0) { //break; //get (and remove!) a single byte from the USB buffer
+				*InPtr = ubuf.inBuf[0];
+				InPtr++;
+				SendCDC_In_ArmNext(1);
+				FAST_usb_handler();
+		}//if byte
+
     return ubuf.cnt;
 }
 
@@ -512,6 +528,11 @@ void UARTbufFlush(void) {
     WaitInReady();
     SendCDC_In_ArmNext(CDC_In_count);
     fcnt = 0;
+}
+
+void usbbufflush(void) {
+    ubuf.cnt = 0;
+    ubuf.rdptr = 0;
 }
 
 unsigned char CheckCommsError(void) {

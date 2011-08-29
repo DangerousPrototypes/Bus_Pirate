@@ -9,11 +9,44 @@ or send a letter to
         California,
         94105,
         USA.
-*/
+ */
 #ifndef __CDC_H__
 #define __CDC_H__
 
-#include "globals.h"
+/* Initialize usb cdc acm subsystem */
+//void InitCDC( void );
+
+/* Configure the USART. */
+//void OpenCDC(unsigned char config, unsigned int spbrg);
+
+/* Disable the CDC. */
+//void CloseCDC( void );
+
+/* Is data available in the CDC read buffer? */
+//char DataRdyCDC( void );
+
+/* Read a byte from the CDC. */
+//char getcCDC( void );
+
+/* Read an array from the USBART. */
+//unsigned char getaCDC( char *buffer, unsigned char len );
+
+/* Read a string from the USART. */
+//void getsCDC( char *buffer, unsigned char len);
+
+/* Write a byte to the USART. */
+//void putcCDC( char c );
+
+/* Write a string from data memory to the USART. */
+//void putsCDC( const char *str );
+
+/* Write an array from data memory to the USBART */
+//void putaCDC( const char *array, unsigned int len );
+
+/* Write a string from program memory to the USART. */
+//void putrsCDC( ROM const char *str );
+
+/* Set the baud rate configuration bits for enhanced USART. */
 
 void baudCDC(unsigned char baudconfig);
 void cdc_setup(void);
@@ -23,9 +56,9 @@ void cdc_get_line_coding(void);
 void cdc_set_control_line_state_status(void);
 void user_configured_init(void); // JTR added. Sets up CDC endpoints after device configured.
 void usb_ack_dat1(BDentry *rbdp, int bdcnt); // JTR added standard for both STD and CLASS
-//void usbbufservice(void);
+void usbbufservice(void);
 unsigned char usbbufgetbyte(unsigned char *c);
-//unsigned char PEEKusbbufgetbyte(unsigned char *c);
+unsigned char PEEKusbbufgetbyte(unsigned char *c);
 void usbbufflush(void);
 BYTE getsUSBUSART(BYTE* buffer, BYTE len);
 BYTE putPARTARRAYUSBUSART(BYTE *data, BYTE length);
@@ -42,7 +75,12 @@ void DisArmCDCOutDB(void);
 void DisArmCDCInDB(void);
 void SendZLP(void);
 
-
+struct _cdc_ControlLineState {
+    int DTR : 1;
+    int RTS : 1;
+    int unused1 : 6;
+    BYTE unused2;
+};
 
 #define putUnsignedCharArrayUsbUsart(u8Array,Num)       putPARTARRAYUSBUSART((BYTE*)(u8Array),(Num))
 #define getUnsignedCharArrayUsbUart(u8Array,Num)        getsUSBUSART((BYTE*)(u8Array),(Num))
@@ -108,7 +146,3 @@ void SendZLP(void);
 //              MDML SEMANTIC-MODEL-SPECIFIC NOTIFICATION                       0x40-0x5F
 //              RESERVED (future use)                                           0x60-0xFF
 #endif
-
-
-
-
