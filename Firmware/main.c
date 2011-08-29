@@ -34,6 +34,11 @@ void usb_start(void); //JTR added prototype was missing or something else funny 
 void initCDC(void);
 void usb_init(ROMPTR const unsigned char*, ROMPTR const unsigned char*, ROMPTR const unsigned char*, int);
 
+extern BYTE cdc_In_buffer[64];
+extern BYTE CDC_In_count;
+extern BYTE *InPtr;
+extern BYTE *OutPtr;
+
 //void USBbufFlush(void);
 
 extern volatile unsigned char usb_device_state; // JTR added
@@ -66,62 +71,60 @@ void _USB1Interrupt(void);
 //this loop services user input and passes it to be processed on <enter>
 
 int main(void) {
-
+	unsigned char inByte;
     Initialize(); //setup bus pirate
 
     //wait for the USB connection to enumerate
 #if defined (BUSPIRATEV4)
-/*
+    //EnableUsbInterrupt(USB_STALL + USB_IDLE + USB_TRN + USB_ACTIV + USB_SOF + USB_UERR + USB_URST);
+    //EnableUsbInterrupt(USB_TRN + USB_SOF + USB_UERR + USB_URST);
+    //EnableUsbInterrupts();
+    usbbufflush(); //setup the USB byte buffer
+	BP_USBLED_ON();
     do {
         //if (!TestUsbInterruptEnabled()) //JTR3 added
-        //usb_handler(); ////service USB tasks Guaranteed one pass in polling mode even when usb_device_state == CONFIGURED_STATE
+        usb_handler(); ////service USB tasks Guaranteed one pass in polling mode even when usb_device_state == CONFIGURED_STATE
 
         if ((usb_device_state < DEFAULT_STATE)) { // JTR2 no suspendControl available yet || (USBSuspendControl==1) ){
+
         } else if (usb_device_state < CONFIGURED_STATE) {
+
         }
 
     } while (usb_device_state < CONFIGURED_STATE); // JTR addition. Do not proceed until device is configured.
 
-    ArmCDCInDB(); // Set up CDC IN double buffer
-*/
+	BP_USBLED_OFF();
 
-    while (1) {
-        do {
-
-            if ((usb_device_state < DEFAULT_STATE)) { // JTR2 no suspendControl available yet || (USBSuspendControl==1) ){
-            } else if (usb_device_state < CONFIGURED_STATE) {
-            }else if((usb_device_state == CONFIGURED_STATE)){
-				    ArmCDCInDB(); // Set up CDC IN double buffer
-			}
-
-        } while (usb_device_state < CONFIGURED_STATE);
-
-//        usbbufservice(); //service USB buffer system
-				WaitInReady();
-				*InPtr = 01;
-				InPtr++;
-				SendCDC_In_ArmNext(1);
-				FAST_usb_handler();
-//			#endif
-
-
-		}//if byte
-
-
-
-
-
-
-
-
-
+   ArmCDCInDB(); // Set up CDC IN double buffer
 
     //enable timer 1 with interrupts,
     //service with function in main.c.
-    //IEC0bits.T1IE = 1;
-    //IFS0bits.T1IF = 0;
-    //PR1 = 0xFFFF;
-    //T1CON = 0x8000; //8010
+    IEC0bits.T1IE = 1;
+    IFS0bits.T1IF = 0;
+    PR1 = 0x0FFF;
+    T1CON = 0x8000; //8010
+/*
+while(1){
+
+        usbbufservice(); //service USB buffer system
+		
+		if (usbbufgetbyte(&inByte) == 1) { //break; //get (and remove!) a single byte from the USB buffer
+
+
+
+				//WaitInReady();
+				//cdc_In_buffer[0] = inByte; //answer OK
+			//	putUnsignedCharArrayUsbUsart(cdc_In_buffer, 1);
+
+				*InPtr = inByte;
+				InPtr++;
+				SendCDC_In_ArmNext(1);
+				FAST_usb_handler();
+
+		}//if byte
+
+}
+*/
 #endif
     serviceuser();
     return 0;
@@ -166,10 +169,7 @@ void Initialize(void) {
     initCDC(); // JTR this function has been highly modified It no longer sets up CDC endpoints.
     usb_init(cdc_device_descriptor, cdc_config_descriptor, cdc_str_descs, USB_NUM_STRINGS); // TODO: Remove magic with macro
     usb_start();
-    EnableUsbInterrupt(USB_STALL + USB_IDLE + USB_TRN + USB_ACTIV + USB_SOF + USB_UERR + USB_URST);
-    //	EnableUsbInterrupt(USB_TRN + USB_SOF + USB_UERR + USB_URST);
-    EnableUsbInterrupts();
-    usbbufflush(); //setup the USB byte buffer
+
 #endif
 
 

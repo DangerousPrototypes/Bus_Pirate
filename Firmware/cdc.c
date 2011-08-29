@@ -586,7 +586,41 @@ BYTE getsUSBUSART(BYTE *buffer, BYTE len) {
 
 }//end getsUSBUSART
 
+unsigned char usbbufservice(void) {
+
+    if (usbbuf.cnt == 0) {//if the buffer is empty, get more data
+        usbbuf.cnt = getsUSBUSART(usbbuf.inBuf, CDC_BUFFER_SIZE); //JTR2
+        usbbuf.rdptr = 0;
+    }
+	if (usbbuf.cnt)return 1;
+	return 0;
+}
+
+//puts a byte from the buffer in the byte, returns 1 if byte
+
+unsigned char usbbufgetbyte(unsigned char* c) {
+    if (usbbuf.cnt > 0) {
+        *c = usbbuf.inBuf[usbbuf.rdptr];
+        usbbuf.cnt--;
+        usbbuf.rdptr++;
+        return 1;
+    }
+    return 0;
+}
+
+//puts a byte from the buffer in the byte, returns 1 if byte
+
+unsigned char PEEKusbbufgetbyte(unsigned char* c) {
+    if (usbbuf.cnt > 0) {
+        *c = usbbuf.inBuf[usbbuf.rdptr];
+        return 1;
+    }
+    return 0;
+}
+
+void usbbufflush(void) {
+    usbbuf.cnt = 0;
+    usbbuf.rdptr = 0;
+}
 #endif
-
-
 

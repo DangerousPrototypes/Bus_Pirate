@@ -30,7 +30,7 @@ static struct _usbbuffer {
 } ubuf;
 
 extern BYTE cdc_In_buffer[64];
-BYTE CDC_In_count;
+BYTE CDC_In_count=0;
 extern BYTE *InPtr;
 extern BYTE *OutPtr;
 
@@ -452,6 +452,7 @@ void __attribute__((interrupt, no_auto_psv)) _U1TXInterrupt(void) {
 #if defined(BUSPIRATEV4)
 
 void UART1TX(char c) {
+return;
     if (bpConfig.quiet) return;
     lock = 1;
     *InPtr = c;
@@ -481,21 +482,7 @@ unsigned char UART1TXRdy(void) {
 
 //is data available in RX buffer?
 unsigned char UART1RXRdy(void) {
-
-    if (ubuf.cnt == 0) {
-         WaitOutReady();
-         ubuf.cnt = getsUSBUSART(ubuf.inBuf, CDC_BUFFER_SIZE); //JTR2
-        if(ubuf.cnt>0) ubuf.rdptr = 0;
-    }
-
-		if(ubuf.cnt>0) { //break; //get (and remove!) a single byte from the USB buffer
-				*InPtr = ubuf.inBuf[0];
-				InPtr++;
-				SendCDC_In_ArmNext(1);
-				FAST_usb_handler();
-		}//if byte
-
-    return ubuf.cnt;
+    return(usbbufservice()); //service USB buffer system
 }
 
 //get a byte from UART
@@ -503,17 +490,20 @@ unsigned char UART1RXRdy(void) {
 unsigned char UART1RX(void) {
     unsigned char c = 0;
 
-    if (ubuf.cnt == 0) {
-        do {
-            WaitOutReady();
-            ubuf.cnt = getsUSBUSART(ubuf.inBuf, CDC_BUFFER_SIZE); //JTR2
-        } while (ubuf.cnt == 0);
-        ubuf.rdptr = 0;
+	while(!UART1RXRdy());
+
+ 	usbbufgetbyte(&c);
+
+   *InPtr = c;
+    InPtr++;
+    CDC_In_count++;
+    if (CDC_In_count > 62) {//62
+        SendCDC_In_ArmNext(CDC_In_count);
+        FAST_usb_handler();
+		CDC_In_count=0;
     }
-    c = ubuf.inBuf[ubuf.rdptr];
-    ubuf.cnt--;
-    ubuf.rdptr++;
-    return c;
+
+	return c;
 }
 
 void UARTbufSetup(void) {
@@ -528,11 +518,6 @@ void UARTbufFlush(void) {
     WaitInReady();
     SendCDC_In_ArmNext(CDC_In_count);
     fcnt = 0;
-}
-
-void usbbufflush(void) {
-    ubuf.cnt = 0;
-    ubuf.rdptr = 0;
 }
 
 unsigned char CheckCommsError(void) {
@@ -553,15 +538,7 @@ void UART1Speed(unsigned char brg) {
 
 void __attribute__((interrupt, address(0xF00), no_auto_psv)) _T1Interrupt() {
     IFS0bits.T1IF = 0;
-    if (CDC_In_count > 0) {
-        if (lock == 0 && fcnt > 5 && getInReady()) {
-            SendCDC_In_ArmNext(CDC_In_count);
-            CDC_In_count = 0;
-            fcnt = 0;
-        } else {
-            fcnt++;
-        }
-    }
+	usb_handler();
 }
 
 #endif

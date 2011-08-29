@@ -56,7 +56,7 @@ void cdc_get_line_coding(void);
 void cdc_set_control_line_state_status(void);
 void user_configured_init(void); // JTR added. Sets up CDC endpoints after device configured.
 void usb_ack_dat1(BDentry *rbdp, int bdcnt); // JTR added standard for both STD and CLASS
-void usbbufservice(void);
+unsigned char usbbufservice(void);
 unsigned char usbbufgetbyte(unsigned char *c);
 unsigned char PEEKusbbufgetbyte(unsigned char *c);
 void usbbufflush(void);

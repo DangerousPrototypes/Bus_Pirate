@@ -138,7 +138,7 @@ unsigned int bpReadFlash(unsigned int page, unsigned int addr);
 #ifdef BUSPIRATEV4
 BYTE getsUSBUSART(BYTE* buffer, BYTE len);
 //putUSBUSART(unsigned char* buffer), BYTE len))
-void usbbufservice(void);
+
 unsigned char usbbufgetbyte(unsigned char *c);
 unsigned char PEEKusbbufgetbyte(unsigned char *c);
 void usbbufflush(void);
@@ -156,7 +156,6 @@ void ArmCDCInDB(void);
 void DisArmCDCOutDB(void);
 void DisArmCDCInDB(void);
 void SendZLP(void);
-void usbbufflush(void);
 
 #endif
 #endif
