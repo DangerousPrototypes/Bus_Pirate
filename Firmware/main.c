@@ -103,28 +103,6 @@ int main(void) {
     IFS0bits.T1IF = 0;
     PR1 = 0x0FFF;
     T1CON = 0x8000; //8010
-/*
-while(1){
-
-        usbbufservice(); //service USB buffer system
-		
-		if (usbbufgetbyte(&inByte) == 1) { //break; //get (and remove!) a single byte from the USB buffer
-
-
-
-				//WaitInReady();
-				//cdc_In_buffer[0] = inByte; //answer OK
-			//	putUnsignedCharArrayUsbUsart(cdc_In_buffer, 1);
-
-				*InPtr = inByte;
-				InPtr++;
-				SendCDC_In_ArmNext(1);
-				FAST_usb_handler();
-
-		}//if byte
-
-}
-*/
 #endif
     serviceuser();
     return 0;
