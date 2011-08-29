@@ -452,7 +452,7 @@ void __attribute__((interrupt, no_auto_psv)) _U1TXInterrupt(void) {
 #if defined(BUSPIRATEV4)
 
 //#define ECHO_TEST //enables terminal echo test instead of bus pirate
-//#define DOUBLE_BUFFER //enables doubble buffer
+#define DOUBLE_BUFFER //enables doubble buffer (also enable/disable ArmCDCInDB(); on ln 96 of main.c)
 
 
 void UART1TX(char c) {

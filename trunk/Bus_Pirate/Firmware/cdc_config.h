@@ -49,8 +49,6 @@ Low power request macro
 #ifndef __USB_CONFIG_H__
 #define __USB_CONFIG_H__
 
-#include "HardwareProfile.h"
-
 //#define BUSPIRATEV4
 //#define IRTOY
 //#define EA14k //Embedded adventures PIC18F14K50 module
