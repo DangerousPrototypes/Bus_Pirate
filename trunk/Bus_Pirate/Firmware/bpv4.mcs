@@ -390,7 +390,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File030]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\raw2wire.o
 Folder=Intermediary
@@ -403,7 +403,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File031]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\raw3wire.o
 Folder=Intermediary
@@ -416,7 +416,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File032]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\SPI.o
 Folder=Intermediary
@@ -429,7 +429,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File033]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\base.o
 Folder=Intermediary
@@ -442,7 +442,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File034]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\I2C.o
 Folder=Intermediary
@@ -455,7 +455,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File035]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\m_1wire_213.o
 Folder=Intermediary
@@ -468,7 +468,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File036]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\1wire.o
 Folder=Intermediary
@@ -481,7 +481,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File037]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\AUXpin.o
 Folder=Intermediary
@@ -494,7 +494,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File038]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\busPirateCore.o
 Folder=Intermediary
@@ -507,7 +507,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File039]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\procMenu.o
 Folder=Intermediary
@@ -520,7 +520,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File040]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\baseIO.o
 Folder=Intermediary
@@ -533,7 +533,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File041]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\baseUI.o
 Folder=Intermediary
@@ -546,7 +546,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File042]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\uart2io.o
 Folder=Intermediary
@@ -559,7 +559,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File043]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\UART.o
 Folder=Intermediary
@@ -572,7 +572,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File044]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\selftest.o
 Folder=Intermediary
@@ -585,7 +585,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File045]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\bitbang.o
 Folder=Intermediary
@@ -598,7 +598,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File046]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\binIO.o
 Folder=Intermediary
@@ -611,7 +611,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File047]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\binIOhelpers.o
 Folder=Intermediary
@@ -624,7 +624,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File048]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\binwire.o
 Folder=Intermediary
@@ -637,7 +637,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File049]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\SUMP.o
 Folder=Intermediary
@@ -650,7 +650,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File050]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\basic.o
 Folder=Intermediary
@@ -663,7 +663,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File051]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\pic.o
 Folder=Intermediary
@@ -676,7 +676,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File052]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\en_US.o
 Folder=Intermediary
@@ -689,7 +689,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g
 TraceCmdString=
-DebugOptions=
+DebugOptions=--defsym=__DEBUG=1 --defsym=__MPLAB_DEBUGGER_ICD2=1
 [File053]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\HD44780.o
 Folder=Intermediary
@@ -702,7 +702,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File054]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\pc_at_keyboard.o
 Folder=Intermediary
@@ -715,7 +715,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File055]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\dio.o
 Folder=Intermediary
@@ -728,7 +728,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File056]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\cdc.o
 Folder=Intermediary
@@ -741,7 +741,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File057]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\usb_stack.o
 Folder=Intermediary
@@ -754,7 +754,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD2=1
 [File058]
 Location=c:\000Working\USB Central\00 BPv4 full port\.\output\busPirate.cof
 Folder=Output
@@ -819,7 +819,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-Map="$(BINDIR_)$(TARGETBASE).map" --report-mem -o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)"
 TraceCmdString=
-DebugOptions=
+DebugOptions=--defsym=__MPLAB_DEBUG=1 --defsym=__MPLAB_DEBUGGER_ICD2=1 --defsym=__ICD2RAM=1
 [File063]
 Location=E:\Work\dp\Bus_Pirate\Firmware\.\output\bpv4.hex
 Folder=Output
@@ -832,7 +832,7 @@ SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|m_1wire_213.c|1wire.c
 SuiteArgsString=
 ToolArgsString=-Map="$(BINDIR_)$(TARGETBASE).map" --report-mem -o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)"
 TraceCmdString=
-DebugOptions=
+DebugOptions=--defsym=__MPLAB_DEBUG=1 --defsym=__MPLAB_DEBUGGER_ICD2=1 --defsym=__ICD2RAM=1
 [TOOL_LOC_STAMPS]
 tool_loc{DE18EB1A-B46B-486B-B96F-A811A635DFAC}=C:\Program Files\Microchip\mplabc30\v3.25\bin\pic30-as.exe
 tool_loc{069BD372-6CA0-40D4-BF2F-5DC806D05083}=C:\Program Files\Microchip\mplabc30\v3.25\bin\pic30-gcc.exe

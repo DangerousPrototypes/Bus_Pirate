@@ -451,8 +451,11 @@ void __attribute__((interrupt, no_auto_psv)) _U1TXInterrupt(void) {
 
 #if defined(BUSPIRATEV4)
 
+//#define ECHO_TEST //enables terminal echo test instead of bus pirate
 void UART1TX(char c) {
+#ifdef ECHO_TEST
 return;
+#endif
     if (bpConfig.quiet) return;
     lock = 1;
     *InPtr = c;
@@ -493,7 +496,7 @@ unsigned char UART1RX(void) {
 	while(!UART1RXRdy());
 
  	usbbufgetbyte(&c);
-
+#ifdef ECHO_TEST
    *InPtr = c;
     InPtr++;
     CDC_In_count++;
@@ -502,6 +505,7 @@ unsigned char UART1RX(void) {
         FAST_usb_handler();
 		CDC_In_count=0;
     }
+#endif
 
 	return c;
 }
@@ -539,6 +543,15 @@ void UART1Speed(unsigned char brg) {
 void __attribute__((interrupt, address(0xF00), no_auto_psv)) _T1Interrupt() {
     IFS0bits.T1IF = 0;
 	usb_handler();
+    if (CDC_In_count > 0) {
+        if (lock == 0 && fcnt > 5 && getInReady()) {
+            SendCDC_In_ArmNext(CDC_In_count);
+            CDC_In_count = 0;
+            fcnt = 0;
+        } else {
+            fcnt++;
+        }
+    }
 }
 
 #endif

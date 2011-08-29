@@ -295,9 +295,9 @@ typedef unsigned char usb_uep_t;
 #define ROMPTR far rom
 #define ARCH_memcpy memcpypgm2ram
 
-typedef struct BDENTRY {
+/*typedef struct BDENTRY {
     unsigned char
-    /*      struct {
+	     struct {
                     unsigned BCH:2;
                     unsigned BSTALL:1;
                     unsigned DTSEN:1;
@@ -305,8 +305,14 @@ typedef struct BDENTRY {
                     unsigned KEN:1;
                     unsigned DTS:1;
                     unsigned UOWN:1;
-            }*/
+            }
     BDSTAT;
+    unsigned char BDCNT;
+    unsigned char *BDADDR;
+} BDentry;*/
+
+typedef struct BDENTRY {
+    unsigned char BDSTAT;
     unsigned char BDCNT;
     unsigned char *BDADDR;
 } BDentry;

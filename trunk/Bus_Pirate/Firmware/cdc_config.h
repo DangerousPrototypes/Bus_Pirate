@@ -11,11 +11,11 @@ or send a letter to
         94105,
         USA.
 
-JTR v0.1a
-JTR v0.1b  renamed BUSPIRATEV4 and all other wardware to be UPPERCASE 
+// JTR v0.1a
+// JTR v0.1b  renamed BUSPIRATEV4 and all other wardware to be UPPERCASE 
 
 
-JTR
+/* JTR
 This file operates as the global header for <function> implementation
 It is applicable to both PIC18 and PIC24.
 
@@ -49,6 +49,8 @@ Low power request macro
 #ifndef __USB_CONFIG_H__
 #define __USB_CONFIG_H__
 
+#include "HardwareProfile.h"
+
 //#define BUSPIRATEV4
 //#define IRTOY
 //#define EA14k //Embedded adventures PIC18F14K50 module
@@ -59,15 +61,15 @@ Low power request macro
 
 #if defined(BUSPIRATEV4)
 
-#define CLOCK_FREQ 48000000 // required for baud rate calculations
+#define CLOCK_FREQ 32000000 // required for baud rate calculations
 
-#define MODELED LATBbits.LATB8
-#define USBLED  LATBbits.LATB10 //Active LOW
+//#define MODELED LATBbits.LATB8
+//#define USBLED  LATBbits.LATB10 //Active LOW
 
-#define  USBLEDON()   USBLED = 0
+//#define  USBLEDON()   USBLED = 0
 
 #define USB_VID (0x4d8)
-#define USB_PID (0x000A)
+#define USB_PID (0xFB00)
 #define USB_DEV 0x0002
 
 #define USB_NUM_CONFIGURATIONS          1u
@@ -92,7 +94,7 @@ Low power request macro
  */
 #define USB_PP_BUF_MODE 0
 #define USB_EP0_BUFFER_SIZE 8u
-#define CDC_BUFFER_SIZE 8u
+#define CDC_BUFFER_SIZE 64u
 #define CDC_NOTICE_BUFFER_SIZE 10u
 
 /* Low Power Request
@@ -104,13 +106,15 @@ Low power request macro
 
 #elif defined(IRTOY)
 
+#define CLOCK_FREQ 48000000 // required for baud rate calculations
+
 #define MODELED LATBbits.LATC1
 #define USBLED  LATBbits.LATC0 
 
 #define  USBLEDON()   USBLED = 1
 
 #define USB_VID (0x4d8)
-#define USB_PID (0x000A)
+#define USB_PID (0xFD08)
 #define USB_DEV 0x0002
 
 #define USB_NUM_CONFIGURATIONS          1u
@@ -135,7 +139,7 @@ Low power request macro
  */
 #define USB_PP_BUF_MODE 0
 #define USB_EP0_BUFFER_SIZE 8u
-#define CDC_BUFFER_SIZE 8u
+#define CDC_BUFFER_SIZE 64u
 #define CDC_NOTICE_BUFFER_SIZE 10u
 
 /* Low Power Request
@@ -214,7 +218,7 @@ Low power request macro
  */
 #define USB_PP_BUF_MODE 0
 #define USB_EP0_BUFFER_SIZE 8u
-#define CDC_BUFFER_SIZE 8u
+#define CDC_BUFFER_SIZE 32u
 #define CDC_NOTICE_BUFFER_SIZE 10u
 
 /* Low Power Request
