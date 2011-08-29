@@ -396,7 +396,7 @@ typedef unsigned int usb_uep_t; // JTR PIC24 fixup potentially ?? changed from c
 #define DisableUsbErrorInterrupt(x)             U1EIE &= ~(x)
 #define DisableAllUsbErrorInterrupts()          U1EIE = 0       
 #define EnableUsbInterrupts()                   IEC5bits.USB1IE=1 //PIE2bits.USBIE = 1 /*FIX*/
-#define TestUsbInterruptEnabled()               (IEC5bits.USB1IE)
+#define TestUsbInterruptEnabled()               1 //(IEC5bits.USB1IE)
 #define EnableUsbInterrupt(x)                   U1IE |= (x)
 #define EnableAllUsbInterrupts()                U1IE = 0x00FF
 #define EnableUsbErrorInterrupt(x)              U1EIE |= (x)
