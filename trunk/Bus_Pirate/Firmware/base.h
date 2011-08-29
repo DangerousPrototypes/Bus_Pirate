@@ -17,6 +17,11 @@
 #define BASE
 #include <p24Fxxxx.h>
 
+typedef unsigned char u8;
+typedef unsigned int u16;
+typedef unsigned long u32;
+typedef unsigned char BYTE;
+
 //this sets the hardware version
 //#define BUSPIRATEV1A //http://hackaday.com/2009/01/22/how-to-bus-pirate-v1-improved-universal-serial-interface/
 //#define BUSPIRATEV3 //also v2go
@@ -24,7 +29,7 @@
 
 #ifdef BUSPIRATEV4
 #include "cdc_config.h"
-#include "picusb.h"
+//#include "picusb.h"
 #include "usb_stack.h"
 #include "cdc.h"
 #include "onboardEEPROM.h"

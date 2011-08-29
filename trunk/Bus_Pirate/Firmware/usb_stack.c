@@ -15,8 +15,6 @@ Influence and inspiration taken from http://pe.ece.olin.edu/ece/projects.html
 
 // JTR v0.1a
 
-
-
 #include "globals.h"    // Compiler STD etc. Not function related.
 
 #ifdef BUSPIRATEV4
@@ -46,26 +44,12 @@ int usb_num_string_descriptors;
 usb_handler_t sof_handler;
 usb_handler_t class_setup_handler, vendor_setup_handler;
 
-// pic18f14k50 has only 8 endpoints
-//#if defined(__18F14K50)	// JTR depreciated
-//usb_ep_t endpoints[8];
-//#else
-//usb_ep_t endpoints[16];
-//#endif
 
 usb_ep_t endpoints[MAX_CHIP_EP]; // JTR change. MAX_CHIP_EP is the number of hardware endpoints on the silicon. See picusb.h
 
 /* Allocate buffers for buffer description table and the actual buffers */
 // CvD: linkscript puts it in the right memory location
 
-
-// pic18f14k50 only has max 8EPs
-//#if defined(PIC_18F)		// JTR depreciated
-//#if defined(__18F14K50)
-//BDentry usb_bdt[2 * 8];		// only 8 endpoints are possible; waiting for the magic preprocessor counter :)
-//#else
-//BDentry usb_bdt[32];
-//#endif
 
 // JTR comments. This below goes part way to ridding us of the need for a linker script (PIC18).
 // It floats the EP0 buffers to occupy space immediately behind the buffer descriptors.
@@ -105,13 +89,11 @@ unsigned int usb_device_status;
 unsigned int usb_current_cfg;
 volatile unsigned char usb_device_state;
 unsigned char usb_addr_pending;
-usb_status_t trn_status; // Global since it is needed everywere
+BYTE trn_status; // Global since it is needed everywere
 BDentry *bdp, *rbdp; // Dito
 
-// JTR PIC24 fixup. Correct solution from the forum. http://dangerousprototypes.com/forum/viewtopic.php?f=39&t=1651&start=150#p17701
-//ROM const unsigned char *usb_desc_ptr;
-ROMPTR const unsigned char *usb_desc_ptr;
-size_t usb_desc_len;
+ROMPTR const unsigned char *usb_rom_ptr;
+size_t usb_rom_len;
 
 /* Forward Reference Prototypes */
 void usb_handle_error(void);
@@ -129,10 +111,9 @@ void usb_RequestError(void);
 
 void usb_ack_dat1(BDentry *rbdp, int bdcnt); // JTR added
 void usb_set_address(void);
-void usb_send_descriptor(void);
+void usb_send_rom(void);
 void user_configured_init(void); //JTR added.Non EP0 endpoints are arm after USB device enters CONFIGURED STATE. This is a CALLBACK function.
 BYTE FAST_usb_handler(void); // JTR2 added fast USB service. Pops non EP0 transfer flags from FIFO. Sevices RESET and SETUP
-
 /*DOM-IGNORE-BEGIN*/
 
 /*DOM-IGNORE-END*/
@@ -155,9 +136,11 @@ void usb_init(ROMPTR const unsigned char *device_descriptor,
 
     DisableUsbInterrupts();
     DisableAllUsbInterrupts();
+    //	EnableAllUsbErrorInterrupts();				// Enable all errors to set flag in UIR
+
     ClearAllUsbErrorInterruptFlags();
     ClearAllUsbInterruptFlags();
-    EnableAllUsbErrorInterrupts(); // Enable all errors to set flag in UIR
+
     ConfigureUsbHardware();
 
     sof_handler = NULL;
@@ -165,6 +148,11 @@ void usb_init(ROMPTR const unsigned char *device_descriptor,
     vendor_setup_handler = NULL;
 
     for (i = 0; i < MAX_CHIP_EP; i++) {
+
+        //		endpoints[i].type = 0;              // JTR Not in use
+        //		endpoints[i].buffer_size = 0;
+        //		endpoints[i].out_buffer = NULL;
+        //		endpoints[i].in_buffer = NULL;      //  ""  ""
         endpoints[i].out_handler = NULL;
         endpoints[i].in_handler = NULL;
     }
@@ -197,7 +185,7 @@ void usb_init(ROMPTR const unsigned char *device_descriptor,
 #else
     usb_device_status = 0x0000;
 #endif
-    usb_device_state = 0x00; // JTR added flag byte for enumeration state
+    usb_device_state = DETACHED_STATE; // JTR added flag byte for enumeration state
     usb_current_cfg = 0; // JTR formally usb_configured
     usb_addr_pending = 0x00;
 
@@ -216,20 +204,22 @@ void usb_init(ROMPTR const unsigned char *device_descriptor,
 
 void usb_start(void) {
     EnableUsb(); // Enable USB-hardware
+    usb_device_state = ATTACHED_STATE;
     while (SingleEndedZeroIsSet()); // Busywait for initial power-up
+    usb_device_state = DEFAULT_STATE; //JTR2
 
-    // TODO JTR. On both the PIC18 and PIC24 the USB_ACTIV state interrupt was firing before enumeration.
-    // It was fatal with the PIC24. This needs to be addressed if we want to support SUSPEND mode.
-    // Update! It should be enabled in the SUSPEND mode handler.
-
+    // JTR USB_ACTIV should be enabled in the SUSPEND mode handler.
     // JTR debugging	EnableUsbInterrupt(USB_STALL + USB_IDLE + USB_TRN + USB_ACTIV + USB_SOF + USB_UERR + USB_URST);
-    // JTR debugging	EnableUsbInterrupt(USB_STALL + USB_IDLE + USB_TRN + USB_SOF + USB_UERR + USB_URST);  // JTR PIC24 fixup ?? We don't enable ACTIV unless we are going into suspend mode.
 
-    EnableUsbInterrupt(USB_TRN + USB_SOF + USB_UERR + USB_URST);
-    //EnableUsbInterrupts();
+    	//EnableUsbInterrupt(USB_TRN + USB_SOF + USB_UERR + USB_URST);
+    	//EnableUsbInterrupts();
     // JTR PIC18 global and peripherial enable.
     // TODO Add conditional compile here for priority modes etc.
-    EnableUSBHighInterrupts();
+    //	EnableUSBHighInterrupts();
+}
+
+void USBDeviceTasks() {
+    usb_handler();
 }
 
 void usb_handler(void) {
@@ -257,15 +247,11 @@ void usb_handler(void) {
         ClearUsbInterruptFlag(USB_STALL);
     } else if (USB_SOF_FLAG) {
         /* Start-of-frame */
-        if (sof_handler) sof_handler();
+        //		if (sof_handler) sof_handler();
         {
             ClearUsbInterruptFlag(USB_SOF);
         }
 
-        // JTR tried this code to remove while loop. Not sure about this either way.
-        //	} else if (USB_TRANSACTION_FLAG) {
-        //		usb_handle_transaction();
-        //		ClearUsbInterruptFlag(USB_TRN);
     } else {
         //		process all pending transactions  // JTR  What is the point of this loop when the USB is running on interrupts?
         while (USB_TRANSACTION_FLAG) {
@@ -281,7 +267,6 @@ void usb_handle_error(void) {
 }
 
 void usb_handle_reset(void) {
-
     int i;
 
     // JTR see note about this in usb_init()
@@ -294,14 +279,10 @@ void usb_handle_reset(void) {
     do {
         ClearUsbInterruptFlag(USB_TRN); // JTR corrected Must poll TRN Flag and clear, then wait 6 cycles. for next flag set.
         usb_current_cfg = 0;
-        usb_device_state = 0x00; // This creates the requied 6 cycle delay for TRNF to reassert.
+        usb_device_state = DEFAULT_STATE; // This BLOCK creates the requied 6 cycle delay for TRNF to reassert.
         usb_addr_pending = 0x00;
     } while (USB_TRANSACTION_FLAG);
 
-    //ClearUsbInterruptFlag(USB_TRN);	// JTR Depreciated, see above.
-    //ClearUsbInterruptFlag(USB_TRN);       // JTR also a bit of a PIC24 fixup
-    //ClearUsbInterruptFlag(USB_TRN);       // As these parts have a 16 deep FIFO
-    //ClearUsbInterruptFlag(USB_TRN);       // So this would not be good enough.
 
     //        for (i=0; i < MAX_CHIP_EP; i++ )      // JTR this loop seems to work proving that the USB_UEP ptr is now correct.
     //        {
@@ -336,16 +317,8 @@ void usb_handle_reset(void) {
         usb_bdt[i].BDSTAT = 0;
     }
 
-    // TODO: Only configure ep0 ?
-    // JTR Right only EP0
-    // Configure endpoints (USB_UEPn - registers)
-    //#if defined(__18F14K50)
-    //	for (i=0; i<8; i++) {
-    //#else
-    //	for (i=0; i<16; i++) {
-    //#endif
-    //		USB_UEP[0] = endpoints[0].type;		// JTR removed all such indexing on UEPx
-    USB_UEP0 = USB_EP_CONTROL; // JTR hard coded instead.
+
+    USB_UEP0 = USB_EP_CONTROL;
 
     /* Configure buffer descriptors */
 
@@ -392,6 +365,8 @@ void usb_handle_transaction(void) {
 
 void usb_handle_setup(void) {
     rbdp->BDSTAT = DTSEN; // Reclaim reply buffer
+
+    EnablePacketTransfer();
     switch (bdp->BDADDR[USB_bmRequestType] & USB_bmRequestType_TypeMask) {
         case USB_bmRequestType_Standard:
             switch (bdp->BDADDR[USB_bmRequestType] & USB_bmRequestType_RecipientMask) {
@@ -446,7 +421,7 @@ void usb_handle_setup(void) {
     // JTR Note. that CONTROL IN and OUT DATA packet transfers do not come back here and there is no
     // univesal way and place of setting up EP0 after these DATA transfers in this stack.
 
-    // JTR Note. that there is a PIC18 silicon errata issue that this does not address by being here.  See DS80220F-page 6
+
     EnablePacketTransfer();
 }
 
@@ -509,50 +484,48 @@ void usb_handle_StandardDeviceRequest(BDentry *bdp) {
         case USB_REQUEST_GET_DESCRIPTOR:
             switch (packet[USB_bDescriptorType]) {
                 case USB_DEVICE_DESCRIPTOR_TYPE:
-                    usb_desc_ptr = usb_device_descriptor;
-                    usb_desc_len = usb_device_descriptor[0];
-                    if ((0 == packet[USB_wLengthHigh] && packet[USB_wLength] < usb_desc_ptr[0]))
-                        usb_desc_len = packet[USB_wLength];
+                    usb_rom_ptr = usb_device_descriptor;
+                    usb_rom_len = usb_device_descriptor[0];
+                    if ((0 == packet[USB_wLengthHigh] && packet[USB_wLength] < usb_rom_ptr[0]))
+                        usb_rom_len = packet[USB_wLength];
                     break;
                 case USB_CONFIGURATION_DESCRIPTOR_TYPE:
                     if (packet[USB_bDescriptorIndex] >= usb_device_descriptor[17]) // TODO: remove magic
                         usb_RequestError();
-                    usb_desc_ptr = usb_config_descriptor;
-                    usb_desc_len = usb_desc_ptr[2] + usb_desc_ptr[3] * 256;
+                    usb_rom_ptr = usb_config_descriptor;
+                    usb_rom_len = usb_rom_ptr[2] + usb_rom_ptr[3] * 256;
                     for (i = 0; i < packet[USB_bDescriptorIndex]; i++) { // Implicit linked list traversal until requested configuration
-                        usb_desc_ptr += usb_desc_len;
-                        usb_desc_len = usb_desc_ptr[2] + usb_desc_ptr[3] * 256;
+                        usb_rom_ptr += usb_rom_len;
+                        usb_rom_len = usb_rom_ptr[2] + usb_rom_ptr[3] * 256;
                     }
-                    if ((packet[USB_wLengthHigh] < usb_desc_ptr[3]) ||
-                            (packet[USB_wLengthHigh] == usb_desc_ptr[3] && packet[USB_wLength] < usb_desc_ptr[2]))
-                        usb_desc_len = packet[USB_wLength] + packet[USB_wLengthHigh] * 256;
+                    if ((packet[USB_wLengthHigh] < usb_rom_ptr[3]) ||
+                            (packet[USB_wLengthHigh] == usb_rom_ptr[3] && packet[USB_wLength] < usb_rom_ptr[2]))
+                        usb_rom_len = packet[USB_wLength] + packet[USB_wLengthHigh] * 256;
                     break;
                 case USB_STRING_DESCRIPTOR_TYPE:
                     // TODO: Handle language request. For now return standard language.
                     if (packet[USB_bDescriptorIndex] >= usb_num_string_descriptors)
                         usb_RequestError();
-                    usb_desc_ptr = usb_string_descriptor;
-                    usb_desc_len = usb_desc_ptr[0];
+                    usb_rom_ptr = usb_string_descriptor;
+                    usb_rom_len = usb_rom_ptr[0];
                     for (i = 0; i < packet[USB_bDescriptorIndex]; i++) { // Implicit linked list traversal until requested configuration
-                        usb_desc_ptr += usb_desc_len;
-                        usb_desc_len = usb_desc_ptr[0];
+                        usb_rom_ptr += usb_rom_len;
+                        usb_rom_len = usb_rom_ptr[0];
                     }
-                    if ((0 == packet[USB_wLengthHigh] && packet[USB_wLength] < usb_desc_ptr[0]))
-                        usb_desc_len = packet[USB_wLength];
+                    if ((0 == packet[USB_wLengthHigh] && packet[USB_wLength] < usb_rom_ptr[0]))
+                        usb_rom_len = packet[USB_wLength];
                     break;
                 case USB_INTERFACE_DESCRIPTOR_TYPE:
                 case USB_ENDPOINT_DESCRIPTOR_TYPE:
                 default:
                     usb_RequestError();
             }
-            usb_send_descriptor(); // Send first part of packet right away
-            usb_set_in_handler(0, usb_send_descriptor);
+            usb_send_rom(); // Send first part of packet right away
+            usb_set_in_handler(0, usb_send_rom);
             break;
         case USB_REQUEST_GET_CONFIGURATION:
             rbdp->BDADDR[0] = usb_current_cfg;
             usb_ack_dat1(rbdp, 1); // JTR common addition for STD and CLASS ACK
-            //		rbdp->BDCNT = 1;
-            //		rbdp->BDSTAT = UOWN + DTS + DTSEN;
             break;
 
         case USB_REQUEST_SET_CONFIGURATION:
@@ -592,16 +565,12 @@ void usb_handle_StandardInterfaceRequest(BDentry *bdp) {
             rbdp->BDADDR[0] = 0x00;
             rbdp->BDADDR[1] = 0x00;
             usb_ack_dat1(rbdp, 2); // JTR common addition for STD and CLASS ACK
-            //		rbdp->BDCNT = 2;
-            //		rbdp->BDSTAT = UOWN + DTS + DTSEN;
             break;
         case USB_REQUEST_GET_INTERFACE:
             if (USB_NUM_INTERFACES > packet[USB_bInterface]) {
                 // TODO: Implement alternative interfaces, or move responsibility to class/vendor functions.
                 rbdp->BDADDR[0] = 0;
                 usb_ack_dat1(rbdp, 1); // JTR common addition for STD and CLASS ACK
-                //			rbdp->BDCNT = 1;
-                //			rbdp->BDSTAT = UOWN + DTS + DTSEN;
             } else
                 usb_RequestError();
             break;
@@ -609,8 +578,6 @@ void usb_handle_StandardInterfaceRequest(BDentry *bdp) {
             if (USB_NUM_INTERFACES > packet[USB_bInterface] && 0u == packet[USB_wValue]) {
                 // TODO: Implement alternative interfaces...
                 usb_ack_dat1(rbdp, 0); // JTR common addition for STD and CLASS ACK
-                //			rbdp->BDCNT = 0;
-                //			rbdp->BDSTAT = UOWN + DTS + DTSEN;
             } else
                 usb_RequestError();
             break;
@@ -657,12 +624,10 @@ void usb_handle_StandardEndpointRequest(BDentry *bdp) {
             epbd = &usb_bdt[USB_CALC_BD(epnum, dir, USB_PP_EVEN)];
             if (epbd->BDSTAT &= ~BSTALL)
                 rbdp->BDADDR[0] = 0x01; // EVEN BD is stall flag set?
-            epbd = &usb_bdt[USB_CALC_BD(epnum, dir, USB_PP_ODD)];
-            if (epbd->BDSTAT &= ~BSTALL)
-                rbdp->BDADDR[0] = 0x01; // ODD BD is stall flag set?
+            //epbd = &usb_bdt[USB_CALC_BD(epnum, dir, USB_PP_ODD)];
+            //if (epbd->BDSTAT &= ~BSTALL)
+            //    rbdp->BDADDR[0] = 0x01; // ODD BD is stall flag set?
             usb_ack_dat1(rbdp, 2); // JTR common addition for STD and CLASS ACK
-            //		rbdp->BDCNT = 2;
-            //		rbdp->BDSTAT = UOWN + DTS + DTSEN;
             break;
 
         case USB_REQUEST_CLEAR_FEATURE:
@@ -695,8 +660,6 @@ void usb_handle_StandardEndpointRequest(BDentry *bdp) {
 
 
             usb_ack_dat1(rbdp, 0); // JTR common addition for STD and CLASS ACK
-            //		rbdp->BDCNT = 0;
-            //		rbdp->BDSTAT = UOWN + DTS + DTSEN;
             break;
 
 
@@ -705,11 +668,9 @@ void usb_handle_StandardEndpointRequest(BDentry *bdp) {
             dir = packet[USB_wIndex] >> 7;
             epbd = &usb_bdt[USB_CALC_BD(epnum, dir, USB_PP_EVEN)];
             epbd->BDSTAT |= BSTALL;
-            epbd = &usb_bdt[USB_CALC_BD(epnum, dir, USB_PP_ODD)];
-            epbd->BDSTAT |= BSTALL;
+            //epbd = &usb_bdt[USB_CALC_BD(epnum, dir, USB_PP_ODD)];
+            //epbd->BDSTAT |= BSTALL;
             usb_ack_dat1(rbdp, 0); // JTR common addition for STD and CLASS ACK
-            //		rbdp->BDCNT = 0;
-            //		rbdp->BDSTAT = UOWN + DTS + DTSEN;
             break;
         case USB_REQUEST_SYNCH_FRAME:
         default:
@@ -727,6 +688,46 @@ void usb_handle_VendorRequest( void ) {
 //
  */
 //
+
+// JTR2 addition.
+// This is a minimal USB stack handler. It only services
+// USB RESET and CONTROL transfers on EP0. Otherwise it
+// simply clears the TRF flag to advance the FIFO leaving
+// user apps to control the non-EP0 transfers.
+// The purpose of this function is to allow for faster,
+// lower overhead of APP level USB transfers. It can be
+// thought of as a basic housekeeper and only designed for
+// use when there is a specific need for fast USB transfers
+// at crittical times. The main loop of the user APP still
+// should call USBDeviceTasks() for full USB stack service.
+
+// If no action other than clearing the TRF flag to advance
+// the FIFO then the return value is 0 otherwise if something
+// intervened it return 0xFF to alert the user app to abort
+// the current transactions.
+
+BYTE FAST_usb_handler(void) {
+  //  if (TestGlobalUsbInterruptFlag()) {
+        if (USB_RESET_FLAG) {
+            usb_handle_reset();
+            ClearUsbInterruptFlag(USB_URST);
+            return 0xFF;
+        }
+        if (USB_TRANSACTION_FLAG) {
+            trn_status = GetUsbTransaction();
+            if (USB_STAT2EP(trn_status)) {
+                usb_handle_transaction();
+                ClearUsbInterruptFlag(USB_TRN); // non-EP0 only
+                return 0x0;
+            } else {
+                ClearUsbInterruptFlag(USB_TRN); // non-EP0 only
+                return 0;
+            }
+       // }
+    //   ClearGlobalUsbInterruptFlag();
+    }
+	return 0;
+}
 
 void usb_handle_in(void) {
     if (endpoints[USB_STAT2EP(trn_status)].in_handler) {
@@ -782,32 +783,15 @@ void usb_set_out_handler(int ep, usb_handler_t out_handler) {
 // using the usb_ack_dat1() as it more correctly forces a
 // DAT1 transfer and passes a varible for the transfer count.
 
-void usb_ack(BDentry *bd) {
+void usb_ack(BDentry * bd) {
     bd->BDSTAT = ((bd->BDSTAT ^ DTS) & DTS) | UOWN | DTSEN; // TODO: Accomodate for >=256 byte buffers
 }
 
-void usb_ack_zero(BDentry *bd) {
+void usb_ack_zero(BDentry * bd) {
     bd->BDCNT = 0;
     bd->BDSTAT = ((bd->BDSTAT ^ DTS) & DTS) | UOWN | DTSEN;
 
 }
-
-// JTR this needs to be fixed.
-// If such a function is going to be used then
-// surely the EP count needs to be a parameter
-// Currently as the stack stands as a CDC stack
-// There are no OUT transfers > 8 bytes so we do
-// not need this help function.
-
-//void usb_ack_out( BDentry *bd ) {
-//		bd->BDCNT = USB_EP0_BUFFER_SIZE;  //USB_MAX_BUFFER_SIZE;
-//	bd->BDSTAT = ((bd->BDSTAT ^ DTS) & DTS) | UOWN | DTSEN;
-//    }
-
-//void usb_ack_out( BDentry *bd, int count ) {
-//	bd->BDCNT = (count & 0xFF) //USB_MAX_BUFFER_SIZE;	// TODO: Fix correct size for current EP
-//	bd->BDSTAT = ((bd->BDSTAT ^ DTS) & DTS) | UOWN | DTSEN | ((count &0x300) >> 8);
-//}
 
 // JTR New added helper function use extensively by
 // the standard and class request handlers. All status
@@ -815,7 +799,7 @@ void usb_ack_zero(BDentry *bd) {
 // a IN transfer. Currently with this CDC stack the
 // only IN DATA transfers that are > 8 bytes is the
 // descriptor transfer and these are transfered in
-// usb_send_descriptor()
+// usb_send_rom()
 
 void usb_ack_dat1(BDentry *rbdp, int bdcnt) {
     rbdp->BDCNT = (bdcnt & 0xFF);
@@ -825,85 +809,48 @@ void usb_ack_dat1(BDentry *rbdp, int bdcnt) {
 void usb_RequestError(void) {
 
     usb_bdt[USB_CALC_BD(0, USB_DIR_OUT, USB_PP_EVEN)].BDCNT = USB_EP0_BUFFER_SIZE;
-    usb_bdt[USB_CALC_BD(0, USB_DIR_OUT, USB_PP_ODD)].BDCNT = USB_EP0_BUFFER_SIZE;
+    //usb_bdt[USB_CALC_BD(0, USB_DIR_OUT, USB_PP_ODD)].BDCNT = USB_EP0_BUFFER_SIZE;
 
     usb_bdt[USB_CALC_BD(0, USB_DIR_IN, USB_PP_EVEN)].BDSTAT = UOWN + BSTALL;
     usb_bdt[USB_CALC_BD(0, USB_DIR_OUT, USB_PP_EVEN)].BDSTAT = UOWN + BSTALL;
-    usb_bdt[USB_CALC_BD(0, USB_DIR_IN, USB_PP_ODD)].BDSTAT = UOWN + BSTALL;
-    usb_bdt[USB_CALC_BD(0, USB_DIR_OUT, USB_PP_ODD)].BDSTAT = UOWN + BSTALL;
+    //usb_bdt[USB_CALC_BD(0, USB_DIR_IN, USB_PP_ODD)].BDSTAT = UOWN + BSTALL;
+    //usb_bdt[USB_CALC_BD(0, USB_DIR_OUT, USB_PP_ODD)].BDSTAT = UOWN + BSTALL;
 
     // JTR TODO: Should also kill the IN and OUT handlers?
 
 }
 
 void usb_set_address(void) {
-    //	if (0x00u <= usb_addr_pending && 0x80u > usb_addr_pending) {   // JTR changed. The USB specs allow for a device to be de-addressed
-    if (0x80u > usb_addr_pending) {
-        SetUsbAddress(usb_addr_pending);
-        usb_addr_pending = 0xFF;
+    if (0x00u == usb_addr_pending) {
+        usb_device_state = DEFAULT_STATE;
+    } else {
+        usb_device_state = ADDRESS_STATE;
     }
-    // JTR TODO: If we are going to bounds check the pending address
-    // (again) and it is out of bounds we should return a
-    // protocol stall here.
+    SetUsbAddress(usb_addr_pending);
+    usb_addr_pending = 0xFF;
     usb_unset_in_handler(0); // Unregister handler
 }
 
-void usb_send_descriptor(void) {
-
-    // JTR comment While this function is being used only for the descriptors
-    // there is no reason why it cannot be a generic CONTROL IN transfer handler.
-    // To that ends it needs a flag to denote if it is copying from a RAM or ROM
-    // pointer
+void usb_send_rom(void) {
 
     unsigned int i;
-    // JTR N/A	BDentry *bd;
     size_t packet_len;
-    if (usb_desc_len) {
-        packet_len = (usb_desc_len < USB_EP0_BUFFER_SIZE) ? usb_desc_len : USB_EP0_BUFFER_SIZE; // JTR changed from MAX_BUFFER_SIZE
+    if (usb_rom_len) {
+        packet_len = (usb_rom_len < USB_EP0_BUFFER_SIZE) ? usb_rom_len : USB_EP0_BUFFER_SIZE; // JTR changed from MAX_BUFFER_SIZE
 
-        // JTR PIC24 fixup however not required for enumeration.
-        // It only has an effect on the code produced if ping-pong buffering is enabled.
-        // Not used anyway
-        //  		bd = &usb_bdt[USB_CALC_BD(0, USB_DIR_IN, 0x01 ^ ((trn_status & 0x02)>>1))];
-
-        // JTR This is what I *think* the code should be for PIC18 & PIC24 compatibility
-        //		bd = &usb_bdt[USB_CALC_BD(0, USB_DIR_IN, 0x01 ^ ((trn_status & USTAT_ODD_EVEN) >> USTAT_ODD_EVEN_SHIFT))];
-
-        //ARCH_memcpy(rbdp->BDADDR, usb_desc_ptr, packet_len);
         for (i = 0; i < packet_len; i++) {
-            rbdp->BDADDR[i] = usb_desc_ptr[i];
+            rbdp->BDADDR[i] = usb_rom_ptr[i];
         }
     } else {
-
-        // JTR comment. So the transfer is now completed.
-        packet_len = 0; // Send a last ack
+        packet_len = 0;
         usb_unset_in_handler(0);
     }
 
     rbdp->BDCNT = (unsigned char) packet_len;
     rbdp->BDSTAT = ((rbdp->BDSTAT ^ DTS) & DTS) | UOWN | DTSEN; // Packet length always less then 256 on endpoint 0
-    // JTR depreciated	usb_ack(rbdp);
 
-    usb_desc_ptr += packet_len;
-    usb_desc_len -= packet_len;
+    usb_rom_ptr += packet_len;
+    usb_rom_len -= packet_len;
 }
 
-BYTE FAST_usb_handler(void) {
-    if (USB_RESET_FLAG) {
-        usb_handle_reset();
-        ClearUsbInterruptFlag(USB_URST);
-        return 0xFF;
-    }
-    if (USB_TRANSACTION_FLAG) {
-
-        trn_status = GetUsbTransaction();
-        if (0 != USB_STAT2EP(trn_status)) {
-            ClearUsbInterruptFlag(USB_TRN); // non-EP0 only
-        } else {
-            usb_handle_transaction();
-            return 0xFF;
-        }
-    }
-    return 0;
-}
 #endif

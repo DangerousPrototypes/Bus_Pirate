@@ -15,9 +15,9 @@ or send a letter to
 #ifndef __USB_STACK_H__
 #define __USB_STACK_H__
 
-// JTR v0.1b
+// JTR v0.1a
 
-#include "picusb.h"
+#include "picusb.h"     // JTR combined PIC_18F and PIC_24F header. This is the only included header.
 
 #define USB_TOKEN_Mask  0b00111100
 #define USB_TOKEN_OUT   0b00000100
@@ -89,14 +89,15 @@ or send a letter to
 
 typedef enum
 {
-DETACHED_STATE          = 0x00,
-ATTACHED_STATE          = 0x01,
-POWERED_STATE           = 0x02,
-DEFAULT_STATE           = 0x04,
-ADR_PENDING_STATE       = 0x08,
-ADDRESS_STATE           = 0x10,
-CONFIGURED_STATE        = 0x20
+DETACHED_STATE          = 0x00,                         
+ATTACHED_STATE          = 0x01,                         
+POWERED_STATE           = 0x02,                         
+DEFAULT_STATE           = 0x04,                         
+ADR_PENDING_STATE       = 0x08,                         
+ADDRESS_STATE           = 0x10,                         
+CONFIGURED_STATE        = 0x20                        
 } USB_DEVICE_STATE;
+
 
 /* Structs for defining endpoints */
 //typedef void(*)(unsigned char *) usb_ep_callback;
@@ -120,40 +121,11 @@ typedef struct USB_EP_TYPE {
 #if USB_NUM_CONFIGURATIONS > 1
 #error "More than 1 configuration not supported yet"
 #endif
+
 /*
-#if defined class_init
- #ifndef class_setup
-  #error "No Class setup handler defined"
- #endif
-#elif defined vendor_init
- #ifndef vendor_setup
-  #error "No Vendor setup handler defined"
- #endif
-#else
- #error "Niether Class nor Vendor initialization function defined"
-#endif
- */
-
-/* JTR I moved this block into picusb.h
- * My rational is to keep this header free from
- * conditional compile directives based on what
- * PIC family is being compiled for. It just helps
- * to keep things orderly and makes for less work
- * when someone adds support for the new PIC24E parts.
-
-
 #if defined(PIC_18F)
 typedef struct BDENTRY {
         unsigned char
-//      struct {
-//                unsigned BCH:2;
-//                unsigned BSTALL:1;
-//                unsigned DTSEN:1;
-//                unsigned INCDIS:1;
-//                unsigned KEN:1;
-//                unsigned DTS:1;
-//                unsigned UOWN:1;
-//        }
         BDSTAT;
         unsigned char BDCNT;
         unsigned char *BDADDR;
@@ -165,8 +137,7 @@ typedef struct BDENTRY {
         unsigned char *BDADDR;
 } BDentry;
 #endif
- */
-
+*/
 extern BDentry usb_bdt[];
 
 typedef struct USB_DEVICE_REQUEST {
@@ -177,34 +148,146 @@ typedef struct USB_DEVICE_REQUEST {
     unsigned int wLength;
 } usb_device_request;
 
-typedef unsigned char usb_status_t;
-extern usb_status_t trn_status;
+extern BYTE trn_status;
 extern BDentry *bdp, *rbdp;
 
-extern void usb_init(ROMPTR const unsigned char *dev_descriptor,
+void usb_init(ROMPTR const unsigned char *dev_descriptor,
         ROMPTR const unsigned char *config_descriptor,
         ROMPTR const unsigned char *string_descriptor, int num_string_descriptors);
 
 
-extern void usb_start(void);
-extern void usb_register_sof_handler(usb_handler_t handler);
-extern void usb_register_class_setup_handler(usb_handler_t handler);
-extern void usb_register_vendor_setup_handler(usb_handler_t handler);
-//extern void usb_register_endpoint(unsigned int endpoint, usb_uep_t type,
-//        unsigned int buffer_size, unsigned char *out_buffer, unsigned char *in_buffer,
-//        usb_handler_t out_handler, usb_handler_t in_handler);
-extern void usb_set_in_handler(int ep, usb_handler_t handler);
-extern void usb_set_out_handler(int ep, usb_handler_t handler);
+void usb_start(void);
+void usb_register_sof_handler(usb_handler_t handler);
+void usb_register_class_setup_handler(usb_handler_t handler);
+void usb_register_vendor_setup_handler(usb_handler_t handler);
+void usb_set_in_handler(int ep, usb_handler_t handler);
+void usb_set_out_handler(int ep, usb_handler_t handler);
+BYTE FAST_usb_handler(void);
+void usb_handle_transaction(void);
+void usb_handler(void);
+void usb_ack(BDentry *);
+void usb_ack_zero(BDentry *);
+void usb_RequestError(void);
+
 #define usb_unset_in_handler(ep) usb_set_in_handler(ep, (usb_handler_t) 0)
-#define usb_unset_out_handler(ep) usb_set_out_handler(ep, (usb_handler_t) 0)    // I will friggin die if this turns out to be the PIC18 bug!
+#define usb_unset_out_handler(ep) usb_set_out_handler(ep, (usb_handler_t) 0)
 
-extern void usb_handler(void);
-
-extern void usb_ack(BDentry *);
-extern void usb_ack_zero(BDentry *);
-// JTR N/A extern void usb_ack_out(BDentry *);
-extern void usb_RequestError(void);
-unsigned char FAST_usb_handler(void);
+#define USB_LANGID_Chinese_Macau_SAR			0x1404
+#define USB_LANGID_Croatian				0x041a
+#define USB_LANGID_Czech				0x0405
+#define USB_LANGID_Danish				0x0406
+#define USB_LANGID_Dutch_Netherlands			0x0413
+#define USB_LANGID_Dutch_Belgium			0x0813
+#define USB_LANGID_English_United_States		0x0409
+#define USB_LANGID_English_United_Kingdom		0x0809
+#define USB_LANGID_English_Australian			0x0c09
+#define USB_LANGID_English_Canadian			0x1009
+#define USB_LANGID_English_New_Zealand			0x1409
+#define USB_LANGID_English_Ireland			0x1809
+#define USB_LANGID_English_South_Africa			0x1c09
+#define USB_LANGID_English_Jamaica			0x2009
+#define USB_LANGID_English_Caribbean			0x2409
+#define USB_LANGID_English_Belize			0x2809
+#define USB_LANGID_English_Trinidad			0x2c09
+#define USB_LANGID_English_Zimbabwe			0x3009
+#define USB_LANGID_English_Philippines			0x3409
+#define USB_LANGID_Estonian				0x0425
+#define USB_LANGID_Faeroese				0x0438
+#define USB_LANGID_Farsi				0x0429
+#define USB_LANGID_Finnish				0x040b
+#define USB_LANGID_French_Standard			0x040c
+#define USB_LANGID_French_Belgian			0x080c
+#define USB_LANGID_French_Canadian			0x0c0c
+#define USB_LANGID_French_Switzerland			0x100c
+#define USB_LANGID_French_Luxembourg			0x140c
+#define USB_LANGID_French_Monaco			0x180c
+#define USB_LANGID_Georgian				0x0437
+#define USB_LANGID_German_Standard			0x0407
+#define USB_LANGID_German_Switzerland			0x0807
+#define USB_LANGID_German_Austria			0x0c07
+#define USB_LANGID_German_Luxembourg			0x1007
+#define USB_LANGID_German_Liechtenstein			0x1407
+#define USB_LANGID_Greek				0x0408
+#define USB_LANGID_Gujarati				0x0447
+#define USB_LANGID_Hebrew				0x040d
+#define USB_LANGID_Hindi				0x0439
+#define USB_LANGID_Hungarian				0x040e
+#define USB_LANGID_Icelandic				0x040f
+#define USB_LANGID_Indonesian				0x0421
+#define USB_LANGID_Italian_Standard			0x0410
+#define USB_LANGID_Italian_Switzerland			0x0810
+#define USB_LANGID_Japanese				0x0411
+#define USB_LANGID_Kannada				0x044b
+#define USB_LANGID_Kashmiri_India			0x0860
+#define USB_LANGID_Kazakh				0x043f
+#define USB_LANGID_Konkani				0x0457
+#define USB_LANGID_Korean				0x0412
+#define USB_LANGID_Korean_Johab				0x0812
+#define USB_LANGID_Latvian				0x0426
+#define USB_LANGID_Lithuanian				0x0427
+#define USB_LANGID_Lithuanian_Classic			0x0827
+#define USB_LANGID_Macedonian				0x042f
+#define USB_LANGID_Malay_Malaysian			0x043e
+#define USB_LANGID_Malay_Brunei_Darussalam		0x083e
+#define USB_LANGID_Malayalam				0x044c
+#define USB_LANGID_Manipuri				0x0458
+#define USB_LANGID_Marathi				0x044e
+#define USB_LANGID_Nepali_India				0x0861
+#define USB_LANGID_Norwegian_Bokmal			0x0414
+#define USB_LANGID_Norwegian_Nynorsk			0x0814
+#define USB_LANGID_Oriya				0x0448
+#define USB_LANGID_Polish				0x0415
+#define USB_LANGID_Portuguese_Brazil			0x0416
+#define USB_LANGID_Portuguese_Standard			0x0816
+#define USB_LANGID_Punjabi				0x0446
+#define USB_LANGID_Romanian				0x0418
+#define USB_LANGID_Russian				0x0419
+#define USB_LANGID_Sanskrit				0x044f
+#define USB_LANGID_Serbian_Cyrillic			0x0c1a
+#define USB_LANGID_Serbian_Latin			0x081a
+#define USB_LANGID_Sindhi				0x0459
+#define USB_LANGID_Slovak				0x041b
+#define USB_LANGID_Slovenian				0x0424
+#define USB_LANGID_Spanish_Traditional_Sort		0x040a
+#define USB_LANGID_Spanish_Mexican			0x080a
+#define USB_LANGID_Spanish_Modern_Sort			0x0c0a
+#define USB_LANGID_Spanish_Guatemala			0x100a
+#define USB_LANGID_Spanish_Costa_Rica			0x140a
+#define USB_LANGID_Spanish_Panama			0x180a
+#define USB_LANGID_Spanish_Dominican_Republic           0x1c0a
+#define USB_LANGID_Spanish_Venezuela			0x200a
+#define USB_LANGID_Spanish_Colombia			0x240a
+#define USB_LANGID_Spanish_Peru				0x280a
+#define USB_LANGID_Spanish_Argentina			0x2c0a
+#define USB_LANGID_Spanish_Ecuador			0x300a
+#define USB_LANGID_Spanish_Chile			0x340a
+#define USB_LANGID_Spanish_Uruguay			0x380a
+#define USB_LANGID_Spanish_Paraguay			0x3c0a
+#define USB_LANGID_Spanish_Bolivia			0x400a
+#define USB_LANGID_Spanish_El_Salvador			0x440a
+#define USB_LANGID_Spanish_Honduras			0x480a
+#define USB_LANGID_Spanish_Nicaragua			0x4c0a
+#define USB_LANGID_Spanish_Puerto_Rico			0x500a
+#define USB_LANGID_Sutu					0x0430
+#define USB_LANGID_Swahili_Kenya			0x0441
+#define USB_LANGID_Swedish				0x041d
+#define USB_LANGID_Swedish_Finland			0x081d
+#define USB_LANGID_Tamil				0x0449
+#define USB_LANGID_Tatar_Tatarstan			0x0444
+#define USB_LANGID_Telugu				0x044a
+#define USB_LANGID_Thai					0x041e
+#define USB_LANGID_Turkish				0x041f
+#define USB_LANGID_Ukrainian				0x0422
+#define USB_LANGID_Urdu_Pakistan			0x0420
+#define USB_LANGID_Urdu_India				0x0820
+#define USB_LANGID_Uzbek_Latin				0x0443
+#define USB_LANGID_Uzbek_Cyrillic			0x0843
+#define USB_LANGID_Vietnamese				0x042a
+#define USB_LANGID_HID_UDD				0x04ff
+#define USB_LANGID_HID_Vendor1				0xf0ff
+#define USB_LANGID_HID_Vendor2				0xf4ff
+#define USB_LANGID_HID_Vendor3				0xf8ff
+#define USB_LANGID_HID_Vendor4				0xfcff
 
 #endif /* USB_STACK_H */
 #endif

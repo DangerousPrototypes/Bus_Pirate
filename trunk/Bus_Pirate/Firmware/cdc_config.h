@@ -59,6 +59,8 @@ Low power request macro
 
 #if defined(BUSPIRATEV4)
 
+#define CLOCK_FREQ 48000000 // required for baud rate calculations
+
 #define MODELED LATBbits.LATB8
 #define USBLED  LATBbits.LATB10 //Active LOW
 

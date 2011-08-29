@@ -156,6 +156,7 @@ void ArmCDCInDB(void);
 void DisArmCDCOutDB(void);
 void DisArmCDCInDB(void);
 void SendZLP(void);
+void usbbufflush(void);
 
 #endif
 #endif
