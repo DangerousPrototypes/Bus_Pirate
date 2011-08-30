@@ -316,7 +316,7 @@ if (0) { // Response Available Notification
     function that the transfer may have been interfered with.
 
 
- /*****************************************************************************/
+*****************************************************************************/
 BYTE WaitOutReady() // JTR2 added reduced overhead
 {
     BYTE i = 0;
@@ -347,7 +347,7 @@ BYTE WaitOutReady() // JTR2 added reduced overhead
     function that the transfer may have been interfered with.
 
 
- /*****************************************************************************/
+*****************************************************************************/
 BYTE WaitInReady() // JTR2 added reduced overhead
 {
     BYTE i = 0;
@@ -378,7 +378,7 @@ BYTE WaitInReady() // JTR2 added reduced overhead
     Note that the data must reside in USB RAM.
 
 
- /*****************************************************************************/
+ ******************************************************************************/
 // JTR2 Does NOT send ZLP after each packet only one at the end is required.
 
 BYTE putPARTARRAYUSBUSART(BYTE *data, BYTE length) // JTR2 added reduced overhead
@@ -413,7 +413,7 @@ BYTE putPARTARRAYUSBUSART(BYTE *data, BYTE length) // JTR2 added reduced overhea
     data has not been sent. Otherwise it return the endpoint size.
 
 
- /*****************************************************************************/
+*****************************************************************************/
 BYTE putFULLARRAYUSBUSART() // JTR2 added reduced overhead
 {
     if ((Inbdp->BDSTAT & UOWN)) {

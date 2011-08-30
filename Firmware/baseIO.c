@@ -451,14 +451,8 @@ void __attribute__((interrupt, no_auto_psv)) _U1TXInterrupt(void) {
 
 #if defined(BUSPIRATEV4)
 
-//#define ECHO_TEST //enables terminal echo test instead of bus pirate
-#define DOUBLE_BUFFER //enables doubble buffer (also enable/disable ArmCDCInDB(); on ln 96 of main.c)
-
-
 void UART1TX(char c) {
-#ifdef ECHO_TEST
-return;
-#endif
+
     if (bpConfig.quiet) return;
 	
 	#ifdef DOUBLE_BUFFER
@@ -467,16 +461,27 @@ return;
 	    InPtr++;
 	    CDC_In_count++;
 	    if (CDC_In_count > 62) {//62
+    		WaitInReady();
 	        SendCDC_In_ArmNext(CDC_In_count);
 	        FAST_usb_handler();
+			CDC_In_count=0;
 	    }
 	    lock = 0;
 	    //setup timer to throw data if the buffer doesn't fill
 	    fcnt = 0;
 	#else
-		WaitInReady();
+
+	    lock = 1;
 		cdc_In_buffer[0] = c; //answer OK
-		putUnsignedCharArrayUsbUsart(cdc_In_buffer, 1);
+	    CDC_In_count++;
+	    if (CDC_In_count > 62) {//62
+			WaitInReady();
+			putUnsignedCharArrayUsbUsart(cdc_In_buffer, CDC_In_count);
+			CDC_In_count=0
+	    }
+	    lock = 0;
+	    //setup timer to throw data if the buffer doesn't fill
+	    fcnt = 0;
 	#endif
 }
 
@@ -552,13 +557,26 @@ void UART1Speed(unsigned char brg) {
 //Interrupt Remap method 1:  Using direct interrupt address
 
 void __attribute__((interrupt, address(0xF00), no_auto_psv)) _T1Interrupt() {
-    IFS0bits.T1IF = 0;
-	usb_handler();
+	#ifndef USB_INTERRUPT
+	    IFS0bits.T1IF = 0;
+		usb_handler();
+	#endif
 
 	#ifdef DOUBLE_BUFFER
 	    if (CDC_In_count > 0) {
 	        if (lock == 0 && fcnt > 5 && getInReady()) {
 	            SendCDC_In_ArmNext(CDC_In_count);
+	            CDC_In_count = 0;
+	            fcnt = 0;
+	        } else {
+	            fcnt++;
+	        }
+	    }
+	#else
+	    if (CDC_In_count > 0) {
+	        if (lock == 0 && fcnt > 5 && getInReady()) {
+				WaitInReady();
+				putUnsignedCharArrayUsbUsart(cdc_In_buffer, CDC_In_count);
 	            CDC_In_count = 0;
 	            fcnt = 0;
 	        } else {

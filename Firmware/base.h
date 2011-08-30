@@ -28,18 +28,20 @@ typedef unsigned char BYTE;
 #define BUSPIRATEV4
 
 #ifdef BUSPIRATEV4
-#include "cdc_config.h"
-//#include "picusb.h"
-#include "usb_stack.h"
-#include "cdc.h"
-#include "onboardEEPROM.h"
-#include "hardwarev4a.h"
+	#define DOUBLE_BUFFER //use USB double buffer, else single buffer is used
+	//#define USB_INTERRUPT //use USB interrupts, otherwise use timer 1
+	#include "cdc_config.h"
+	//#include "picusb.h"
+	#include "usb_stack.h"
+	#include "cdc.h"
+	#include "onboardEEPROM.h"
+	#include "hardwarev4a.h"
 #endif
 #if defined(BUSPIRATEV1A)
-#include "hardwarev1a.h"
+	#include "hardwarev1a.h"
 #elif defined(BUSPIRATEV3)
-#define BUSPIRATEV2 //v25 (2go) and v3 are about the same, enable the same featue set for both
-#include "hardwarev3.h"
+	#define BUSPIRATEV2 //v25 (2go) and v3 are about the same, enable the same featue set for both
+	#include "hardwarev3.h"
 #elif defined(BUSPIRATEV4)
 
 #else
