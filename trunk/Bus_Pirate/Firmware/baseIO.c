@@ -23,12 +23,6 @@ extern struct _bpConfig bpConfig; //holds persistant bus pirate settings (see ba
 #if defined (BUSPIRATEV4)
 //this struct buffers the USB input because the stack doesn't like 1 byte reads
 static unsigned char lock = 0, fcnt = 0;
-static struct _usbbuffer {
-    unsigned char inBuf[64];
-    unsigned char cnt;
-    unsigned char rdptr;
-} ubuf;
-
 extern BYTE cdc_In_buffer[64];
 BYTE CDC_In_count=0;
 extern BYTE *InPtr;
@@ -556,7 +550,7 @@ void UART1Speed(unsigned char brg) {
 
 //Interrupt Remap method 1:  Using direct interrupt address
 
-void __attribute__((interrupt, address(0xF00), no_auto_psv)) _T1Interrupt() {
+void __attribute__((interrupt, no_auto_psv)) _T1Interrupt() {
 	#ifndef USB_INTERRUPT
 	    IFS0bits.T1IF = 0;
 		usb_handler();
