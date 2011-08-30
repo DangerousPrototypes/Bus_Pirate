@@ -71,19 +71,22 @@ void _USB1Interrupt(void);
 //this loop services user input and passes it to be processed on <enter>
 
 int main(void) {
-	unsigned char inByte;
     Initialize(); //setup bus pirate
 
     //wait for the USB connection to enumerate
 #if defined (BUSPIRATEV4)
-    //EnableUsbInterrupt(USB_STALL + USB_IDLE + USB_TRN + USB_ACTIV + USB_SOF + USB_UERR + USB_URST);
-    //EnableUsbInterrupt(USB_TRN + USB_SOF + USB_UERR + USB_URST);
-    //EnableUsbInterrupts();
+
+	#ifdef USB_INTERRUPT
+	    EnableUsbInterrupt(USB_STALL + USB_IDLE + USB_TRN + USB_ACTIV + USB_SOF + USB_UERR + USB_URST);
+	    //EnableUsbInterrupt(USB_TRN + USB_SOF + USB_UERR + USB_URST);
+	    EnableUsbInterrupts();
+	#endif
+
     usbbufflush(); //setup the USB byte buffer
 	BP_USBLED_ON();
     do {
         //if (!TestUsbInterruptEnabled()) //JTR3 added
-        usb_handler(); ////service USB tasks Guaranteed one pass in polling mode even when usb_device_state == CONFIGURED_STATE
+        	usb_handler(); ////service USB tasks Guaranteed one pass in polling mode even when usb_device_state == CONFIGURED_STATE
 
         if ((usb_device_state < DEFAULT_STATE)) { // JTR2 no suspendControl available yet || (USBSuspendControl==1) ){
 
@@ -95,7 +98,9 @@ int main(void) {
 
 	BP_USBLED_OFF();
 
-   ArmCDCInDB(); // Set up CDC IN double buffer
+	#ifdef DOUBLE_BUFFER
+   		ArmCDCInDB(); // Set up CDC IN double buffer
+	#endif
 
     //enable timer 1 with interrupts,
     //service with function in main.c.

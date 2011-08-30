@@ -6,16 +6,15 @@ or send a letter to
         171 Second Street,
         Suite 300,
         San Francisco,
-        California,\
- * 
+        California, 
         94105,
         USA.
 
-// JTR v0.1a
-// JTR v0.1b  renamed BUSPIRATEV4 and all other wardware to be UPPERCASE 
-
-
-/* JTR
+JTR v0.1a
+JTR v0.1b  renamed BUSPIRATEV4 and all other wardware to be UPPERCASE 
+*/
+/*
+JTR
 This file operates as the global header for <function> implementation
 It is applicable to both PIC18 and PIC24.
 
