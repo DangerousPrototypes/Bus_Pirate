@@ -170,9 +170,9 @@
 #define BP_VREG_OFF() BP_VREGEN_DIR=0; BP_VREGEN=0
 
 //pseudofunctions for USB, MODE LEDs
-#define BP_USBLED_ON() LATB&=(~0x400);TRISB&=(~0x400)
-#define BP_USBLED_OFF() LATB&=(~0x400);TRISB|=0x400
-#define BP_USBLED_T() LATB&=(~0x400);TRISB^=0x400
+#define BP_USBLED_ON() TRISB&=(~0x400);LATB|=0x400
+#define BP_USBLED_OFF() TRISB&=(~0x400);LATB&=(~0x400)
+#define BP_USBLED_T() TRISB&=(~0x400);LATB^=0x400
 #define BP_MODELED_ON() LATB|=0x100
 #define BP_MODELED_OFF()LATB&=(~0x100)
 
