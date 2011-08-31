@@ -1829,15 +1829,15 @@ usb_data            0x0ace         0x8a
                     0x0c6c                  LineStateUpdated
                     0x0c6d                  CDCFunctionError
 
-_00ee63f04e4be84e
+_00ee63f04e5dfe38
                   0x001ff8          0x8
- _00ee63f04e4be84e
+ _00ee63f04e5dfe38
                   0x001ff8          0x8 main.o
                   0x001ff8                  userjumpin
 
-_00eda3f04e4be84d
+_00eda3f04e5dfe37
                   0x001ff6          0x2
- _00eda3f04e4be84d
+ _00eda3f04e5dfe37
                   0x001ff6          0x2 bootloader.o
                   0x001ff6                  userversion
 
