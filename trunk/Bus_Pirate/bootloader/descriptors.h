@@ -31,8 +31,8 @@ or send a letter to
 const unsigned char cdc_device_descriptor[] = {
         0x12,                                                           // bLength
         USB_DEVICE_DESCRIPTOR_TYPE,                     // bDescriptorType
-        0x00,                                                           // bcdUSB (low byte)
-        0x02,                                                           // bcdUSB (high byte)
+        0x10,                                                           // bcdUSB (low byte)
+        0x01,                                                           // bcdUSB (high byte)
         0x02,                                                           // bDeviceClass
         0x00,                                                           // bDeviceSubClass
         0x00,                                                           // bDeviceProtocol
