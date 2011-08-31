@@ -43,7 +43,7 @@ unsigned char selfTest(unsigned char showProgress, unsigned char jumperTest){
 		BPMSG1163;
 #elif defined (BUSPIRATEV4)
 		bpWline("Disconnect any devices");
-		bpWline("Connect (ADC to +5V)");
+		bpWline("Connect (ADC to +3.3V)");
 #endif
 		BPMSG1251; // //bpPOSTWline("Press a key to start");
 		while(!UART1RXRdy()); //wait for key
@@ -114,12 +114,12 @@ unsigned char selfTest(unsigned char showProgress, unsigned char jumperTest){
 	bpADCPinTest(BP_ADC_VPU,V5L, V5H);
 	BP_5VPU_OFF();
 
-	//ADC test (5volts)
+	//ADC test (3.3 volts)
 	if(jumperTest){
-		//ADC is connected to 5volts
+		//ADC is connected to 3.3 volts
 		//bpPOSTWstring("ADC");
 		BPMSG1174;
-		bpADCPinTest(BP_ADC_PROBE,V5L, V5H);
+		bpADCPinTest(BP_ADC_PROBE,V33L, V33H);
 	}	
 
 	//bpPOSTWstring("3.3V");
