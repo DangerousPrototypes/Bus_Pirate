@@ -1,5 +1,9 @@
 Bus Pirate v3.5- Two versions, SOIC and SSOP PIC chips. Same as v3b with reduced part count.
 
+v3.5b - fixed header key to match seeed cable
+
+v3.5c - Fixed missing 4066 control trace
+
 Bus Pirate v4 - Original pre-production version sold at Seeed for $50.
 
 Bus Pirate v4a - v4 resized to fit Seeed case. First production version.
