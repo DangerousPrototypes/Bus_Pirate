@@ -1,0 +1,1 @@
+http://dangerousprototypes.com/docs/Bus_Pirate_v4_firmware_updates
