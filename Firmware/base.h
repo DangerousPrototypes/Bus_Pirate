@@ -29,7 +29,7 @@ typedef unsigned char BYTE;
 
 #ifdef BUSPIRATEV4
 	#define DOUBLE_BUFFER //use USB double buffer, else single buffer is used
-	//#define USB_INTERRUPT //use USB interrupts, otherwise use timer 1
+	#define USB_INTERRUPT //use USB interrupts, otherwise use timer 1
 	#include "cdc_config.h"
 	//#include "picusb.h"
 	#include "usb_stack.h"
