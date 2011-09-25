@@ -222,6 +222,59 @@ void USBDeviceTasks() {
     usb_handler();
 }
 
+
+void usb_handler(void) {
+	if (USB_RESET_FLAG) {
+		usb_handle_reset();
+		ClearUsbInterruptFlag(USB_URST);
+	} //else {
+	if (USB_ERROR_FLAG) {
+		ClearAllUsbErrorInterruptFlags();
+		ClearUsbInterruptFlag(USB_UERR);
+	}
+	// process all pending transactions // JTR What is the point of this loop when the USB is running on interrupts?
+	// No, this causes all sorts of problems if USB interrupts are enabled.
+	/*while */ 
+	if (USB_TRANSACTION_FLAG) {
+		usb_handle_transaction();
+		ClearUsbInterruptFlag(USB_TRN); // JTR Missing! This is why Ian was only getting one interrupt??
+	} // Side effect: advance USTAT Fifo
+	
+	/* N/A
+	if (USB_RESUME_FLAG) {
+	// Activity - unsuspend
+	//WakeupUsb();
+	ClearUsbInterruptFlag(USB_RESUM);
+	}
+	*/
+	/* N/A
+	if (USB_IDLE_FLAG) {
+	// Idle - suspend
+	//SuspendUsb();
+	//usb_low_power_request();
+	ClearUsbInterruptFlag(USB_IDLE);
+	}
+	*/
+	/* N/A
+	if (USB_STALL_FLAG) {
+	// Stall detected
+	// * Not sure when this interrupt fires
+	// * as the host never should send out a stall.
+	// * Perhaps as a respons to our own stalls?
+	// * For now just ignore it.
+	ClearUsbInterruptFlag(USB_STALL);
+	}
+	*/
+	
+	if (USB_SOF_FLAG) {
+		// Start-of-frame
+		if (sof_handler) sof_handler();
+		ClearUsbInterruptFlag(USB_SOF);
+	}
+
+}
+
+#if 0
 void usb_handler(void) {
     if (USB_ERROR_FLAG) {
         usb_handle_error();
@@ -260,7 +313,7 @@ void usb_handler(void) {
         } // Side effect: advance USTAT Fifo
     }
 }
-
+#endif
 void usb_handle_error(void) {
     /* No errorhandler for now, just clear offending flag*/
     ClearAllUsbErrorInterruptFlags();
