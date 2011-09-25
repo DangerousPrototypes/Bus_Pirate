@@ -426,7 +426,11 @@ void I2Cmacro(unsigned int c) {
 }
 
 void I2Cpins(void) {
-    BPMSG1231;
+        #if defined(BUSPIRATEV4)
+        BPMSG1261; //bpWline("-\t-\tSCL\tSDA");
+        #else
+       	BPMSG1231; //bpWline("SCL\tSDA\t-\t-");
+        #endif
 }
 //
 //

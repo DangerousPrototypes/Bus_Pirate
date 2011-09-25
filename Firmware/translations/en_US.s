@@ -224,6 +224,13 @@ _bpmessages:
 	.pascii	"CS:\r\n 1. CS\r\n 2. /CS *default"
 	.pascii	"Position in degrees"
 	.pascii	"Servo active"
+	.pascii	"12.(RD)\t11.(BR)\t10.(BLK)\t9.(WT)\t8.(GR)\t7.(PU)\t6.(BL)\t5.(GN)\t4.(YW)\t3.(OR)\t2.(RD)\t1.(BR)"
+	.pascii	"GND\t5.0V\t3.3V\tVPU\tADC\tAUX2\tAUX1\tAUX\t"
+	.pascii	"CS\tMISO\tCLK\tMOSI"
+	.pascii	"-\t-\t-\tOWD"
+	.pascii	"-\tRxD\t-\tTxD"
+	.pascii	"-\t-\tSCL\tSDA"
+	.pascii	"-\t-\tPGC\tPGD"
 	.pascii	"General\t\t\t\t\tProtocol interaction"
 	.pascii	"---------------------------------------------------------------------------"
 	.pascii	"?\tThis help\t\t\t(0)\tList current macros"
@@ -247,6 +254,4 @@ _bpmessages:
 	.pascii	"s\tScript engine\t\t\t:\tRepeat e.g. r:10"
 	.pascii	"v\tShow volts/states\t\t.\tBits to read/write e.g. 0x55.2"
 	.pascii	"w/W\tPSU (off/ON)\t\t<x>/<x= >/<0>\tUsermacro x/assign x/list all"
-
-
-#endif
+#endif

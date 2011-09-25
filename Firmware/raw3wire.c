@@ -194,9 +194,12 @@ void R3Wsetup(void)
 	bbCS(r3wSettings.csl);//takes care of custom HiZ settings too
 }
 
-void R3Wpins(void)
-{	BPMSG1225;
+void R3Wpins(void) {
+	#if defined(BUSPIRATEV4)
+        BPMSG1258; //bpWline("CS\tMISO\tCLK\tMOSI");
+        #else
+       	BPMSG1225; //bpWline("CLK\tMOSI\tCS\tMISO");
+        #endif
 }
-
 
 

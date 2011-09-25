@@ -292,8 +292,12 @@ void picmacro(unsigned int macro)
 	}
 }
 
-void picpins(void)
-{	BPMSG1232;
+void picpins(void) {
+        #if defined(BUSPIRATEV4)
+        BPMSG1262; //bpWline("-\t-\tPGC\tPGD");
+        #else
+       	BPMSG1232; //bpWline("PGC\tPGD\t-\t-");
+        #endif
 }
 
 /*

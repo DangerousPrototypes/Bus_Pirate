@@ -250,8 +250,12 @@ void OWmacro(unsigned int macro)
         }
 }
 
-void OWpins(void)
-{       BPMSG1229;
+void OWpins(void) {
+	#if defined(BUSPIRATEV4)
+        BPMSG1259; //bpWline("-\t-\t-\tOWD");
+        #else
+       	BPMSG1229; //bpWline("-\tOWD\t-\t-");
+        #endif
 }
 
 void DS1wireReset(void){

@@ -175,8 +175,12 @@ void R2Wmacro(unsigned int c)
 	}
 }
 
-void R2Wpins(pins)
-{	BPMSG1231;
+void R2Wpins(pins) {
+        #if defined(BUSPIRATEV4)
+        BPMSG1261; //bpWline("-\t-\tSCL\tSDA");
+        #else
+       	BPMSG1231; //bpWline("SCL\tSDA\t-\t-");
+        #endif
 }
 
 //

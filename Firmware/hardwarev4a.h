@@ -21,8 +21,10 @@
 #define MOSI 	0b10  
 #define CLK 	0b100  
 #define MISO 	0b1000 
-#define CS 		0b10000 
-#define AUX		0b100000
+#define CS 	0b10000 
+#define AUX	0b100000
+#define AUX1	0b100000000
+#define AUX2	0b1
 #define IOPOR 	PORTD
 #define IOLAT	LATD
 #define IODIR	TRISD
@@ -52,14 +54,14 @@
 /*
 //these macros set the pin IO used in each module
 //#define BP_MOSI 		PORTDbits.RD1
-//#define BP_CLK 			PORTDbits.RD2
+//#define BP_CLK 		PORTDbits.RD2
 //#define BP_MISO 		PORTDbits.RD3
-//#define BP_CS 			PORTDbits.RD4
-#define BP_AUX_LAT 			LATDbits.LATD5 //moved pin5 (AUX) to RB10
+//#define BP_CS 		PORTDbits.RD4
+#define BP_AUX_LAT 		LATDbits.LATD5 //moved pin5 (AUX) to RB10
 //#define BP_LEDMODE		PORTBbits.RB8 //single MODE led on v2a
 //#define BP_VREGEN		PORTBbits.RB9 //single vreg enable pin on v2a
 //#define BP_PULLUP		PORTEbits.RE4 //Pull-up pin on V2a
-//#define BP_PGD			PORTBbits.RB7 //PGD pin on programming header
+//#define BP_PGD		PORTBbits.RB7 //PGD pin on programming header
 
 //new in v4
 //#define BP_LEDUSB		PORTBbits.RB10
