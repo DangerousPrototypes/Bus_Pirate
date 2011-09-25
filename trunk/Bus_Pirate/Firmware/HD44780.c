@@ -264,9 +264,13 @@ void LCDmacro(unsigned int c)
 
 }
 
-void LCDpins(void)
-{       BPMSG1231;      
-}       
+void LCDpins(void) {
+        #if defined(BUSPIRATEV4)
+        BPMSG1261; //bpWline("-\t-\tSCL\tSDA");
+        #else
+       	BPMSG1231; //bpWline("SCL\tSDA\t-\t-");
+        #endif
+}
 
 
 //initialize LCD to 4bits with standard features

@@ -107,9 +107,12 @@ void HiZcleanup(void)
 	modeConfig.int16=0;
 }
 
-void HiZpins(void)
-{	//bpWline("CLK\tMOSI\tCS\MISO");
-	BPMSG1225;
+void HiZpins(void) {
+	#if defined(BUSPIRATEV4)
+        BPMSG1258; //bpWline("CS\tMISO\tCLK\tMOSI");
+        #else
+       	BPMSG1225; //bpWline("CLK\tMOSI\tCS\tMISO");
+        #endif
 }
 
 void HiZsettings(void)

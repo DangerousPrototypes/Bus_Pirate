@@ -1509,40 +1509,70 @@ void statusInfo(void) {
 
 void pinStates(void) { //bpWline("Pinstates:");
     BPMSG1226;
-    BPMSG1233;
-    //bpWstring("GND\t3.3V\t5.0V\tADC\tVPU\tAUX\t");
-#if defined(BUSPIRATEV25)
-    BPMSG1235;
+#if defined(BUSPIRATEV4)
+    BPMSG1256; //bpWstring("12.(RD)\t11.(BR)\t10.(BLK)\t9.(WT)\t8.(GR)\t7.(PU)\t6.(BL)\t5.(GN)\t4.(YW)\t3.(OR)\t2.(RD)\1.(BR)");
 #else
-    BPMSG1227;
+    BPMSG1233; //bpWstring("1.(BR)\t2.(RD)\t3.(OR)\t4.(YW)\t5.(GN)\t6.(BL)\t7.(PU)\t8.(GR)\t9.(WT)\t0.(BLK)");
+#endif
+#if defined(BUSPIRATEV4)
+    BPMSG1257; //bpWstring("GND\t5.0V\t3.3V\tVPU\tADC\tAUX2\tAUX1\tAUX\t");
+#elif defined(BUSPIRATEV25)
+    BPMSG1235; //bpWstring("GND\tADC\t5.0V\t3.3V\tVPU\tAUX\t");
+#else
+    BPMSG1227; //bpWstring("GND\t3.3V\t5.0V\tADC\tVPU\tAUX\t");
 #endif
     protos[bpConfig.busMode].protocol_pins();
-    //bpWstring("P\tP\tP\tI\tI\t");
-    BPMSG1228;
+    BPMSG1228; //bpWstring("P\tP\tP\tI\tI\t");
+#if defined(BUSPIRATEV4)    
+    pinDirection(AUX2);
+    pinDirection(AUX1);
+    pinDirection(AUX);
+    pinDirection(CS);
+    pinDirection(MISO);
+    pinDirection(CLK);
+    pinDirection(MOSI);
+#else    
     pinDirection(AUX);
     pinDirection(CLK);
     pinDirection(MOSI);
     pinDirection(CS);
     pinDirection(MISO);
+#endif
     bpBR;
-
-    //bpWstring("GND\t");
-    BPMSG1234;
+    BPMSG1234; //bpWstring("GND\t");
     ADCON();
+
+
 #if defined(BUSPIRATEV25)
     bpWvolts(bpADC(BP_ADC_PROBE));
     BPMSG1045;
     UART1TX('\t');
-#else
-    bpWvolts(bpADC(BP_ADC_3V3));
-    BPMSG1045;
-    UART1TX('\t');
-#endif
+#elif defined(BUSPIRATEV4)
     bpWvolts(bpADC(BP_ADC_5V0));
     BPMSG1045;
     UART1TX('\t');
+#else
+    bpWvolts(bpADC(BP_ADC_3V3));
+    BPMSG1045;
+    UART1TX('\t');
+#endif
+
+#if defined(BUSPIRATEV4)
+    bpWvolts(bpADC(BP_ADC_3V3));
+    BPMSG1045;
+    UART1TX('\t');
+#else
+    bpWvolts(bpADC(BP_ADC_5V0));
+    BPMSG1045;
+    UART1TX('\t');
+#endif
+
 #if defined(BUSPIRATEV25)
     bpWvolts(bpADC(BP_ADC_3V3));
+    BPMSG1045;
+    UART1TX('\t');
+#elif defined(BUSPIRATEV4)
+    bpWvolts(bpADC(BP_ADC_VPU));
     BPMSG1045;
     UART1TX('\t');
 #else
@@ -1550,15 +1580,32 @@ void pinStates(void) { //bpWline("Pinstates:");
     BPMSG1045;
     UART1TX('\t');
 #endif
+
+#if defined(BUSPIRATEV4)
+    bpWvolts(bpADC(BP_ADC_PROBE));
+    BPMSG1045;
+    UART1TX('\t');
+#else
     bpWvolts(bpADC(BP_ADC_VPU));
     BPMSG1045;
     UART1TX('\t');
+#endif
     ADCOFF();
+#if defined(BUSPIRATEV4)
+    pinState(AUX2);
+    pinState(AUX1);
+    pinState(AUX);
+    pinState(CS);
+    pinState(MISO);
+    pinState(CLK);
+    pinState(MOSI);
+#else
     pinState(AUX);
     pinState(CLK);
     pinState(MOSI);
     pinState(CS);
     pinState(MISO);
+#endif
     bpBR;
 } //pinStates(void)
 
@@ -1709,7 +1756,6 @@ void setPullupVoltage(void) {
 }
 
 #endif
-
 
 
 

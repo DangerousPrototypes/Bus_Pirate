@@ -322,8 +322,12 @@ unsigned int UARTperiodic(void)
 	return temp;
 }
 
-void UARTpins(void)
-{	BPMSG1230;
+void UARTpins(void) {
+        #if defined(BUSPIRATEV4)
+        BPMSG1260; //bpWline("-\tRxD\t-\tTxD");
+        #else
+       	BPMSG1230; //bpWline("-\tTxD\t-\tRxD");
+        #endif
 }
 
 /*
