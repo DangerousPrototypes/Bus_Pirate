@@ -551,8 +551,8 @@ void UART1Speed(unsigned char brg) {
 //Interrupt Remap method 1:  Using direct interrupt address
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt() {
+	IFS0bits.T1IF = 0;
 	#ifndef USB_INTERRUPT
-	    IFS0bits.T1IF = 0;
 		usb_handler();
 	#endif
 

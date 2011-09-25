@@ -85,8 +85,10 @@ int main(void) {
     usbbufflush(); //setup the USB byte buffer
 	BP_USBLED_ON();
     do {
+		#ifndef USB_INTERRUPT
         //if (!TestUsbInterruptEnabled()) //JTR3 added
         	usb_handler(); ////service USB tasks Guaranteed one pass in polling mode even when usb_device_state == CONFIGURED_STATE
+		#endif
 
         if ((usb_device_state < DEFAULT_STATE)) { // JTR2 no suspendControl available yet || (USBSuspendControl==1) ){
 
