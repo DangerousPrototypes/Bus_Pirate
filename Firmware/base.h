@@ -51,7 +51,7 @@ typedef unsigned char BYTE;
 #include "baseIO.h"
 #include "baseUI.h"
 
-#define BP_FIRMWARE_STRING "Firmware v6.0-a1 (r1400) "
+#define BP_FIRMWARE_STRING "Firmware v6.0-a3 "
 
 #define LANGUAGE_EN_US
 //#define LANGUAGE_IT_IT
