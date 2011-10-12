@@ -91,7 +91,7 @@ unsigned char selfTest(unsigned char showProgress, unsigned char jumperTest){
 	bpWstring("WP");
 	bpTest(BP_EE_WP, 1);
 	bpWstring("ACK");
-// JTR not found 	bpTest(eetest(), 0);
+    bpTest(eetest(), 0);
 #endif
 
 	//ADC check
