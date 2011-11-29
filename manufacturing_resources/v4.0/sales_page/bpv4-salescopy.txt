@@ -1,0 +1,48 @@
+<a href="http://dangerousprototypes.com/docs/Bus_Pirate">Bus Pirate v4</a> is  a universal bus interface that talks to electronics from a computer serial  terminal. Get to know a chip without writing code. Eliminates a ton of  early prototyping effort with new or unknown chips. Seeed Studio is the official manufacturer and supporter of the Bus Pirate project.
+
+Version 4 is the next generation Bus Pirate hardware, but it's not as stable as <a href="http://www.seeedstudio.com/depot/bus-pirate-v3-assembled-p-609.html?cPath=174">Bus Pirate v3</a>. If you're just starting out with the Bus Pirate we still recommend v3 - it's cheaper, more reliable, and has all the same major features. See a <a href="http://dangerousprototypes.com/docs/Bus_Pirate_v4_vs_v3_comparison">Bus Pirate v4 vs v3 comparison</a>.
+
+<strong>Protocols</strong>
+
+1-Wire,  I2C, SPI, JTAG, asynchronous serial (UART), MIDI, PC keyboard, HD44780  LCDs, and generic 2- and 3-wire libraries for custom protocols.
+
+<strong>Features</strong>
+<ul>
+	<li>USB interface, USB powered</li>
+	<li>5volt tolerant pins</li>
+	<li>0-6volt measurement probe</li>
+	<li>1Hz-40MHz frequency measurement</li>
+	<li>1kHz-4MHz pulse-width modulator, frequency generator</li>
+	<li>On-board multi-voltage pull-up resistors</li>
+	<li>On-board 3.3volt and 5volt power supplies with software reset</li>
+	<li>Macros for common operations</li>
+	<li>Bus traffic sniffers (SPI, I2C)</li>
+	<li>Transparent USB-&gt;serial bridge mode</li>
+	<li>10Hz-1MHz low-speed logic analyzer</li>
+	<li>Custom support in <a href="http://savannah.nongnu.org/projects/avrdude">AVRDUDE</a> ,<a href="http://www.flashrom.org/Flashrom"> Flashrom</a> , <a href="http://openocd.berlios.de/web/">OpenOCD</a></li>
+	<li>AVR STK500 v2 programmer clone</li>
+	<li>Scriptable from Perl, Python, etc.</li>
+	<li>A bootloader for easy USB firmware updates</li>
+	<li>Open source (CC 0/public domain)</li>
+</ul>
+<strong>New in Bus Pirate v4</strong>
+<ul>
+	<li>256K program space, 4 times more flash than v3</li>
+	<li>Integrated, on-board USB (faster)</li>
+	<li>Data storage EEPROM to store settings</li>
+	<li>Software pull-up voltage selection: 3.3volt, 5volt, or external supply</li>
+	<li>2 extra I/O pins</li>
+	<li>Multipurpose button</li>
+	<li><a title="Bus Pirate v4 vs v3 comparison" href="../docs/Bus_Pirate_v4_vs_v3_comparison">Bus Pirate v4 vs v3 comparison</a></li>
+</ul>
+<strong>Support</strong>
+<ul>
+	<li><a href="http://dangerousprototypes.com/docs/Bus_Pirate%20v3.5">Bus Pirate manual</a></li>
+	<li><a href="http://dangerousprototypes.com/docs/Bus_Pirate_v4_design_overview">Bus Pirate v4 hardware overview</a></li>
+	<li><a href="http://dangerousprototypes.com/docs/Bus_Pirate#Chip_demonstrations">Chip demonstrations</a></li>
+	<li><a href="http://code.google.com/p/the-bus-pirate/">Latest firmware</a></li>
+	<li><a href="http://dangerousprototypes.com/forum/viewforum.php?f=4">Bus Pirate forum</a></li>
+</ul>
+<strong>First batch warning</strong>
+
+Each Bus Pirate v4 is tested before it leaves the factory, but please keep  in mind that v4 is still experimental, unproven hardware. If in doubt please buy the cheaper <a href="http://www.seeedstudio.com/depot/bus-pirate-v3-assembled-p-609.html?cPath=174">Bus Pirate v3</a>, it is still manufactured and actively supported. This hardware is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
