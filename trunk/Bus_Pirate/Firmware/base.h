@@ -24,8 +24,8 @@ typedef unsigned char BYTE;
 
 //this sets the hardware version
 //#define BUSPIRATEV1A //http://hackaday.com/2009/01/22/how-to-bus-pirate-v1-improved-universal-serial-interface/
-#define BUSPIRATEV3 //also v2go
-//#define BUSPIRATEV4
+//#define BUSPIRATEV3 //also v2go
+#define BUSPIRATEV4
 
 #ifdef BUSPIRATEV4
 	#define DOUBLE_BUFFER //use USB double buffer, else single buffer is used
@@ -68,9 +68,9 @@ typedef unsigned char BYTE;
 
 #if defined(BP_MAIN)
 #define BP_USE_1WIRE
-#ifndef BUSPIRATEV4
+//#ifndef BUSPIRATEV4
 #define BP_USE_HWUART //hardware uart (now also MIDI)
-#endif
+//#endif
 #define BP_USE_I2C
 //#define BP_USE_I2C_HW
 #define BP_USE_HWSPI //hardware spi
@@ -98,7 +98,7 @@ typedef unsigned char BYTE;
 #endif
 
 
-#define BP_USE_BASIC   // basic subsystem
+//#define BP_USE_BASIC   // basic subsystem
 //#define BP_USE_BASICI2C  // use an i2ceeprom for storing
 
 
