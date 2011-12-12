@@ -34,7 +34,10 @@ int getrepeat(void);
 void consumewhitechars(void);
 extern int cmderror;
 */
-
+void UARTgetbaud_InitTimer(void);
+void UARTgetbaud_clrTimer(void);
+unsigned long UARTgetbaud_EstimatedBaud(unsigned long _abr_);
+unsigned long UARTgetbaud(int DataOnly);
 
 struct _UART{
 	unsigned char dbp:2; //databits and parity
@@ -272,8 +275,9 @@ void UARTmacro(unsigned int macro)
 				}
 			}
 			break;
-		//case 2://auto UART baud rate
-		//	break;			
+		case 4://auto UART baud rate
+			UARTgetbaud(0);
+			break;			
 		default:
 			//bpWmessage(MSG_ERROR_MACRO);
 			BPMSG1016;
@@ -329,6 +333,162 @@ void UARTpins(void) {
        	BPMSG1230; //bpWline("-\tTxD\t-\tRxD");
         #endif
 }
+
+void UARTgetbaud_InitTimer(void)
+{
+	T4CON=0;	//counters = off
+	T2CON=0;
+
+	T2CON=0b001000; //(T32) = 32bit timer no prescale
+
+	TMR3HLD=0x00;
+	TMR2=0x00;
+
+	TMR5HLD=0x00;
+	TMR4=0x00;
+	T4CON=0b1000; //.T32=1, bit 3
+}
+
+void UARTgetbaud_clrTimer(void)
+{
+	T2CONbits.TON=0;
+	T4CONbits.TON=0;
+
+	RPINR3bits.T2CKR=0b11111;
+	T4CON=0;
+	T2CON=0;
+
+	TMR2=0;
+	TMR3HLD=0;
+}
+
+unsigned long UARTgetbaud_EstimatedBaud(unsigned long _abr_)
+{
+	if((_abr_>=250) && (_abr_<=450)) {
+		return 300;
+	} else if ((_abr_>=451)&&(_abr_<=900)) {
+		return 600;
+	} else if ((_abr_>=901)&&(_abr_<=1800)) {
+		return 1200;
+	} else if ((_abr_>=1801)&&(_abr_<=3500)) {
+		return 2400;
+	} else if ((_abr_>=3501)&&(_abr_<=7200)) {
+		return 4800;
+	} else if ((_abr_>=7201)&&(_abr_<=12000)) {
+		return 9600;
+	} else if ((_abr_>=12001)&&(_abr_<=16800)) {
+		return 14400;
+	} else if ((_abr_>=16801)&&(_abr_<=21600)) {
+		return 19200;
+	} else if ((_abr_>=21601)&&(_abr_<=31200)) {
+		return 28800;
+	}  else if ((_abr_>=31201)&&(_abr_<=40800)) {
+		return 38400;
+	}  else if ((_abr_>=40801)&&(_abr_<=56800)) {
+		return 56000;
+	}  else if ((_abr_>=56801)&&(_abr_<=86400)) {
+		return 57600;
+	}  else if ((_abr_>=86401)&&(_abr_<=121600)) {
+		return 115200;
+	}  else if ((_abr_>=121601)&&(_abr_<=192000)) {
+		return 128000;
+	} else if((_abr_>=192001)&&(_abr_<=300000)) {
+		return 256000;
+	} else {
+		return 0;
+	}
+}
+
+unsigned long UARTgetbaud(int DataOnly)
+{
+	unsigned int i=0;
+	unsigned long CurrentSample=0,BitSample=0;
+
+	// CalculatedBaud define just for readability
+	#define CalculatedBaud BitSample
+
+	UART2Disable();	//Disable UART
+	BP_MISO=0;
+	BP_MISO_DIR=1;
+
+	if(DataOnly==0) {
+		bpWline("Awaiting Activity...\n\r(Notice: Any key to exit at this point only...)\n\r");
+	}
+	
+	
+	while(BP_MISO==1 && U1STAbits.URXDA==0) {	// Wait for activity (stabilize)
+		asm( "nop" );							// you can exit by hitting any key at this point.
+	}
+	
+	if (U1STAbits.URXDA==1) {					// Emergency Exit.
+		i=U1RXREG;								// Get rid of the char from queue
+		UARTgetbaud_clrTimer();
+		bpWline("\n\r** Early Exit...\n\r");
+		return 0;
+	}
+	
+	for(i=0;i<25;i++) {							// 25 samples?! Really 5 is good enough.
+		UARTgetbaud_InitTimer();				// Init the 32bit Timer
+		
+		while(BP_MISO==0) {	} 					// Wait until the line goes high == start of activity
+		
+		T4CONbits.TON=1;						// Start counter. (from Auxpin.c's GetFreq() function.)
+		T2CONbits.TON=1;						// []nil]
+
+		while(BP_MISO==1) {	}					// The timer is doing the work now. count while high.
+		
+		T2CONbits.TON=0;						// Stop counter.
+		T4CONbits.TON=0;						// []nil]
+		
+		RPINR3bits.T2CKR=0b11111; 				// Assign T2 clock input to nothing
+		T4CON=0;								// Make sure the counters are off.
+		T2CON=0;								// []nil]
+		
+		//j=TMR2;								// (1) Get timer/counter values
+		//k=TMR3HLD;							// (2) and format a number with
+		CurrentSample=TMR3HLD;					// (3) the two registers that make
+ 		CurrentSample<<=16;						// (4) up the 32bit counter.
+		CurrentSample+=TMR2;					// (5) []nil]
+				
+		if(i!=0) {								// (1) This little jewel is the
+			if(BitSample==0) {					// (2) most important peice of code
+				BitSample=CurrentSample;		// (3) it compares every sample with
+			} else {							// (4) the last and smalest and
+				if(BitSample>CurrentSample) {	// (5) only lets the smallest sample
+					BitSample=CurrentSample;	// (6) through, which should be a single
+				}								// (7) bit.
+			}									// (8) []nil]
+		}										// (9) Note the first sample is kicked.
+		CurrentSample=0;						
+	}
+	
+	UARTgetbaud_clrTimer();						// Disable timer/counter and cleanup.
+	#define BP_CPU_MIPS 16000000
+	CalculatedBaud = (BP_CPU_MIPS/BitSample);
+	
+	if(DataOnly==0) {
+		
+		if((CalculatedBaud)>150000)
+		{
+			bpWline("\n\rNOTICE! ( Baud >= 256000 )\n\rThe sampled bus has a baud rate to fast for the BP hardware to");
+			bpWline("calculate appropriatly. No estimated baud rate will be supplied. In order");
+			bpWline("to get the baud rate, on this bus, you will need to use a logic analyzer");
+			bpWline("at speeds around 50Mhz+. Open Bench Logic Sniffer reccommended. ;)");
+
+		} else {
+			bpWstring("\n\rActual Calculated Baud Rate: \t");
+			bpWlongdec(CalculatedBaud);
+			bpWstring(" bps (Estimated)");
+			bpWstring("\n\rNearest Common Baud Rate: \t");
+			bpWlongdec(UARTgetbaud_EstimatedBaud(CalculatedBaud));
+			bpWstring(" bps");
+		}
+	
+		bpWline("\n\r\n\rEnd of Function. Good bye.");
+	}
+	return CalculatedBaud;
+}
+
 
 /*
 databits and parity (2bits)
