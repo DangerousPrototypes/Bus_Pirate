@@ -24,8 +24,8 @@ typedef unsigned char BYTE;
 
 //this sets the hardware version
 //#define BUSPIRATEV1A //http://hackaday.com/2009/01/22/how-to-bus-pirate-v1-improved-universal-serial-interface/
-//#define BUSPIRATEV3 //also v2go
-#define BUSPIRATEV4
+#define BUSPIRATEV3 //also v2go
+//#define BUSPIRATEV4
 
 #ifdef BUSPIRATEV4
 	#define DOUBLE_BUFFER //use USB double buffer, else single buffer is used
@@ -51,7 +51,7 @@ typedef unsigned char BYTE;
 #include "baseIO.h"
 #include "baseUI.h"
 
-#define BP_FIRMWARE_STRING "Firmware v6.0-a3 "
+#define BP_FIRMWARE_STRING "Firmware v6.0-a4 "
 
 #define LANGUAGE_EN_US
 //#define LANGUAGE_IT_IT

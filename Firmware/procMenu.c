@@ -214,6 +214,14 @@ void serviceuser(void) {
                             case 'B': // down arrow
                                 goto down;
                                 break;
+							case '1':	// VT100+ home key (example use in PuTTY)
+								c = UART1RX();
+								if(c == '~') goto home;
+								break;
+							case '4':	// VT100+ end key (example use in PuTTY)
+								c = UART1RX();
+								if(c == '~') goto end;
+								break;
                         }
                     }
                     break;
@@ -339,7 +347,7 @@ down:
                         } else UART1TX(BELL); // beep, top
                     }
                     break;
-                case 0x01: // ^A (goto begining of line)
+home:			case 0x01: // ^A (goto begining of line)
                     if (tmpcmdend != cmdstart) {
                         repeat = (tmpcmdend - cmdstart) & CMDLENMSK;
                         bpWstring("\x1B["); // move left
@@ -350,7 +358,7 @@ down:
                         UART1TX(BELL); // beep, at start
                     }
                     break;
-                case 0x05: // ^E (goto end of line)
+end:			case 0x05: // ^E (goto end of line)
                     if (tmpcmdend != cmdend) {
                         repeat = (cmdend - tmpcmdend) & CMDLENMSK;
                         bpWstring("\x1B["); // move right
@@ -1255,7 +1263,11 @@ again: // need to do it proper with whiles and ifs..
     neg = 0;
 
     bpWstring("\r\n(");
-    bpWdec(def);
+	if(def<0){
+		bpWstring("x");
+	}else{
+    	bpWdec(def);
+	}
     bpWstring(")>");
 
     while (!stop) {

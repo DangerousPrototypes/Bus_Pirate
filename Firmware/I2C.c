@@ -17,6 +17,7 @@
 #include "bitbang.h"
 #include "busPirateCore.h"//need access to bpConfig
 #include "binIOhelpers.h"
+#include "AUXpin.h"
 
 #include "procMenu.h"		// for the userinteraction subs
 
@@ -923,7 +924,45 @@ I2C_write_read_error: //use this for the read error too
                             UART1TX(bpConfig.terminalInput[j]);
                         }
 
-                        break;
+                        break;//00001001 xxxxxxxx
+					case 9: //extended AUX command
+					      UART1TX(1); //confirm that the command is known
+					      //inByte - used as extended commmand
+					      //fr - used as result
+					      while(U1STAbits.URXDA == 0);//wait for subcommand byte
+					      inByte=U1RXREG; //get byte
+					      //0x00 - AUX/CS low
+					      //0x01 - AUX/CS high
+					      //0x02 - AUX/CS HiZ
+					      //0x03 - AUX read
+					      //0x10 - use AUX
+					      //0x20 - use CS
+					      fr=1;
+					      switch( inByte ) {
+					         case 0x00:
+					            bpAuxLow();
+					            break;
+					         case 0x01:
+					            bpAuxHigh();
+					            break;
+					         case 0x02:
+					            bpAuxHiZ();
+					            break;
+					         case 0x03:
+					            fr = bpAuxRead();
+					            break;
+					         case 0x10:
+					            modeConfig.altAUX = 0;
+					            break;
+					         case 0x20:
+					            modeConfig.altAUX = 1;
+					            break;
+					         default:
+					            fw = 0;
+					            break;
+					      }
+					      UART1TX(fr);//result
+					      break;
                     case 0b1111:
                         I2C_Sniffer(0); //set for raw output
                         UART1TX(1);

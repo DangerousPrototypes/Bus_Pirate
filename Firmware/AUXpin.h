@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 void bpFreq(void);
+unsigned long bpBinFreq(void);
 void bpPWM(void);
 
 void updatePWM(void);

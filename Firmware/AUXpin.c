@@ -16,7 +16,7 @@
 #include "base.h"
 #include "procMenu.h"
 
-#define AUXPIN_DIR              BP_AUX_DIR
+#define AUXPIN_DIR      BP_AUX_DIR
 #define AUXPIN_RPIN     BP_AUX_RPIN
 #define AUXPIN_RPOUT    BP_AUX_RPOUT
 
@@ -197,7 +197,7 @@ void bpPWM(void){
 //frequency measurement
 void bpFreq(void){
         //static unsigned int j,k;
-        static unsigned long l;
+        unsigned long l;
 
         if(AUXmode==AUX_PWM){
                 //bpWline(OUMSG_AUX_FREQ_PWM);
@@ -237,6 +237,37 @@ void bpFreq(void){
         T4CON=0;        //make sure the counters are off
         T2CON=0;
 }
+
+//frequency measurement
+unsigned long bpBinFreq(void){
+        //static unsigned int j,k;
+        unsigned long l;
+
+        //setup timer
+        T4CON=0;        //make sure the counters are off
+        T2CON=0;        
+
+        //timer 2 external
+        AUXPIN_DIR=1;//aux input
+        RPINR3bits.T2CKR=AUXPIN_RPIN; //assign T2 clock input to aux input
+
+        T2CON=0b111010; //(TCKPS1|TCKPS0|T32|TCS);
+
+        l=bpFreq_count();
+        if(l>0xff){//got count
+                l*=256;//adjust for prescaler...
+        }else{//no count, maybe it's less than prescaler (256hz)
+                T2CON=0b001010; //(TCKPS1|TCKPS0|T32|TCS); prescale to 0
+                l=bpFreq_count();
+        }
+
+        //return clock input to other pin
+        RPINR3bits.T2CKR=0b11111; //assign T2 clock input to nothing
+        T4CON=0;        //make sure the counters are off
+        T2CON=0;
+		return l;
+}
+
 
 unsigned long bpFreq_count(void){
         static unsigned int j,k;
@@ -425,6 +456,7 @@ unsigned int bpAuxRead(void){
 void bpServo(void)
 {
         unsigned int PWM_period, PWM_dutycycle;
+		unsigned char entryloop=0;
         float PWM_pd;
 
         // Clear timers 
@@ -433,11 +465,12 @@ void bpServo(void)
         OC5CON = 0;
         
         if(AUXmode == AUX_PWM){         //PWM is on, stop it
-                AUXPIN_RPOUT = 0;       //remove output from AUX pin
-                BPMSG1028;
-                AUXmode = AUX_IO;
-                if(cmdbuf[((cmdstart + 1)& CMDLENMSK)] == 0x00)
-                        return; // return if no arguments to function
+                if(cmdbuf[((cmdstart + 1)& CMDLENMSK)] == 0x00){//no extra data, stop servo
+	                AUXPIN_RPOUT = 0;       //remove output from AUX pin
+	                BPMSG1028;
+	                AUXmode = AUX_IO;
+	                return; // return if no arguments to function
+				}
         }
 
         cmdstart=(cmdstart+1)&CMDLENMSK;
@@ -449,10 +482,12 @@ void bpServo(void)
                 cmderror = 0;
                 BPMSG1254;
                 PWM_pd = getnumber(90, 0, 180, 0);
+				entryloop=1;
         }
 
+
         // Setup multiplier for 50 Hz
-        T2CONbits.TCKPS1 = 1;
+servoset:   T2CONbits.TCKPS1 = 1;
         T2CONbits.TCKPS0 = 1;
         PWM_period = 1250;;
         PWM_pd /= 3500;
@@ -467,6 +502,16 @@ void bpServo(void)
         T2CONbits.TON = 1;      
         BPMSG1255;
         AUXmode=AUX_PWM;
+
+		if(entryloop==1){
+	       PWM_pd = getnumber(-1, 0, 180, 1);
+			if(PWM_pd<0){
+				bpWBR;
+				return;
+			}
+			goto servoset;
+		}
+
 }
 
 

@@ -24,9 +24,10 @@
 #include "UART.h"
 #include "1wire.h"
 #include "binwire.h"
-//#include "OpenOCD.h"
+#include "OpenOCD.h"
 #include "pic.h"
 #include "binIO.h"
+#include "AUXpin.h"
 
 extern struct _modeConfig modeConfig;
 
@@ -120,9 +121,11 @@ void binBB(void) {
                 binwire();
                 binReset();
                 binBBversion(); //say name on return
-            } else if (inByte == 6) {//goto RAW WIRE mode
+            } else if (inByte == 6) {//goto OpenOCD mode
                 binReset();
-                //binOpenOCD();
+#ifndef BUSPIRATEV4
+                binOpenOCD();
+#endif
                 binReset();
                 binBBversion(); //say name on return
             } else if (inByte == 7) {//goto pic mode
@@ -199,6 +202,13 @@ void binBB(void) {
                     }
                 }
                 AD1CON1bits.ADON = 0; // turn ADC OFF
+			}else if (inByte==0b10110){ //binary frequency count access
+				unsigned long l;
+				l=bpBinFreq();
+				UART1TX((l>>(8*3)));
+				UART1TX((l>>(8*2)));
+				UART1TX((l>>(8*1)));
+				UART1TX((l));
             } else if ((inByte >> 5)&0b010) {//set pin direction, return read
                 UART1TX(binBBpindirectionset(inByte));
             } else {//unknown command, error
