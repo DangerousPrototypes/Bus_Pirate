@@ -19,8 +19,7 @@
 #include "globals.h"
 
 #ifdef BP_USE_1WIRE
-//abstraction for m_i2c_1.c
-#include "m_1wire_213.h"
+#include "1wire_lib.h"
 #include "1wire.h"
 #include "binIOhelpers.h"
 
@@ -118,7 +117,7 @@ void OWsetup(void)
         SDA=0;                  //B9 sda
         //bpWline("1WIRE routines Copyright (C) 2000 Michael Pearce");
         //bpWline("Released under GNU General Public License");
-        BPMSG1002;
+        //BPMSG1002;
         //BPMSG1003;
 }
 

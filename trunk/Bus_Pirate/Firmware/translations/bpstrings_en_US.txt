@@ -2,7 +2,7 @@
 //1wire.c
 BPMSG1000;0;"WRITE BIT: "
 BPMSG1001;1;" *next clock (^) will use this value" 
-BPMSG1002;1;"1WIRE routines (C) 2000 Michael Pearce GNU GPL"
+//BPMSG1002;1;"1WIRE routines (C) 2000 Michael Pearce GNU GPL"
 //BPMSG1003;1"Released under GNU General Public License"
 BPMSG1004;1;"No device, try (ALARM) SEARCH macro first"
 BPMSG1005;0;"ADDRESS MACRO "
