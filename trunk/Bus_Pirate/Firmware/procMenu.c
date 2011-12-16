@@ -1352,9 +1352,9 @@ again: // need to do it proper with whiles and ifs..
 //print version info (used in menu and at startup in main.c)
 
 void versionInfo(void) {
-    //#ifndef BP_MAIN
+    #ifndef BUSPIRATEV4
     unsigned int i;
-    //#endif
+    #endif
 
 #if defined (BUSPIRATEV2) //we can tell if it's v3a or v3b, show it here
     bpWstring(BP_VERSION_STRING);
