@@ -648,10 +648,14 @@ end:			case 0x05: // ^E (goto end of line)
                     //ruined AVRdude compatibility
                     //if(agree())
                     //{	//bpWline(OUMSG_PM_RESET);
+#if defined(BUSPIRATEV4)
+					bpWline("* No Software Reset on v4, Use the reset button."); //TRANSLATE-NEEDED
+#else
                     BPMSG1093;
                     while (UART1TXRdy == 0); //wait untill TX finishes
                     asm("RESET");
                     //}
+#endif
                     break;
                 case '$': //bpWline("-bootloader jump");
                     if (agree()) { //bpWline("BOOTLOADER");
@@ -1352,9 +1356,8 @@ again: // need to do it proper with whiles and ifs..
 //print version info (used in menu and at startup in main.c)
 
 void versionInfo(void) {
-    #ifndef BUSPIRATEV4
     unsigned int i;
-    #endif
+
 
 #if defined (BUSPIRATEV2) //we can tell if it's v3a or v3b, show it here
     bpWstring(BP_VERSION_STRING);
@@ -1429,6 +1432,7 @@ void versionInfo(void) {
     bpWline(")");
     //bpWline("http://dangerousprototypes.com");
     BPMSG1118;
+    i=0;
 } //versionInfo(void)
 
 //display properties of the current bus mode (pullups, vreg, lsb, output type, etc)
