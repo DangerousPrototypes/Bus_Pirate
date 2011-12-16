@@ -22,6 +22,8 @@ typedef unsigned int u16;
 typedef unsigned long u32;
 typedef unsigned char BYTE;
 
+#define BXR_BUILD
+
 //this sets the hardware version
 //#define BUSPIRATEV1A //http://hackaday.com/2009/01/22/how-to-bus-pirate-v1-improved-universal-serial-interface/
 //#define BUSPIRATEV3 //also v2go
@@ -51,7 +53,12 @@ typedef unsigned char BYTE;
 #include "baseIO.h"
 #include "baseUI.h"
 
-#define BP_FIRMWARE_STRING "Firmware v6.0-a4 "
+
+#if defined(BXR_BUILD)
+#define BP_FIRMWARE_STRING "Firmware Fv(1.3) Hv(4) - BrentBXR "
+#else
+#define BP_FIRMWARE_STRING "Firmware v6.0-a5 "
+#endif
 
 #define LANGUAGE_EN_US
 //#define LANGUAGE_IT_IT
@@ -67,32 +74,39 @@ typedef unsigned char BYTE;
 //#define BP_ADDONS
 
 #if defined(BP_MAIN)
-#define BP_USE_1WIRE
-//#ifndef BUSPIRATEV4
-#define BP_USE_HWUART //hardware uart (now also MIDI)
-//#endif
-#define BP_USE_I2C
-//#define BP_USE_I2C_HW
-#define BP_USE_HWSPI //hardware spi
-#define BP_USE_RAW2WIRE
-#define BP_USE_RAW3WIRE
-//#define BP_USE_PCATKB
-#define BP_USE_LCD // include HD44780 LCD library
-//#define BP_USE_PIC
-#define BP_USE_DIO //binary mode
+
+	#define BP_USE_1WIRE
+	//#ifndef BUSPIRATEV4
+	#define BP_USE_HWUART //hardware uart (now also MIDI)
+	//#endif
+	#define BP_USE_I2C
+	//#define BP_USE_I2C_HW
+	#define BP_USE_HWSPI //hardware spi
+	#define BP_USE_RAW2WIRE
+	#define BP_USE_RAW3WIRE
+	#define BP_USE_LCD // include HD44780 LCD library
+	
+	#if defined(BUSPIRATEV4)
+		#define BP_USE_PCATKB
+		#define BP_USE_PIC
+		#define BP_USE_BASIC 
+	#endif
+	
+	#define BP_USE_DIO //binary mode
+	
 #elif defined(BP_ADDONS)
-// most used protos
-//#define BP_USE_1WIRE
-//#define BP_USE_HWUART //hardware uart (now also MIDI)
-//#define BP_USE_I2C
-//#define BP_USE_I2C_HW
-//#define BP_USE_HWSPI //hardware spi
-#define BP_USE_RAW2WIRE
-#define BP_USE_RAW3WIRE
-#define BP_USE_PCATKB
-#define BP_USE_LCD // include HD44780 LCD library
-#define BP_USE_PIC
-#define BP_USE_DIO //binary mode
+	// most used protos
+	//#define BP_USE_1WIRE
+	//#define BP_USE_HWUART //hardware uart (now also MIDI)
+	//#define BP_USE_I2C
+	//#define BP_USE_I2C_HW
+	//#define BP_USE_HWSPI //hardware spi
+	#define BP_USE_RAW2WIRE
+	#define BP_USE_RAW3WIRE
+	#define BP_USE_PCATKB
+	#define BP_USE_LCD // include HD44780 LCD library
+	#define BP_USE_PIC
+	#define BP_USE_DIO //binary mode
 #else
 #error "No Bus Pirate configuration defined."
 #endif

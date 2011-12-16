@@ -75,7 +75,7 @@ unsigned int KEYBwrite(unsigned int c)
 	return 0x100;
 }
 
-void KEYBmacro(unsigned int c)
+void KEYBmacro(unsigned char c)
 {	switch(c)
 	{	case 0:	//bpWline(OUMSG_KB_MACRO_MENU);
 				BPMSG1238;
@@ -88,8 +88,8 @@ void KEYBmacro(unsigned int c)
 					{	bpWbyte(kbScancode.code);
 						bpSP;
 					}
-					if(UART1RXRdy == 1) //any key pressed, exit
-					{	c=UART1RX /* JTR usb port; */;
+					if(UART1RXRdy() == 1) //any key pressed, exit
+					{	c=UART1RX(); /* JTR usb port; */
 						bpBR;
 						break;
 					}						
