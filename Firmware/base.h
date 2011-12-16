@@ -22,7 +22,6 @@ typedef unsigned int u16;
 typedef unsigned long u32;
 typedef unsigned char BYTE;
 
-#define BXR_BUILD
 
 //this sets the hardware version
 //#define BUSPIRATEV1A //http://hackaday.com/2009/01/22/how-to-bus-pirate-v1-improved-universal-serial-interface/
@@ -54,11 +53,7 @@ typedef unsigned char BYTE;
 #include "baseUI.h"
 
 
-#if defined(BXR_BUILD)
-#define BP_FIRMWARE_STRING "Firmware Fv(1.3) Hv(4) - BrentBXR "
-#else
-#define BP_FIRMWARE_STRING "Firmware v6.0-a5 "
-#endif
+#define BP_FIRMWARE_STRING "Firmware v6.0-a6 "
 
 #define LANGUAGE_EN_US
 //#define LANGUAGE_IT_IT
