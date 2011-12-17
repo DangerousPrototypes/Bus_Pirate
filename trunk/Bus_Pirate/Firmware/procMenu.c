@@ -539,10 +539,12 @@ end:			case 0x05: // ^E (goto end of line)
                     break;
 #ifdef BUSPIRATEV4
                 case 'k': modeConfig.altAUX = 2;
-                    bpWline("AUX1 selected");
+                    //bpWline("AUX1 selected");
+                    BPMSG1263;
                     break;
                 case 'K': modeConfig.altAUX = 3;
-                    bpWline("AUX2 selected");
+                    //bpWline("AUX2 selected");
+                    BPMSG1264;
                     break;
 #endif
                 case 'L': //bpWline("-bit order set (MSB)");
