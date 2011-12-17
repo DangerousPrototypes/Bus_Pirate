@@ -131,9 +131,7 @@ asm (".equ BLJUMPADDRESS, 0xABF8");
 //
 //
 
-
-#if defined(LANGUAGE_EN_US)
-#include "translations/en_US.h"
+//// left out for now
 /*	my italian and spanish aint that good ;)
 #elif defined(LANGUAGE_IT_IT)
         #include "translations/it-IT.h"
@@ -141,11 +139,34 @@ asm (".equ BLJUMPADDRESS, 0xABF8");
 #elif defined(LANGUAGE_ES_ES)
         #include "translations/es-ES.h"
  */
-#elif defined(LANGUAGE_DE_DE)
-#include "translations/de_DE.h"
+ 
+ 
+// If BUSPIRATEv4 then use the en_US.h otherwise
+// use the v3 one. The version3 one does not include
+// the modes that the v3 cannot fit. This way we dont
+// waste space on strings we wont see.
+//
+// Also note; the BPV4 project file uses the en_US.s file
+// the buspurate v3 uses the other one...
+#if defined(BUSPIRATEV4)
+	#if defined(LANGUAGE_EN_US)
+		#include "translations/en_US.h"
+	#elif defined(LANGUAGE_DE_DE)
+		#include "translations/de_DE.h"
+	#else
+		#error "No language defined in base.h."
+	#endif
 #else
-#error "No language defined in base.h."
+	#if defined(LANGUAGE_EN_US)
+		#include "translations/v3_en_US.h"
+	#elif defined(LANGUAGE_DE_DE)
+		#include "translations/v3_de_DE.h"
+	#else
+		#error "No language defined in base.h."
+	#endif
 #endif
+
+
 
 
 
