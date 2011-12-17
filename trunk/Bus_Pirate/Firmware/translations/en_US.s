@@ -242,7 +242,7 @@ _bpmessages:
 	.pascii	"CS:\r\n 1. CS\r\n 2. /CS *default"
 	.pascii	"Position in degrees"
 	.pascii	"Servo active"
-	.pascii	"Pin 12 \tPin 11 \tPin 10 \tPin 09\tPin 08\tPin 07\tPin 06\tPin 05\tPin 04\tPin 03\tPin 02\tPin 01"
+	.pascii	"#12    \t#11    \t#10    \t#09   \t#08   \t#07   \t#06   \t#05   \t#04   \t#03   \t#02   \t#01   "
 	.pascii	"GND\t5.0V\t3.3V\tVPU\tADC\tAUX2\tAUX1\tAUX\t"
 	.pascii	"CS\tMISO\tCLK\tMOSI"
 	.pascii	"-\t-\t-\tOWD"
