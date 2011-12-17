@@ -295,6 +295,12 @@ BPMSG1261;1;"-\t-\tSCL\tSDA"
 BPMSG1262;1;"-\t-\tPGC\tPGD"
 BPMSG1263;1;"a/A/@ controls AUX2 pin"
 BPMSG1264;1;"a/A/@ controls AUX3 pin"
+BPMSG1265;1;"EEPROM"
+BPMSG1266;0;"SCL"
+BPMSG1267;0;"SDA"
+BPMSG1268;0;"WP"
+BPMSG1269;0;"ACK"
+BPMSG1270;0;"Vusb"
 
 //uart getbaud function
 //starting at 1280 for v4 room
