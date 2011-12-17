@@ -270,7 +270,7 @@ _bpmessages:
 	.pascii	" e\tSet Pullup Method\t\t.\tDAT read"
 	.pascii	" p/P\tPullup resistors (off/ON)\t!\tBit read"
 	.pascii	" s\tScript engine\t\t\t:\tRepeat e.g. r:10"
-	.pascii	" v\tShow volts/states\t\t.\tBits to read/write e.g. 0x55.2"
+	.pascii	" v\tShow volts/states\t\t;\tBits to read/write e.g. 0x55;2"
 	.pascii	" w/W\tPSU (off/ON)\t\t<x>/<x= >/<0>\tUsermacro x/assign x/list all"
 
 #endif
