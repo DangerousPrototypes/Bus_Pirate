@@ -22,11 +22,60 @@ typedef unsigned int u16;
 typedef unsigned long u32;
 typedef unsigned char BYTE;
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////// [ BUS PIRATE SETTINGS ] ////////////////////////////////////////////////////
+/////////// NOTE:
+///////////     Configuration and Settings for building the Bus Pirate firmware. For more information and support
+///////////  On building your own firmware. Please visit the forums on DangerousPrototypes.com. Enjoy the BP :)
+///////////
+///////////                                                 Bus Pirate - Brought to you by DangerousPrototypes.com
 
-//this sets the hardware version
-//#define BUSPIRATEV1A //http://hackaday.com/2009/01/22/how-to-bus-pirate-v1-improved-universal-serial-interface/
-//#define BUSPIRATEV3 //also v2go
+///////////////////////////////////////
+// HARDWARE VERSION
+// Uncomment the hardware version you are building for
 #define BUSPIRATEV4
+//#define BUSPIRATEV3		// V3 is also V2G0
+//#define BUSPIRATEV2GO		// V2GO is also V3
+//#define BUSPIRATEV1A
+
+////////////////////////////////////////
+// FIRMWARE VERSION STRING
+// Build Firmware Version String
+// used in 'i' and startup
+#define BP_FIRMWARE_STRING "Firmware v6.0-a6 "
+#define BP_FIRMWARE_BUILD_DT __DATE__
+
+////////////////////////////////////////
+// LANGUAGE
+// Select language (US AND DE Currently Supported)
+#define LANGUAGE_EN_US
+//#define LANGUAGE_DE_DE
+//#define LANGUAGE_IT_IT //Not yet supported
+//#define LANGUAGE_ES_ES //Not yet supported
+
+
+////////////////////////////////////////
+// MODE SELECTION
+// Default Mode Selection
+// BP_MAIN is the default mode setting; varys by hardware version
+// BP_ADDONS is for special builds with special modes
+// BP_CUSTOM is for selecting your own modes below (find: BP_CUSTOM) and uncomment wanted modes
+#define BP_MAIN
+//#define BP_ADDONS
+//#define BP_CUSTOM
+
+///////////////////////
+///////////////////////////// [ END OF CONFIGURATION ]//////////////////
+////////////////////////////////////////////////////////////
+/////////////////////////////////////
+
+
+// Buspirate version 3 and v2go use the same everything; so this just
+// fixs if the user selected v2go.
+#if defined(BUSPIRATEV2GO)
+	#define BUSPIRATEV3
+#endif
+
 
 #ifdef BUSPIRATEV4
 	#define DOUBLE_BUFFER //use USB double buffer, else single buffer is used
@@ -52,24 +101,12 @@ typedef unsigned char BYTE;
 #include "baseIO.h"
 #include "baseUI.h"
 
-
-#define BP_FIRMWARE_STRING "Firmware v6.0-a6 "
-
-#define LANGUAGE_EN_US
-//#define LANGUAGE_IT_IT
-//#define LANGUAGE_ES_ES
-//#define LANGUAGE_DE_DE
-
 //include/exclude modules here
 // standard protocols
 //#define BP_USE_RAW2WIRE
 //#define BP_USE_RAW3WIRE
 
-#define BP_MAIN
-//#define BP_ADDONS
-
 #if defined(BP_MAIN)
-
 	#define BP_USE_1WIRE
 	//#ifndef BUSPIRATEV4
 	#define BP_USE_HWUART //hardware uart (now also MIDI)
@@ -79,15 +116,14 @@ typedef unsigned char BYTE;
 	#define BP_USE_HWSPI //hardware spi
 	#define BP_USE_RAW2WIRE
 	#define BP_USE_RAW3WIRE
-	#define BP_USE_LCD // include HD44780 LCD library
+	#define BP_USE_LCD // include HD44780 LCD library	
+	#define BP_USE_DIO //binary mode
 	
 	#if defined(BUSPIRATEV4)
 		#define BP_USE_PCATKB
 		#define BP_USE_PIC
 		#define BP_USE_BASIC 
 	#endif
-	
-	#define BP_USE_DIO //binary mode
 	
 #elif defined(BP_ADDONS)
 	// most used protos
@@ -102,6 +138,21 @@ typedef unsigned char BYTE;
 	#define BP_USE_LCD // include HD44780 LCD library
 	#define BP_USE_PIC
 	#define BP_USE_DIO //binary mode
+	
+#elif defined(BP_CUSTOM)
+	// most used protos
+	//#define BP_USE_1WIRE
+	#define BP_USE_HWUART //hardware uart (now also MIDI)
+	//#define BP_USE_I2C
+	//#define BP_USE_I2C_HW
+	//#define BP_USE_HWSPI //hardware spi
+	//#define BP_USE_RAW2WIRE
+	//#define BP_USE_RAW3WIRE
+	//#define BP_USE_PCATKB
+	//#define BP_USE_LCD // include HD44780 LCD library
+	//#define BP_USE_PIC
+	//#define BP_USE_DIO //binary mode
+
 #else
 #error "No Bus Pirate configuration defined."
 #endif
