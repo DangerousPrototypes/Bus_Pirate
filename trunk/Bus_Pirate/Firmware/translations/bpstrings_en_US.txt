@@ -127,7 +127,7 @@ BPMSG1110;0;"Syntax error at char "
 BPMSG1111;1;"x. exit(without change)"
 BPMSG1112;1;"no mode change"
 //1085 or 1113?
-//BPMSG1113;1"READY"
+BPMSG1113;1;"#: No software reset on v4, use the reset button."
 BPMSG1114;1;"Nonexistent protocol!"
 BPMSG1115;1;"x. exit"
 BPMSG1116;1;"\r\nInvalid choice, try again"
@@ -286,7 +286,7 @@ BPMSG1253;1;"CS:\r\n 1. CS\r\n 2. /CS *default"
 BPMSG1254;1;"Position in degrees"
 BPMSG1255;1;"Servo active"
 //BPv4
-BPMSG1256;1;"12.(RD)\t11.(BR)\t10.(BK)\t9.(WT)\t8.(GR)\t7.(PU)\t6.(BL)\t5.(GN)\t4.(YW)\t3.(OR)\t2.(RD)\t1.(BR)"
+BPMSG1256;1;"#12    \t#11    \t#10    \t#09   \t#08   \t#07   \t#06   \t#05   \t#04   \t#03   \t#02   \t#01   "
 BPMSG1257;0;"GND\t5.0V\t3.3V\tVPU\tADC\tAUX2\tAUX1\tAUX\t"
 BPMSG1258;1;"CS\tMISO\tCLK\tMOSI"
 BPMSG1259;1;"-\t-\t-\tOWD"
@@ -294,6 +294,15 @@ BPMSG1260;1;"-\tRxD\t-\tTxD"
 BPMSG1261;1;"-\t-\tSCL\tSDA"
 BPMSG1262;1;"-\t-\tPGC\tPGD"
 
+
+//uart getbaud function
+//starting at 1280 for v4 room
+BPMSG1280;1;"Waiting activity on MISO (Any key to exit)."
+BPMSG1281;1;"** Early Exit!"
+BPMSG1282;1;"*Warning* Baud>16m: The BP is not fast enough to measure bauds above 16000000, Done."
+BPMSG1283;0;"\n\rActual Calculated Baud Rate: \t"
+BPMSG1284;0;"\n\rNearest Common Baud Rate: \t"
+BPMSG1285;1;" bps"
 
 
 //help

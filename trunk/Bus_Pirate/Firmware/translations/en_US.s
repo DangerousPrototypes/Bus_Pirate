@@ -1,4 +1,6 @@
 #ifdef LANGUAGE_EN_US
+
+
 .global _bpmessages
 _bpmessages:
 	.pascii	"WRITE BIT: "
@@ -106,6 +108,7 @@ _bpmessages:
 	.pascii	"Syntax error at char "
 	.pascii	"x. exit(without change)"
 	.pascii	"no mode change"
+	.pascii	"#: No software reset on v4, use the reset button."
 	.pascii	"Nonexistent protocol!"
 	.pascii	"x. exit"
 	.pascii	"\r\nInvalid choice, try again"
@@ -249,6 +252,12 @@ _bpmessages:
 	.pascii	"-\tRxD\t-\tTxD"
 	.pascii	"-\t-\tSCL\tSDA"
 	.pascii	"-\t-\tPGC\tPGD"
+	.pascii	"Waiting activity on MISO (Any key to exit)."
+	.pascii	"** Early Exit!"
+	.pascii	"*Warning* Baud>16m: The BP is not fast enough to measure bauds above 16000000, Done."
+	.pascii	"\n\rActual Calculated Baud Rate: \t"
+	.pascii	"\n\rNearest Common Baud Rate: \t"
+	.pascii	" bps"
 	.pascii	" General\t\t\t\t\tProtocol interaction"
 	.pascii	" ---------------------------------------------------------------------------"
 	.pascii	" ?\tThis help\t\t\t(0)\tList current macros"
@@ -272,5 +281,6 @@ _bpmessages:
 	.pascii	" s\tScript engine\t\t\t:\tRepeat e.g. r:10"
 	.pascii	" v\tShow volts/states\t\t;\tBits to read/write e.g. 0x55;2"
 	.pascii	" w/W\tPSU (off/ON)\t\t<x>/<x= >/<0>\tUsermacro x/assign x/list all"
+
 
 #endif
