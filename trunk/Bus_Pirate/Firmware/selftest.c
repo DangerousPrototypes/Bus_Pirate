@@ -83,14 +83,14 @@ unsigned char selfTest(unsigned char showProgress, unsigned char jumperTest){
 	bpTest(BP_VREGEN,1);
 
 #if defined (BUSPIRATEV4)
-	bpWline("EEPROM");
-	bpWstring("SCL");
+	BPMSG1265; //bpWline("EEPROM");
+	BPMSG1266; //bpWstring("SCL");
 	bpTest(BP_EE_SCL, 1);
-	bpWstring("SDA");
+	BPMSG1267; //bpWstring("SDA");
 	bpTest(BP_EE_SDA, 1);
-	bpWstring("WP");
+	BPMSG1268; //bpWstring("WP");
 	bpTest(BP_EE_WP, 1);
-	bpWstring("ACK");
+	BPMSG1269; //bpWstring("ACK");
     bpTest(eetest(), 0);
 #endif
 
@@ -100,7 +100,7 @@ unsigned char selfTest(unsigned char showProgress, unsigned char jumperTest){
 	ADCON(); // turn ADC ON
 
 #if defined (BUSPIRATEV4)
-	bpWstring("Vusb");
+	BPMSG1270; //bpWstring("Vusb");
 	bpADCPinTest(BP_ADC_USB,V5L, V5H);
 
 	//bpPOSTWstring("5V");
@@ -109,7 +109,10 @@ unsigned char selfTest(unsigned char showProgress, unsigned char jumperTest){
 
 	//enable 5v0 pullup and test
 	BP_5VPU_ON();
-	bpWstring("5V0 VPU");
+	BPMSG1171; //bpWstring("5V0 VPU");
+	bpWstring(" ");
+	BPMSG1172; //VPU 
+	
 	bpDelayMS(2);
 	bpADCPinTest(BP_ADC_VPU,V5L, V5H);
 	BP_5VPU_OFF();
@@ -128,7 +131,10 @@ unsigned char selfTest(unsigned char showProgress, unsigned char jumperTest){
 
 	//enable 3v3 pullup and test
 	BP_3V3PU_ON();
-	bpWstring("3V3 VPU");
+	BPMSG1173; //bpWstring("3V3 VPU");
+	bpWstring(" ");
+	BPMSG1172; //VPU 
+	
 	bpDelayMS(2);
 	bpADCPinTest(BP_ADC_VPU,V33L, V33H);
 	BP_3V3PU_OFF();
