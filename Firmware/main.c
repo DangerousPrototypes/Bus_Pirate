@@ -13,6 +13,19 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+ 
+ 
+    ///////////////////////////////////////////
+   /////////////[ NOTE ]//////////////////////////////////////
+  ///    The settings and configuration are on [base.h] please open that file if you are new to
+ /// compiling the Bus Pirate Firmware.
+ ///
+ ///                                                                      DangerousPrototypes.com
+ ////                                                                 For support and information
+ /////                                                        visit the DangerousPrototypes Forum
+ ///////////
+ 
+ 
 #include "globals.h"
 #include "busPirateCore.h"
 #include "procMenu.h"
