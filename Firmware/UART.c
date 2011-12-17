@@ -412,7 +412,8 @@ unsigned long UARTgetbaud(int DataOnly)
 	BP_MISO_DIR=1;
 
 	if(DataOnly==0) {
-		bpWline("Awaiting Activity...\n\r(Notice: Any key to exit at this point only...)\n\r");
+		//bpWline("Awaiting Activity...\n\r(Notice: Any key to exit at this point only...)\n\r");
+		BPMSG1280; // -BXRADDED-
 	}
 	
 	
@@ -423,7 +424,8 @@ unsigned long UARTgetbaud(int DataOnly)
 	if (U1STAbits.URXDA==1) {					// Emergency Exit.
 		i=U1RXREG;								// Get rid of the char from queue
 		UARTgetbaud_clrTimer();
-		bpWline("\n\r** Early Exit...\n\r");
+		//bpWline("\n\r** Early Exit...\n\r");
+		BPMSG1281; //-BXRADDED-
 		return 0;
 	}
 	
@@ -470,21 +472,23 @@ unsigned long UARTgetbaud(int DataOnly)
 		
 		if((CalculatedBaud)>150000)
 		{
-			bpWline("\n\rNOTICE! ( Baud >= 256000 )\n\rThe sampled bus has a baud rate to fast for the BP hardware to");
-			bpWline("calculate appropriatly. No estimated baud rate will be supplied. In order");
-			bpWline("to get the baud rate, on this bus, you will need to use a logic analyzer");
-			bpWline("at speeds around 50Mhz+. Open Bench Logic Sniffer reccommended. ;)");
+			//bpWline("\n\rNOTICE! ( Baud >= 256000 )\n\rThe sampled bus has a baud rate to fast for the BP hardware to");
+			//bpWline("calculate appropriatly. No estimated baud rate will be supplied. In order");
+			//bpWline("to get the baud rate, on this bus, you will need to use a logic analyzer");
+			//bpWline("at speeds around 50Mhz+. Open Bench Logic Sniffer reccommended. ;)");
+			BPMSG1282; //-BXRADDED-
 
 		} else {
-			bpWstring("\n\rActual Calculated Baud Rate: \t");
+			BPMSG1283; //bpWstring("\n\rActual Calculated Baud Rate: \t");
 			bpWlongdec(CalculatedBaud);
-			bpWstring(" bps (Estimated)");
-			bpWstring("\n\rNearest Common Baud Rate: \t");
+			BPMSG1285; //bpWstring(" bps (Estimated)");
+			
+			BPMSG1284; //bpWstring("\n\rNearest Common Baud Rate: \t");
 			bpWlongdec(UARTgetbaud_EstimatedBaud(CalculatedBaud));
-			bpWstring(" bps");
+			BPMSG1285; //bpWstring(" bps");
 		}
 	
-		bpWline("\n\r\n\rEnd of Function. Good bye.");
+		//bpWline("\n\r\n\rEnd of Function. Good bye.");
 	}
 	return CalculatedBaud;
 }
