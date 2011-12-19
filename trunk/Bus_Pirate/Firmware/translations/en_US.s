@@ -64,7 +64,7 @@ _bpmessages:
 	.pascii	"WARNING: HARDWARE I2C is broken on this PIC! (REV A3)"
 	.pascii	"Set speed:\r\n 1. 100KHz\r\n 2. 400KHz\r\n 3. 1MHz"
 	.pascii	"I2C (mod spd)=( "
-	.pascii	" 0.Macro menu\r\n 1.7bit address search\r\n 2.I2C sniffer"
+	.pascii	" 0.Macro menu\r\n 1.7bit address search\r\n 2.I2C sniffer\r\n 3.Connect to on-board EEPROM\r\n 4.Enable Writing the on-board EEPROM"
 	.pascii	"Searching I2C address space. Found devices at:"
 	.pascii	"Sniffer"
 	.pascii	"Commandmode?\r\n1. 6b/14b\r\n2. 4b/16b"
