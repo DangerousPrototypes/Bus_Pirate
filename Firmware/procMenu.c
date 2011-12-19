@@ -468,26 +468,16 @@ end:			case 0x05: // ^E (goto end of line)
         while (!stop) {
             c = cmdbuf[cmdstart];
             switch (c) { // generic commands (not bus specific)
-                    /*				case 'h':	//bpWline("-command history");
-                                                                            if(!cmdhistory())
-                                                                            {	oldstart=cmdstart;
-                                                                                    newstart=cmdend;
-                                                                            }
-							
-                    //							for(i=0; i<CMDBUFLEN; i++)						// print ringbuffer
-                    //							{	if(cmdbuf[i]) UART1TX(cmdbuf[i]);
-                    //									else UART1TX('.');
-                    //							}
-					
-                    //							bpWline("");
-                    //							bpWstring("cmdstart = ");
-                    //							bpWinthex(cmdstart);
-                    //							bpWstring(" cmdend = ");
-                    //							bpWinthex(cmdend);
-                    //							bpWline("");
-
-                                                                            break;
-                     */
+                case 'h':	//bpWline("-command history");
+#if defined(BP_ENABLE_HISTORY)
+                    if(!cmdhistory())
+					{	
+						oldstart=cmdstart;
+                    	newstart=cmdend;
+                    }
+#endif
+                	break;
+                     
                 case '?': //bpWline("-HELP");
                     printHelp();
                     break;
@@ -1187,14 +1177,13 @@ void changemode(void) {
     cmdstart = (cmdend - 1) & CMDLENMSK;
 } //changemode(void)
 
-/*
+
+#if defined(BP_ENABLE_HISTORY)
 int cmdhistory(void)
-{	int i,j,k;
+{	
+	int i,j,k;
 
         int historypos[CMDHISTORY];
-
-
-//	bpWline("--cmdhistory()");
 
         i=1;
         j = ( cmdstart - 1 ) & CMDLENMSK;
@@ -1209,25 +1198,17 @@ int cmdhistory(void)
                                 k++;
                         }
                         historypos[i]=(j+1)&CMDLENMSK;
-//			bpWstring(" @");
-//			bpWinthex((j+1)&CMDLENMSK);
                         i++;
                         if(i==CMDHISTORY) break;
                         bpWline("");
                 }
-//		bpWinthex(j);
-//		bpWline("");
                 j = ( j - 1 ) & CMDLENMSK;
         }
-        //bpWline("x. exit");
+
+        bpWline(" ");
         BPMSG1115;
 
         j=getnumber(0, 1, i, 1);
-//	if((j==0)||(j>(i+1)))
-//	{	bpWline("invalid response!");
-//		return 1;
-//	}
-
 
         if (j==-1 || !j) // x is -1, default is 0
         {
@@ -1247,9 +1228,9 @@ int cmdhistory(void)
         }
         return 0;
 } //cmdhistory(void)
+#endif
 
 
- */
 // gets number from input
 // -1 = abort (x)
 // -2 = input to much
