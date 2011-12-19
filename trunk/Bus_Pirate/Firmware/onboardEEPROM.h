@@ -24,6 +24,11 @@
 #define BP_EEPROM_MIN 1
 #define BP_EEPROM_MAX 8192
 
+// couple defines to enable and disable WP
+#define eeEnableWrite() BP_EE_WP=0
+#define eeDisableWrite() BP_EE_WP=1
+#define eeGetWP() BP_EE_WP
+
 void eei2cSetup(void);
 unsigned char eeread(void);
 void eewrite(unsigned char c);
