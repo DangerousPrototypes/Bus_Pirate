@@ -20,6 +20,10 @@
 #define BP_EEPROM_ID_W 0xA0
 #define BP_EEPROM_ID_R 0xA1
 
+// Eeprom Max and Min values
+#define BP_EEPROM_MIN 1
+#define BP_EEPROM_MAX 8192
+
 void eei2cSetup(void);
 unsigned char eeread(void);
 void eewrite(unsigned char c);
