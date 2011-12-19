@@ -257,7 +257,7 @@ _bpmessages:
 	.pascii	"SCL"
 	.pascii	"SDA"
 	.pascii	"WP"
-	.pascii	"ACK"
+	.pascii	"READ&WRITE"
 	.pascii	"Vusb"
 	.pascii	"Waiting activity on MISO (Any key to exit)."
 	.pascii	"** Early Exit!"
