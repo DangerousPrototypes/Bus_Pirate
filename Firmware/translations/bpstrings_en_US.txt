@@ -78,7 +78,7 @@ BPMSG1065;1;"Set speed:\r\n 1. ~5KHz\r\n 2. ~50KHz\r\n 3. ~100KHz\r\n 4. ~400KHz
 BPMSG1066;0;"WARNING: HARDWARE I2C is broken on this PIC! (REV A3)"
 BPMSG1067;0;"Set speed:\r\n 1. 100KHz\r\n 2. 400KHz\r\n 3. 1MHz"
 BPMSG1068;0;"I2C (mod spd)=( "
-BPMSG1069;0;" 0.Macro menu\r\n 1.7bit address search\r\n 2.I2C sniffer"
+BPMSG1069;0;" 0.Macro menu\r\n 1.7bit address search\r\n 2.I2C sniffer\r\n 3.Connect to on-board EEPROM\r\n 4.Enable Writing the on-board EEPROM"
 BPMSG1070;1;"Searching I2C address space. Found devices at:"
 BPMSG1071;1;"Sniffer"
 //m_1wire213.c
