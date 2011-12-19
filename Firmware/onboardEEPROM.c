@@ -15,16 +15,28 @@
  */
 
 #include "base.h"
-//#include "onboardEEPROM.h"
+#include "onboardEEPROM.h"
 
 unsigned char eetest(void){
-	unsigned char c;
+	unsigned char c,l;
 	eei2cSetup();
-	eestart();
-	eewrite(0xA0);//send address
-	c=eegetack();
-	eestop();
-	I2C1CONbits.I2CEN = 0;//disable I2C module
+	l=eeGetWP();
+	
+	eeEnableWrite();
+
+	eeWriteByte(0xFF,0);
+	bpDelayMS(10);
+	
+	eeWriteByte(0x10,0);
+	bpDelayMS(10);
+	if (eeReadByte(0)==0x10)
+		c= 0;					//in selftest 0 = good.
+	else
+		c= 1;
+		
+	eeWriteByte(0xFF,0);
+	
+	BP_EE_WP = l;				//store last WP setting and post it.
 	return c;
 }
 
