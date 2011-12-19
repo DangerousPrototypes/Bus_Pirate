@@ -310,7 +310,7 @@ HLP1000;1;" General\t\t\t\t\tProtocol interaction"
 HLP1001;1;" ---------------------------------------------------------------------------"
 HLP1002;1;" ?\tThis help\t\t\t(0)\tList current macros"
 HLP1003;1;" =X/|X\tConverts X/reverse X\t\t(x)\tMacro x"
-HLP1004;1;" ~\tSelftest\t\t\t[\tStart"     .
+HLP1004;1;" ~\tSelftest\t\t\t[\tStart"
 HLP1005;1;" #\tReset the BP   \t\t\t]\tStop"
 HLP1006;1;" $\tJump to bootloader\t\t{\tStart with read"
 HLP1007;1;" &/%\tDelay 1 us/ms\t\t\t}\tStop"

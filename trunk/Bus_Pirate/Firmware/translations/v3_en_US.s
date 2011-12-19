@@ -234,7 +234,7 @@ _bpmessages:
 	.pascii	" ---------------------------------------------------------------------------"
 	.pascii	" ?\tThis help\t\t\t(0)\tList current macros"
 	.pascii	" =X/|X\tConverts X/reverse X\t\t(x)\tMacro x"
-	.pascii	" ~\tSelftest\t\t\t[\tStart"     .
+	.pascii	" ~\tSelftest\t\t\t[\tStart"
 	.pascii	" #\tReset the BP   \t\t\t]\tStop"
 	.pascii	" $\tJump to bootloader\t\t{\tStart with read"
 	.pascii	" &/%\tDelay 1 us/ms\t\t\t}\tStop"
@@ -253,5 +253,6 @@ _bpmessages:
 	.pascii	" s\tScript engine\t\t\t:\tRepeat e.g. r:10"
 	.pascii	" v\tShow volts/states\t\t;\tBits to read/write e.g. 0x55;2"
 	.pascii	" w/W\tPSU (off/ON)\t\t<x>/<x= >/<0>\tUsermacro x/assign x/list all"
+
 
 #endif
