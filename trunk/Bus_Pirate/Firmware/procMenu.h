@@ -38,6 +38,8 @@ int getrepeat(void);
 int getnumbits(void);
 void consumewhitechars(void);
 void changemode(void);
+#if defined(BP_ENABLE_HISTORY)
 int cmdhistory(void);
+#endif
 int getnumber(int def, int min, int max, int x);	
 

@@ -64,6 +64,12 @@ typedef unsigned char BYTE;
 //#define BP_ADDONS
 //#define BP_CUSTOM
 
+
+////////////////////////////////////////
+// OTHER CONFIGS
+// BP_ENABLE_HISTORY = Enable the 'h' command for whatever reason it was disabled this enables it. can be disabled again.
+#define BP_ENABLE_HISTORY
+
 ///////////////////////
 ///////////////////////////// [ END OF CONFIGURATION ]//////////////////
 ////////////////////////////////////////////////////////////
