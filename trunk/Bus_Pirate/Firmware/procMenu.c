@@ -642,7 +642,10 @@ end:			case 0x05: // ^E (goto end of line)
                     //{	//bpWline(OUMSG_PM_RESET);
 #if defined(BUSPIRATEV4)
 					//bpWline("* No Software Reset on v4, Use the reset button."); //TRANSLATE-NEEDED
-					BPMSG1113;
+					//BPMSG1113;
+					bpWstring("RESET\r\n");
+					versionInfo();
+					bpWstring("\r\nHiZ>");
 #else
                     BPMSG1093;
                     while (UART1TXRdy == 0); //wait untill TX finishes
