@@ -158,11 +158,19 @@ void LCDsetup(void)
         }
 */
 
-        // Inputs 
-        RPINR20bits.SDI1R=7;            //B7 MISO
-        // Outputs
-        RPOR4bits.RP9R=SDO1_IO;         //B9 MOSI
-        RPOR4bits.RP8R=SCK1OUT_IO;      //B8 CLK
+		#if defined(BUSPIRATEV3)
+		    // Inputs
+		    RPINR20bits.SDI1R = 7; //B7 MISO
+		    // Outputs
+		    RPOR4bits.RP9R = SDO1_IO; //B9 MOSI
+		    RPOR4bits.RP8R = SCK1OUT_IO; //B8 CLK
+		#elif defined(BUSPIRATEV4)
+		    // Inputs
+		    RPINR20bits.SDI1R = 22; //B7 MISO
+		    // Outputs
+		    RPOR12bits.RP24R = SDO1_IO; //B9 MOSI
+		    RPOR11bits.RP23R = SCK1OUT_IO; //B8 CLK
+		#endif
 
         SPICS=0;                                //B6 cs low
         SPICS_TRIS=0;                   //B6 cs output
@@ -179,9 +187,9 @@ void LCDsetup(void)
         //SPI1CON1bits.CKP=0;
         //SPI1CON1bits.CKE=1;           
         //SPI1CON1bits.SMP=0;
-    SPI1CON2 = 0;
-    SPI1STAT = 0;    // clear SPI
-    SPI1STATbits.SPIEN = 1;
+	    SPI1CON2 = 0;
+	    SPI1STAT = 0;    // clear SPI
+	    SPI1STATbits.SPIEN = 1;
 
         //bpWmessage(MSG_ADAPTER);
         BPMSG1216;
@@ -367,9 +375,14 @@ unsigned char spiWriteByte(unsigned char c){
 
 void spiDisable(void){
         SPI1STATbits.SPIEN = 0;
-        RPINR20bits.SDI1R=0b11111;  //B7 MISO
-        RPOR4bits.RP9R=0;                       //B9 MOSI
-        RPOR4bits.RP8R=0;                       //B8 CLK
+	   	RPINR20bits.SDI1R=0b11111;  //B7 MISO
+		#if defined(BUSPIRATEV3)
+	        RPOR4bits.RP9R=0;                       //B9 MOSI
+	        RPOR4bits.RP8R=0;                       //B8 CLK
+		#elif defined(BUSPIRATEV4)
+	        RPOR12bits.RP24R=0;                       //B9 MOSI
+	        RPOR11bits.RP23R=0;                       //B8 CLK
+		#endif
         //disable all open drain control register bits
         SPIMOSI_ODC=0;
         SPICLK_ODC=0; 

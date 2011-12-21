@@ -17,8 +17,13 @@
 //#include "uart2io.h"
 
 //define the open drain control register for the TX pin
-#define UARTRX_PIN 7
-#define UARTTX_PIN RPOR4bits.RP9R
+#if defined (BUSPIRATEV3)
+	#define UARTRX_PIN 7
+	#define UARTTX_PIN RPOR4bits.RP9R
+#elif defined (BUSPIRATEV4)
+	#define UARTRX_PIN 22
+	#define UARTTX_PIN RPOR12bits.RP24R
+#endif
 #define UARTTX_ODC BP_MOSI_ODC
 
 void UART2Setup(unsigned int brg, unsigned char ODCoutput, unsigned char rxp, unsigned char dbp, unsigned char sb ){
@@ -55,7 +60,12 @@ void UART2Disable(void){
     U2MODEbits.UARTEN = 0;
     U2STAbits.UTXEN = 0;
 	RPINR19bits.U2RXR=0b11111;	//B7 U2RX
-	RPOR3bits.RP6R=0; 			//B6 U2TX
+	#if defined(BUSPIRATEV3)
+		RPOR3bits.RP6R=0; 			//B6 U2TX
+	#elif defined(BUSPIRATEV4)
+        RPOR12bits.RP24R=0;      
+	#endif
+
 	UARTTX_ODC=0;
 }
 
