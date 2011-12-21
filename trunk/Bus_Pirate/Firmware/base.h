@@ -32,11 +32,14 @@ typedef unsigned char BYTE;
 
 ///////////////////////////////////////
 // HARDWARE VERSION
-// Uncomment the hardware version you are building for
-#define BUSPIRATEV4
-//#define BUSPIRATEV3		// V3 is also V2G0
-//#define BUSPIRATEV2GO		// V2GO is also V3
-//#define BUSPIRATEV1A
+#if defined(__PIC24FJ256GB106__)  //v4 chip
+	#define BUSPIRATEV4
+#elif defined(__PIC24FJ64GA002__)//v3/v2go/v1a chip
+	// Uncomment the hardware version you are building for
+	#define BUSPIRATEV3		// V3 is also V2G0
+	//#define BUSPIRATEV2GO		// V2GO is also V3
+	//#define BUSPIRATEV1A //probably no longer supported...
+#endif
 
 ////////////////////////////////////////
 // FIRMWARE VERSION STRING
