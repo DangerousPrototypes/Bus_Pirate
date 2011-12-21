@@ -24,6 +24,8 @@
 //#define USE_SPICS //the CS hardware pin on silicone REV 3 doesn't work, optionally enable it here
 
 #ifdef BP_USE_HWSPI
+// enable special AVR-specific commands for bulk flash reading and other purposes
+#define AVR_EXTENDED_COMMANDS
 
 //direction registers
 #define SPIMOSI_TRIS 	BP_MOSI_DIR	
@@ -556,6 +558,10 @@ rawSPI mode:
  * 0100wxyz � Configure peripherals, w=power, x=pullups, y=AUX, z=CS
  * 01100xxx � Set SPI speed, 30, 125, 250khz; 1, 2, 2.6, 4, 8MHz
  * 1000wxyz � SPI config, w=output type, x=idle, y=clock edge, z=sample
+ * 00000110 - AVR Extended Commands
+ * 00000000 - Null operation - verifies extended commands are available.
+ * 00000001 - Return version (2 bytes)
+ * 00000010 - Bulk Memory Read from Flash
 	
  */
 static unsigned char binSPIspeed[] = {0b00000, 0b11000, 0b11100, 0b11101, 0b00011, 0b01000, 0b10000, 0b11000}; //00=30,01=125,10=250,11=1000khz, 100=2mhz,101=2.667mhz,  110=4mhz, 111=8mhz; datasheet pg 142
@@ -567,6 +573,9 @@ void binSPIversionString(void) {
 void binSPI(void) {
     static unsigned char inByte, rawCommand, i;
     unsigned int j, fw, fr;
+#ifdef AVR_EXTENDED_COMMANDS
+	unsigned long saddr, length;
+#endif
 
     //useful default values
     /* CKE=1, CKP=0, SMP=0 */
@@ -659,6 +668,71 @@ void binSPI(void) {
                         }
 
                         break;
+#ifdef AVR_EXTENDED_COMMANDS
+					case 6:	// AVR Extended Commands
+						UART1TX(1); // send 1/OK (ie, AVR Extended Commands accepted)
+
+						while(U1STAbits.URXDA == 0);//wait for a byte
+						inByte=U1RXREG; //grab it
+
+						switch (inByte) {
+							case 0x00: // null operation, return OK
+								UART1TX(1);	// send 1/OK
+								break;
+							case 0x01: // version check
+								UART1TX(1); // send 1/OK
+								UART1TX(0x00);
+								UART1TX(0x01); // version 1
+								break;
+							case 0x02: // bulk memory read from flash
+								// read in the start address (4 bytes, MSB first)
+								saddr = 0;
+								for (j=0; j < 4; j++) {
+									while(U1STAbits.URXDA == 0);//wait for a byte
+									inByte=U1RXREG; //grab it
+									saddr = (saddr << 8) | inByte;
+								}
+
+								// read in the bytes to read (4 bytes, MSB first) [inclusive]
+								length = 0;
+								for (j=0; j < 4; j++) {
+									while(U1STAbits.URXDA == 0);//wait for a byte
+									inByte=U1RXREG; //grab it
+									length = (length << 8) | inByte;
+								}
+
+								// FIXME - Can't handle pages past the first 64kb
+								if (saddr > 0xFFFF || length > 0xFFFF || (saddr+length) > 0xFFFF) {
+									UART1TX(0);
+								} else {
+									// just assume it'll work...
+									UART1TX(0x01); // send 1/OK
+
+									for (j=saddr; length > 0; j++) {
+										// fetch low byte from this memory word
+										spiWriteByte(0x20);
+										spiWriteByte(j >> 8);
+										spiWriteByte(j & 0xFF);
+										UART1TX(spiWriteByte(0x00));  // fetch byte that was read
+										length--;
+
+										if (length == 0) break;
+			
+										// fetch high byte from this memory word
+										spiWriteByte(0x28);
+										spiWriteByte(j >> 8);
+										spiWriteByte(j & 0xFF);
+										UART1TX(spiWriteByte(0x00));  // fetch byte that was read
+										length--;
+									}
+								}																
+								break;					
+							default:
+								UART1TX(0);
+								break;
+						}
+#endif
+						break;
                     default:
                         UART1TX(0);
                         break;
