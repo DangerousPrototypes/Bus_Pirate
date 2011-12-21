@@ -330,12 +330,20 @@ void spiSetup(unsigned char spiSpeed) {
         SPICS_ODC = 0;
     }
 
+#if defined(BUSPIRATEV3)
     // Inputs
     RPINR20bits.SDI1R = 7; //B7 MISO
     // Outputs
     RPOR4bits.RP9R = SDO1_IO; //B9 MOSI
     RPOR4bits.RP8R = SCK1OUT_IO; //B8 CLK
+#elif defined(BUSPIRATEV4)
+    // Inputs
+    RPINR20bits.SDI1R = 22; //B7 MISO
+    // Outputs
+    RPOR12bits.RP24R = SDO1_IO; //B9 MOSI
+    RPOR11bits.RP23R = SCK1OUT_IO; //B8 CLK
 
+#endif
     SPICS = 1; //B6 cs high
     SPICS_TRIS = 0; //B6 cs output
 
