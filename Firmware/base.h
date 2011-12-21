@@ -71,7 +71,9 @@ typedef unsigned char BYTE;
 ////////////////////////////////////////
 // OTHER CONFIGS
 // BP_ENABLE_HISTORY = Enable the 'h' command for whatever reason it was disabled this enables it. can be disabled again.
+#if defined(BUSPIRATEV4)
 #define BP_ENABLE_HISTORY
+#endif
 
 ///////////////////////
 ///////////////////////////// [ END OF CONFIGURATION ]//////////////////
