@@ -382,7 +382,10 @@ end:			case 0x05: // ^E (goto end of line)
                     binmodecnt++;
                     if (binmodecnt == 20) {
                         binBB();
-                        binmodecnt = 0; // do we get here or not?
+#if defined (BUSPIRATEV4)
+                        binmodecnt = 0; //no reset, cleanup manually 
+						versionInfo(); //and simulate reset for dependent apps (looking at you AVR dude!)
+#endif
                     }
                     break;
                 default:
@@ -645,7 +648,7 @@ end:			case 0x05: // ^E (goto end of line)
 					//BPMSG1113;
 					bpWstring("RESET\r\n");
 					versionInfo();
-					bpWstring("\r\nHiZ>");
+					//bpWstring("\r\nHiZ>"); //was printed twice
 #else
                     BPMSG1093;
                     while (UART1TXRdy == 0); //wait untill TX finishes

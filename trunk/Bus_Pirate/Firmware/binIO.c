@@ -139,7 +139,13 @@ void binBB(void) {
                 UART1TX(1);
                 BP_LEDMODE = 0; //light MODE LED
                 WAITTXEmpty(); //wait untill TX finishes
+#ifndef BUSPIRATEV4
                 asm("RESET");
+#endif
+#ifdef BUSPIRATEV4 //cannot use ASM reset on BPv4
+                binReset();
+				return;
+#endif
                 //self test is only for v2go and v3
 #ifndef BUSPIRATEV1A 
             } else if (inByte == 0b10000) {//short self test
@@ -222,7 +228,7 @@ void binBB(void) {
 }//function
 
 unsigned char getRXbyte(void) {
-    while (UART1RXRdy == 0); //wait for a byte
+    while (UART1RXRdy() == 0); //wait for a byte
     return UART1RX(); ///* JTR usb port; */ //grab it
 }
 
