@@ -384,7 +384,7 @@ end:			case 0x05: // ^E (goto end of line)
                         binBB();
 #if defined (BUSPIRATEV4)
                         binmodecnt = 0; //no reset, cleanup manually 
-						versionInfo(); //and simulate reset for dependent apps (looking at you AVR dude!)
+						goto bpv4reset; //versionInfo(); //and simulate reset for dependent apps (looking at you AVR dude!)
 #endif
                     }
                     break;
@@ -647,7 +647,7 @@ end:			case 0x05: // ^E (goto end of line)
 					//bpWline("* No Software Reset on v4, Use the reset button."); //TRANSLATE-NEEDED
 					//BPMSG1113;
 					bpWstring("RESET\r\n");
-					versionInfo();
+bpv4reset:			versionInfo();
 					//bpWstring("\r\nHiZ>"); //was printed twice
 #else
                     BPMSG1093;
