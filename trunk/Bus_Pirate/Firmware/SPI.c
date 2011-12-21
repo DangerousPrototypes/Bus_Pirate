@@ -342,8 +342,8 @@ void spiSetup(unsigned char spiSpeed) {
     // Outputs
     RPOR12bits.RP24R = SDO1_IO; //B9 MOSI
     RPOR11bits.RP23R = SCK1OUT_IO; //B8 CLK
-
 #endif
+
     SPICS = 1; //B6 cs high
     SPICS_TRIS = 0; //B6 cs output
 
@@ -366,8 +366,13 @@ void spiSetup(unsigned char spiSpeed) {
 void spiDisable(void) {
     SPI1STATbits.SPIEN = 0;
     RPINR20bits.SDI1R = 0b11111; //B7 MISO
-    RPOR4bits.RP9R = 0; //B9 MOSI
-    RPOR4bits.RP8R = 0; //B8 CLK
+	#if defined(BUSPIRATEV3)
+        RPOR4bits.RP9R=0;                       //B9 MOSI
+        RPOR4bits.RP8R=0;                       //B8 CLK
+	#elif defined(BUSPIRATEV4)
+        RPOR12bits.RP24R=0;                       //B9 MOSI
+        RPOR11bits.RP23R=0;                       //B8 CLK
+	#endif
     //disable all open drain control register bits
     SPIMOSI_ODC = 0;
     SPICLK_ODC = 0;
