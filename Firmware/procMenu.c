@@ -1739,25 +1739,38 @@ void setPullupVoltage(void) {
     {
         cmderror = 0;
 
-        bpWline("Select Vpu source");
-        bpWline(" 1) None or external");
-        bpWline(" 2) Onboard 3V3 Vreg");
-        bpWline(" 3) Onboard 5V Vreg");
+        //bpWline("Select Vpu source");
+        //bpWline(" 1) None or external");
+        //bpWline(" 2) Onboard 3V3 Vreg");
+        //bpWline(" 3) Onboard 5V Vreg");
+        BPMSG1271;
 
         temp = getnumber(1, 1, 3, 0);
     }
     switch (temp) {
         case 1: BP_3V3PU_OFF();
-            bpWline("on-board pullup voltage disabled");
+        	
+        	BPMSG1272; //;0;" on-board pullup voltage "
+        	BPMSG1274; //1;"disabled"
+        	
+            //bpWline("on-board pullup voltage disabled");
             break;
         case 2: BP_3V3PU_ON();
-            bpWline("3V3 on-board pullup voltage enabled");
+        	BPMSG1173; //3.3v
+        	BPMSG1272; //;0;" on-board pullup voltage "
+        	BPMSG1273; //1;"enabled"
+            //bpWline("3V3 on-board pullup voltage enabled");
             break;
         case 3: BP_5VPU_ON();
-            bpWline("5V on-board pullup voltage enabled");
+        	BPMSG1171; //5v
+        	BPMSG1272; //;0;" on-board pullup voltage "
+        	BPMSG1273; //1;"enabled"
+           //bpWline("5V on-board pullup voltage enabled");
             break;
         default:BP_3V3PU_OFF();
-            bpWline("on-board pullup voltage disabled");
+        	BPMSG1272; //;0;" on-board pullup voltage "
+        	BPMSG1274; //1;"disabled"
+            //bpWline("on-board pullup voltage disabled");
     }
 }
 
