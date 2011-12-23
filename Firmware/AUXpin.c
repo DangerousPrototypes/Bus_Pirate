@@ -16,8 +16,13 @@
 #include "base.h"
 #include "procMenu.h"
 
+						//TRISDbits.TRISD5
 #define AUXPIN_DIR      BP_AUX_DIR
-#define AUXPIN_RPIN     BP_AUX_RPIN
+
+						// 20
+#define AUXPIN_RPIN     BP_AUX_RPIN 
+
+						// RPOR10bits.RP20R
 #define AUXPIN_RPOUT    BP_AUX_RPOUT
 
 extern struct _modeConfig modeConfig;
@@ -81,6 +86,7 @@ void updatePWM(void)
 
         //assign pin with PPS
         AUXPIN_RPOUT = OC5_IO;
+        // Should be fine on bpv4
 
         OC5R = PWM_dutycycle;
         OC5RS = PWM_dutycycle;
@@ -181,6 +187,7 @@ void bpPWM(void){
 
         //assign pin with PPS
         AUXPIN_RPOUT = OC5_IO;
+        // should be fine on bpv4
 
         OC5R = PWM_dutycycle;
         OC5RS = PWM_dutycycle;
@@ -212,8 +219,10 @@ void bpFreq(void){
         T2CON=0;        
 
         //timer 2 external
-        AUXPIN_DIR=1;//aux input
+        AUXPIN_DIR=1;//aux input 
+        
         RPINR3bits.T2CKR=AUXPIN_RPIN; //assign T2 clock input to aux input
+        // should be good on bpv4
 
         T2CON=0b111010; //(TCKPS1|TCKPS0|T32|TCS);
 
