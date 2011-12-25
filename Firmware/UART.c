@@ -46,6 +46,7 @@ struct _UART{
 	unsigned char eu:1;//echo uart
 } uartSettings;
 
+
 static unsigned int UART2speed[]={13332,3332,1666,832,416,207,103,68,34,127};//BRG:300,1200,2400,4800,9600,19200,38400,57600,115200, 31250,
 
 unsigned int UARTread(void)
@@ -97,6 +98,13 @@ void UARTsettings(void)
 
 void UARTsetup(void)
 {	int speed, dbp, sb, rxp, output, brg=0;
+	
+	#if defined(BP_BAUDDETECTION_ONSETUP)
+	//autobaud detection; multi uses
+	unsigned long abd=0;
+	//#define DetectedBaud abd
+	//#define CalculatedBRG abd
+	#endif
 
 	consumewhitechars();
 	speed=getint();
@@ -147,15 +155,30 @@ void UARTsetup(void)
 	if(speed==0)
 	{	cmderror=0;
 
-		//bpWmessage(MSG_OPT_UART_BAUD); //write text (baud rate)
+
 		BPMSG1133;
-		//BPMSG1198;
+		
+		#if defined(BP_BAUDDETECTION_ONSETUP)
+		// Buspirate v4 Autobaud detection
+		bpWline("11. Auto-Baud Detection (Needs Activity) *experimental");
+
+		modeConfig.speed=getnumber(1,1,11,0)-1; //get user reply
+		
+		if(modeConfig.speed==10)
+		{
+			modeConfig.speed=8; //Set to 115200 for now
+			abd=1;				//trigger to run baud detection
+			bpWline("Baud detection selected..");
+		}
+		
+		#else
 		modeConfig.speed=getnumber(1,1,10,0)-1; //get user reply
+		#endif
 
 		if(modeConfig.speed==9)
 		{	BPMSG1248;
 			brg=getnumber(34,1,32767,0);
-		}
+		} 
 		
 		//bpWstring("Data bits and parity:\x0D\x0A 1. 8, NONE *default \x0D\x0A 2. 8, EVEN \x0D\x0A 3. 8, ODD \x0D\x0A 4. 9, NONE \x0D\x0A");
 		//bpWline(OUMSG_UART_DATABITS_PARITY); //write text (data bit and parity)
@@ -195,6 +218,36 @@ void UARTsetup(void)
 	UART2Enable();
 
 	if(U2BRG<U1BRG) BPMSG1249;
+	
+	
+	#if defined(BP_BAUDDETECTION_ONSETUP)
+	if(abd)
+	{
+		bpWline("Awaiting activity for Auto Baud detection...\r\n*Any key to exit at this point only...");
+		abd = UARTgetbaud_EstimatedBaud(UARTgetbaud(1));
+		//abd = UARTgetbaud(0); //<-- this might could be more accurate
+		bpWline("BAUD RATE DETECTED");
+		UART2Disable();
+
+		if(abd == 0)
+		{
+			UART2Setup(UART2speed[8],modeConfig.HiZ, uartSettings.rxp, uartSettings.dbp, uartSettings.sb );
+			bpWline("** Error in getting baud detection... running at 115200 default.");
+			//return;
+		}
+		else
+		{
+			modeConfig.speed=9;
+			abd=(((32000000/abd)/8)-1);
+			brg=abd;
+			UART2Setup(brg,modeConfig.HiZ, uartSettings.rxp, uartSettings.dbp, uartSettings.sb );
+			bpWline("** Got custom baud rate.. Starting UART");
+			
+		}
+		UART2Enable();
+		if(U2BRG<U1BRG) BPMSG1249;
+	}
+	#endif
 
 }
 
@@ -398,6 +451,7 @@ unsigned long UARTgetbaud_EstimatedBaud(unsigned long _abr_)
 		return 0;
 	}
 }
+
 
 unsigned long UARTgetbaud(int DataOnly)
 {
