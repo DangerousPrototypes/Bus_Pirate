@@ -191,7 +191,7 @@ _bpmessages:
 	.pascii	"Stop bits:\r\n 1. 1 *default\r\n 2. 2"
 	.pascii	"Receive polarity:\r\n 1. Idle 1 *default\r\n 2. Idle 0"
 	.pascii	"UART (spd brg dbp sb rxp hiz)=( "
-	.pascii	" 0.Macro menu\r\n 1.Transparent bridge\r\n 2.Live monitor\r\n 3.Bridge with flow control\n\r 4.Auto Baud Detection"
+	.pascii	" 0.Macro menu\r\n 1.Transparent bridge\r\n 2.Live monitor\r\n 3.Bridge with flow control\n\r 4.Auto Baud Detection *experimental"
 	.pascii	"UART bridge"
 	.pascii	"Reset to exit"
 	.pascii	"Raw UART input"
@@ -292,6 +292,7 @@ _bpmessages:
 	.pascii	"s\tScript engine\t\t\t:\tRepeat e.g. r:10"
 	.pascii	"v\tShow volts/states\t\t;\tBits to read/write e.g. 0x55;2"
 	.pascii	"w/W\tPSU (off/ON)\t\t<x>/<x= >/<0>\tUsermacro x/assign x/list all"
+
 
 
 #endif
