@@ -223,17 +223,14 @@ void UARTsetup(void)
 	#if defined(BP_BAUDDETECTION_ONSETUP)
 	if(abd)
 	{
-		bpWline("Awaiting activity for Auto Baud detection...\r\n*Any key to exit at this point only...");
-		abd = UARTgetbaud_EstimatedBaud(UARTgetbaud(1));
-		//abd = UARTgetbaud(0); //<-- this might could be more accurate
-		bpWline("BAUD RATE DETECTED");
+		bpWline(" ");
+		abd = UARTgetbaud_EstimatedBaud(UARTgetbaud(0));
+		bpWline(" ");
 		UART2Disable();
 
 		if(abd == 0)
 		{
 			UART2Setup(UART2speed[8],modeConfig.HiZ, uartSettings.rxp, uartSettings.dbp, uartSettings.sb );
-			bpWline("** Error in getting baud detection... running at 115200 default.");
-			//return;
 		}
 		else
 		{
@@ -241,7 +238,6 @@ void UARTsetup(void)
 			abd=(((32000000/abd)/8)-1);
 			brg=abd;
 			UART2Setup(brg,modeConfig.HiZ, uartSettings.rxp, uartSettings.dbp, uartSettings.sb );
-			bpWline("** Got custom baud rate.. Starting UART");
 			
 		}
 		UART2Enable();
