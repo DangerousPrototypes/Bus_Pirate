@@ -315,9 +315,16 @@ void UARTmacro(unsigned int macro)
 			//it will fail silently
 			U2STA &= (~0b10); //clear overrun error if exists
 			while(1){//never ending loop, reset Bus Pirate to get out
+				#if defined(BUSPIRATEV4)
+				if (UART2RXRdy())
+				{
+					UART1TX(UART2RX());
+				}
+				#else
 				if((U2STAbits.URXDA==1)&& (U1STAbits.UTXBF == 0)){
 						U1TXREG = U2RXREG; //URXDA doesn't get cleared untill this happens
 				}
+				#endif
 				if (UART1RXRdy()==1){//escape
 				 	macro=UART1RX(); /* JTR usb port; */;//read it to discard the byte
 					break;//leave the loop
