@@ -45,6 +45,7 @@ typedef unsigned char BYTE;
 // FIRMWARE VERSION STRING
 // Build Firmware Version String
 // used in 'i' and startup
+//#define BP_FIRMWARE_STRING "Firmware v6.0-B3 "
 #define BP_FIRMWARE_STRING "Firmware v6.0-a6 "
 #define BP_FIRMWARE_BUILD_DT __DATE__
 
@@ -72,7 +73,10 @@ typedef unsigned char BYTE;
 // OTHER CONFIGS
 // BP_ENABLE_HISTORY = Enable the 'h' command for whatever reason it was disabled this enables it. can be disabled again.
 #if defined(BUSPIRATEV4)
+// Enables the 'h' command to show history
 #define BP_ENABLE_HISTORY
+// Enables a 'auto detect baud rate' when setting up UART mode (11 on baud rate menu selection)
+#define BP_BAUDDETECTION_ONSETUP
 #endif
 
 ///////////////////////
