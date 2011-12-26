@@ -32,26 +32,25 @@ typedef unsigned char BYTE;
 
 ///////////////////////////////////////
 // HARDWARE VERSION
-#if defined(__PIC24FJ256GB106__)  //v4 chip
+#if defined(__PIC24FJ256GB106__)  	//v4 chip
 	#define BUSPIRATEV4
-#elif defined(__PIC24FJ64GA002__)//v3/v2go/v1a chip
+#elif defined(__PIC24FJ64GA002__)	//v3/v2go/v1a chip
 	// Uncomment the hardware version you are building for
-	#define BUSPIRATEV3		// V3 is also V2G0
-	//#define BUSPIRATEV2GO		// V2GO is also V3
-	//#define BUSPIRATEV1A //probably no longer supported...
+	#define BUSPIRATEV3				// V3 is also V2G0
+	//#define BUSPIRATEV1A 			//probably no longer supported...
 #endif
 
 ////////////////////////////////////////
 // FIRMWARE VERSION STRING
 // Build Firmware Version String
 // used in 'i' and startup
-//#define BP_FIRMWARE_STRING "Firmware v6.0-B3 "
 #define BP_FIRMWARE_STRING "Firmware v6.0-a6 "
-#define BP_FIRMWARE_BUILD_DT __DATE__
+
 
 ////////////////////////////////////////
 // LANGUAGE
 // Select language (US AND DE Currently Supported)
+// If you know anyone bi-le
 #define LANGUAGE_EN_US
 //#define LANGUAGE_DE_DE
 //#define LANGUAGE_IT_IT //Not yet supported
@@ -72,11 +71,16 @@ typedef unsigned char BYTE;
 ////////////////////////////////////////
 // OTHER CONFIGS
 // BP_ENABLE_HISTORY = Enable the 'h' command for whatever reason it was disabled this enables it. can be disabled again.
+// These settings should be left within the BUSPIRATEV4 define due to lack of space on v3. Unless you disable a mode or two
+// for a custom v3 build, only include the following options on a v4 build.
 #if defined(BUSPIRATEV4)
+
 // Enables the 'h' command to show history
 #define BP_ENABLE_HISTORY
+
 // Enables a 'auto detect baud rate' when setting up UART mode (11 on baud rate menu selection)
-#define BP_BAUDDETECTION_ONSETUP
+#define BP_UART_AUTOBAUD_ONSETUP
+
 #endif
 
 ///////////////////////

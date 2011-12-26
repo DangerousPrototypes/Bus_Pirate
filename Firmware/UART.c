@@ -99,7 +99,7 @@ void UARTsettings(void)
 void UARTsetup(void)
 {	int speed, dbp, sb, rxp, output, brg=0;
 	
-	#if defined(BP_BAUDDETECTION_ONSETUP)
+	#if defined(BP_UART_AUTOBAUD_ONSETUP)
 	//autobaud detection; multi uses
 	unsigned long abd=0;
 	//#define DetectedBaud abd
@@ -158,7 +158,7 @@ void UARTsetup(void)
 
 		BPMSG1133;
 		
-		#if defined(BP_BAUDDETECTION_ONSETUP)
+		#if defined(BP_UART_AUTOBAUD_ONSETUP)
 		// Buspirate v4 Autobaud detection
 		bpWline("11. Auto-Baud Detection (Needs Activity) *experimental");
 
@@ -220,7 +220,7 @@ void UARTsetup(void)
 	if(U2BRG<U1BRG) BPMSG1249;
 	
 	
-	#if defined(BP_BAUDDETECTION_ONSETUP)
+	#if defined(BP_UART_AUTOBAUD_ONSETUP)
 	if(abd)
 	{
 		bpWline(" ");
