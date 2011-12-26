@@ -223,10 +223,10 @@ void UARTsetup(void)
 	#if defined(BP_UART_AUTOBAUD_ONSETUP)
 	if(abd)
 	{
+		UART2Disable();
 		bpWline(" ");
 		abd = UARTgetbaud_EstimatedBaud(UARTgetbaud(0));
 		bpWline(" ");
-		UART2Disable();
 
 		if(abd == 0)
 		{
@@ -332,7 +332,10 @@ void UARTmacro(unsigned int macro)
 			}
 			break;
 		case 4://auto UART baud rate
+			UART2Disable();
 			UARTgetbaud(0);
+			UART2Enable();
+			if(U2BRG<U1BRG) BPMSG1249;
 			break;			
 		default:
 			//bpWmessage(MSG_ERROR_MACRO);
@@ -464,7 +467,6 @@ unsigned long UARTgetbaud(int DataOnly)
 	// CalculatedBaud define just for readability
 	#define CalculatedBaud BitSample
 
-	UART2Disable();	//Disable UART
 	BP_MISO=0;
 	BP_MISO_DIR=1;
 
