@@ -107,11 +107,21 @@
 #define FTDI_CTS_DIR TRISAbits.TRISA3
 #define FTDI_CTS PORTAbits.RA3
 
+//defines the PPS input/output for MISO and MOSI pins
+#define BP_MISO_RPIN 7
+#define BP_MISO_RPOUT RPOR3bits.RP7R
+#define BP_MOSI_RPIN 9
+#define BP_MOSI_RPOUT RPOR4bits.RP9R
+
 //define the PPS input/output for the AUX pin
 #define BP_AUX_RPIN 10	
 #define BP_AUX_RPOUT RPOR5bits.RP10R
 #define BP_CS_RPIN 6
 #define BP_CS_RPOUT RPOR5bits.RP6R
+
+//define the PPS input/output for CLK pin
+#define BP_CLK_RPIN 8
+#define BP_CLK_RPOUT RPOR4bits.RP8R
 
 //pseudofunctions for pullup resistors
 //for V2/3 we need B5/pullup to be output and gnd to turn OFF the pullups...
