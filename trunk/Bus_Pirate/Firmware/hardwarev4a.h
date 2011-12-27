@@ -156,11 +156,27 @@
 //error fixing defines (find with keyword #BPV4
 #define OC5CON OC5CON1
 
+//defines the PPS input/output for MISO and MOSI pins
+#define BP_MISO_RPIN 22
+#define BP_MISO_RPOUT RPOR11bits.RP22R
+#define BP_MOSI_RPIN 24
+#define BP_MOSI_RPOUT RPOR12bits.RP24R
+
 //define the PPS input/output for the AUX pin
 #define BP_AUX_RPIN 20	
 #define BP_AUX_RPOUT RPOR10bits.RP20R
 #define BP_CS_RPIN 25
 #define BP_CS_RPOUT RPOR12bits.RP25R
+
+//define the PPS input/output for AUX1/2
+#define BP_AUX1_RPIN 2
+#define BP_AUX1_RPOUT RPOR1bits.RP2R
+#define BP_AUX2_RPIN 11
+#define BP_AUX2_RPOUT RPOR5bits.RP11R
+
+//define the PPS input/output for CLK pin
+#define BP_CLK_RPIN 23
+#define BP_CLK_RPOUT RPOR11bits.RP23R
 
 //pseudofunctions for pullup resistors
 //for V2/3 we need B5/pullup to be output and gnd to turn OFF the pullups...

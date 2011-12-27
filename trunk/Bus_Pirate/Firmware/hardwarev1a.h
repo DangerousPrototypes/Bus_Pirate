@@ -104,6 +104,7 @@
 
 #define BP_ADC_PINSETUP() BP_ADC_PROBE_CFG=0;BP_ADC_3V3_CFG=0;BP_ADC_5V0_CFG=0;BP_ADC_VPU_CFG=0
 
+
 //define the PPS input/output for the AUX pin
 #define BP_AUX_RPIN 10	
 #define BP_AUX_RPOUT RPOR5bits.RP10R
