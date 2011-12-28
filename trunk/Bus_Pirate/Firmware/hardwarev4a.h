@@ -13,7 +13,7 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-//this profile is for the Bus Pirate v3 hardware from dangerousprototypes.com
+//This profile is for the Bus Pirate v4 hardware only.
 #define BP_VERSION_STRING "Bus Pirate v4"// (Seeed Studio)"
 #define BP_VERSION "v4"
 
@@ -100,10 +100,25 @@
 //secondary MISO/CLK/MOSI connection setup (input, low)
 #define BPV4_HWI2CPINS_SETUP() TRISE|=0b11100000; LATE&=(~0b11100000)
 
+//////////// On-Board EEPROM (OBE) Definitions and Functions
+// OBE Hardware Setup
 #define BP_EEPROM_SETUP() BP_EE_SDA_DIR=1; BP_EE_SCL_DIR=1;BP_EE_WP_DIR=0;BP_EE_SCL=0; BP_EE_SDA=0; BP_EE_WP=1 //EEPROM pins to input, write protect on
+// OBE Write Protection
+#define BP_EEPROM_WP_ON() BP_EE_WP=0
+#define BP_EEPROM_WP_OFF() BP_EE_WP=1
+#define BP_EEPROM_WR_GET() BP_EE_WP
+// OBE Addressing
+#define BP_EEPROM_ID 0xA0
+#define BP_EEPROM_ID_W 0xA0
+#define BP_EEPROM_ID_R 0xA1
+// OBE Size
+#define BP_EEPROM_MIN 1
+#define BP_EEPROM_MAX 8192
 
+// Hardware 'NORMAL' button on BPv4 definitions
 #define BP_BUTTON_IF IFS1bits.CNIF
 #define BP_BUTTON_SETUP() BP_BUTTON_DIR=1; CNPU1|=0b1; CNEN1|=0b1; IEC1bits.CNIE=0; BP_BUTTON_IF=0;
+#define BP_BUTTON_ISDOWN() (!BP_BUTTON)	//0=DOWN (PRESSED) / 1=UP (UNPRESSED)
 
 //pullup voltage enable/disable
 //always disables the other pullup
@@ -156,27 +171,52 @@
 //error fixing defines (find with keyword #BPV4
 #define OC5CON OC5CON1
 
-//defines the PPS input/output for MISO and MOSI pins
+
+//////////// BPv4 Peripheral Pin Select (PPS) Definitions
+// Input/Output PPS Definitions
+// MISO / MOSI / CS / CLK
 #define BP_MISO_RPIN 22
 #define BP_MISO_RPOUT RPOR11bits.RP22R
 #define BP_MOSI_RPIN 24
 #define BP_MOSI_RPOUT RPOR12bits.RP24R
-
-//define the PPS input/output for the AUX pin
-#define BP_AUX_RPIN 20	
-#define BP_AUX_RPOUT RPOR10bits.RP20R
 #define BP_CS_RPIN 25
 #define BP_CS_RPOUT RPOR12bits.RP25R
-
-//define the PPS input/output for AUX1/2
+#define BP_CLK_RPIN 23
+#define BP_CLK_RPOUT RPOR11bits.RP23R
+// AUX0:2 (AUX0 = AUX / AUX = AUX0)
+#define BP_AUX0_RPIN 20	
+#define BP_AUX0_RPOUT RPOR10bits.RP20R
 #define BP_AUX1_RPIN 2
 #define BP_AUX1_RPOUT RPOR1bits.RP2R
 #define BP_AUX2_RPIN 11
 #define BP_AUX2_RPOUT RPOR5bits.RP11R
+// OTHER
+#define BP_ADC_RPIN 1
+#define BP_ADC_RPOUT RPOR1bits.RP1R
 
-//define the PPS input/output for CLK pin
-#define BP_CLK_RPIN 23
-#define BP_CLK_RPOUT RPOR11bits.RP23R
+// Standard Output (PPS) Definitions
+#define NULL_IO		0
+#define C1OUT_IO	1
+#define C2OUT_IO	2
+#define U1TX_IO		3
+#define U1RTS_IO	4
+#define U2TX_IO		5
+#define U2RTS_IO	6
+#define SDO1_IO		7
+#define SCK1OUT_IO	8
+#define SS1OUT_IO	9
+#define SDO2_IO		10
+#define SCK2OUT_IO	11
+#define SS2OUT_IO	12
+#define OC1_IO		18
+#define OC2_IO		19
+#define OC3_IO		20
+#define OC4_IO		21
+#define OC5_IO		22
+
+// PPS Compatability 
+#define BP_AUX_RPIN BP_AUX0_RPIN
+#define BP_AUX_RPOUT BP_AUX0_RPOUT
 
 
 
@@ -214,26 +254,6 @@
 //#define USE_USB_BUS_SENSE_IO
 #define tris_usb_bus_sense  TRISCbits.TRISC2    
 #define USB_BUS_SENSE       U1OTGSTATbits.SESVD 
-
-// Peripheral Pin Select Outputs
-#define NULL_IO		0
-#define C1OUT_IO	1
-#define C2OUT_IO	2
-#define U1TX_IO		3
-#define U1RTS_IO	4
-#define U2TX_IO		5
-#define U2RTS_IO	6
-#define SDO1_IO		7
-#define SCK1OUT_IO	8
-#define SS1OUT_IO	9
-#define SDO2_IO		10
-#define SCK2OUT_IO	11
-#define SS2OUT_IO	12
-#define OC1_IO		18
-#define OC2_IO		19
-#define OC3_IO		20
-#define OC4_IO		21
-#define OC5_IO		22
 
 //#define putUnsignedCharArrayUsbUsart(u8Array,Num)       putPARTARRAYUSBUSART((BYTE*)(u8Array),(Num))
 ////#define putUnsignedCharArrayUsbUsart(u8Array,Num) 	putUSBUSART((unsigned char*)(u8Array),(Num))
