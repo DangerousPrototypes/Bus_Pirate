@@ -1500,9 +1500,9 @@ void statusInfo(void) {
             break;
         case 1: BPMSG1086;
             break;
-        case 2: bpWline("a/A/@ controls AUX1 pin");
+        case 2: BPMSG1263;
             break;
-        case 3: bpWline("a/A/@ controls AUX2 pin");
+        case 3: BPMSG1264;
             break;
     }
 #endif
