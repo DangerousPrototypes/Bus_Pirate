@@ -178,6 +178,8 @@
 #define BP_CLK_RPIN 23
 #define BP_CLK_RPOUT RPOR11bits.RP23R
 
+
+
 //pseudofunctions for pullup resistors
 //for V2/3 we need B5/pullup to be output and gnd to turn OFF the pullups...
 #define BP_PULLUP_ON() BP_PULLUP_DIR=1;BP_PULLUP=0
