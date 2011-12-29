@@ -153,7 +153,7 @@ _bpmessages:
 	.pascii	"CS DISABLED"
 	.pascii	"R3W (spd csl hiz)=( "
 	.pascii	")\r\n"
-	.pascii	"Disconnect any devices\r\nConnect (Vpu to +5V) and (ADC to +3.3V)"
+	.pascii	"Disconnect any devices\r\nConnect (ADC to +3.3V)"
 	.pascii	"Ctrl"
 	.pascii	"AUX"
 	.pascii	"MODE LED"
@@ -168,7 +168,7 @@ _bpmessages:
 	.pascii	"Bus high"
 	.pascii	"Bus Hi-Z 0"
 	.pascii	"Bus Hi-Z 1"
-	.pascii	"MODE and VREG LEDs should be on!"
+	.pascii	"MODE, VREG, and USB LEDs should be on!"
 	.pascii	"Found "
 	.pascii	" errors."
 	.pascii	"MOSI"
@@ -292,7 +292,5 @@ _bpmessages:
 	.pascii	"s\tScript engine\t\t\t:\tRepeat e.g. r:10"
 	.pascii	"v\tShow volts/states\t\t;\tBits to read/write e.g. 0x55;2"
 	.pascii	"w/W\tPSU (off/ON)\t\t<x>/<x= >/<0>\tUsermacro x/assign x/list all"
-
-
 
 #endif

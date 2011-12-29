@@ -37,14 +37,9 @@ unsigned char selfTest(unsigned char showProgress, unsigned char jumperTest){
 	
 //instructions (skip pause if no display output)
 	if(showProgress && jumperTest){
-#if defined (BUSPIRATEV3)
 		//bpPOSTWline("Disconnect any devices");
 		//bpPOSTWline("Connect (Vpu to +5V) and (ADC to +3.3V)");
 		BPMSG1163;
-#elif defined (BUSPIRATEV4)
-		bpWline("Disconnect any devices");
-		bpWline("Connect (ADC to +3.3V)");
-#endif
 		BPMSG1251; // //bpPOSTWline("Press a key to start");
 		while(!UART1RXRdy()); //wait for key
 		UART1RX();//discard byte
@@ -213,12 +208,10 @@ unsigned char selfTest(unsigned char showProgress, unsigned char jumperTest){
 		BP_VREG_ON();
 		BP_MODELED_ON();
 		//bpPOSTWline("MODE and VREG LEDs should be on! Any key exits.");
-		#if defined	(BUSPIRATEV3)	
-			BPMSG1178;
-		#elif defined (BUSPIRATEV4)
+		#if defined (BUSPIRATEV4)
 			BP_USBLED_ON();
-			bpWline("MODE, VREG, and USB LEDs should be on!");
 		#endif
+		BPMSG1178;
 		BPMSG1250;
 		while(!UART1RXRdy());
 		UART1RX();
