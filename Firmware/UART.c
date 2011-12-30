@@ -255,10 +255,16 @@ void UARTcleanup(void)
 
 void UARTmacro(unsigned int macro)
 {
+	#if defined(BUSPIRATEV4)
+	unsigned long bdc=0;
+	#endif
 	switch(macro){
 		case 0://menu
 			//bpWline(OUMSG_UART_MACRO_MENU);
 			BPMSG1203;
+			#if defined(BP_UART_BRGCALC_MACRO)
+			bpWstring("\r\n 5:BAUD to BRG Calculation");
+			#endif
 			break;
 		#if defined(BUSPIRATEV25) || defined(BUSPIRATEV3)
 		case 3://UART bridge with flow control
@@ -337,6 +343,16 @@ void UARTmacro(unsigned int macro)
 			UART2Enable();
 			if(U2BRG<U1BRG) BPMSG1249;
 			break;			
+		#if defined(BUSPIRATEV4)
+		case 5:
+			bpWstring("\r\nDesired BAUD rate: ");
+			bdc=(unsigned long)getlong(9600,1,1000000,0);
+			bpWstring("\r\nCalculated BRG: ");
+			bdc=(((32000000/bdc)/8)-1);
+			bpWlongdec(bdc);
+			bpWline(" ");
+			break;
+		#endif
 		default:
 			//bpWmessage(MSG_ERROR_MACRO);
 			BPMSG1016;
