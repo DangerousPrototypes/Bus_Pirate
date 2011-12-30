@@ -74,12 +74,8 @@ typedef unsigned char BYTE;
 // These settings should be left within the BUSPIRATEV4 define due to lack of space on v3. Unless you disable a mode or two
 // for a custom v3 build, only include the following options on a v4 build.
 #if defined(BUSPIRATEV4)
-
 // Enables the 'h' command to show history
 #define BP_ENABLE_HISTORY
-
-// Enables a 'auto detect baud rate' when setting up UART mode (11 on baud rate menu selection)
-#define BP_UART_AUTOBAUD_ONSETUP
 
 #endif
 

@@ -99,7 +99,7 @@ void UARTsettings(void)
 void UARTsetup(void)
 {	int speed, dbp, sb, rxp, output, brg=0;
 	
-	#if defined(BP_UART_AUTOBAUD_ONSETUP)
+	#if defined(BUSPIRATEV4)
 	//autobaud detection; multi uses
 	unsigned long abd=0;
 	//#define DetectedBaud abd
@@ -158,9 +158,8 @@ void UARTsetup(void)
 
 		BPMSG1133;
 		
-		#if defined(BP_UART_AUTOBAUD_ONSETUP)
-		// Buspirate v4 Autobaud detection
-		bpWline("11. Auto-Baud Detection (Needs Activity) *experimental");
+		#if defined(BUSPIRATEV4)
+		// BPv4 Mode; has custom BAUD entry and auto-baud detection
 
 		modeConfig.speed=getnumber(1,1,11,0)-1; //get user reply
 		
@@ -171,14 +170,26 @@ void UARTsetup(void)
 			bpWline("Baud detection selected..");
 		}
 		
+		if(modeConfig.speed==9)
+		{	
+			BPMSG1248;						//say input custom BAUD rate
+			abd=getlong(115200,1,999999,0); //get the baud rate from user
+			abd=(((32000000/abd)/8)-1);		//calculate BRG
+			brg=abd;						//set BRG
+			abd=0;							//set abd to 0; so 'Auto Baud Detection' routine isnt ran below
+		} 
+		
 		#else
+		// Normal mode; input BRG and no autobaud detection
 		modeConfig.speed=getnumber(1,1,10,0)-1; //get user reply
-		#endif
-
+		
 		if(modeConfig.speed==9)
 		{	BPMSG1248;
 			brg=getnumber(34,1,32767,0);
 		} 
+		#endif
+
+
 		
 		//bpWstring("Data bits and parity:\x0D\x0A 1. 8, NONE *default \x0D\x0A 2. 8, EVEN \x0D\x0A 3. 8, ODD \x0D\x0A 4. 9, NONE \x0D\x0A");
 		//bpWline(OUMSG_UART_DATABITS_PARITY); //write text (data bit and parity)
@@ -220,7 +231,7 @@ void UARTsetup(void)
 	if(U2BRG<U1BRG) BPMSG1249;
 	
 	
-	#if defined(BP_UART_AUTOBAUD_ONSETUP)
+	#if defined(BUSPIRATEV4)
 	if(abd)
 	{
 		UART2Disable();
