@@ -266,9 +266,6 @@ void UARTcleanup(void)
 
 void UARTmacro(unsigned int macro)
 {
-	#if defined(BUSPIRATEV4)
-	unsigned long bdc=0;
-	#endif
 	switch(macro){
 		case 0://menu
 			//bpWline(OUMSG_UART_MACRO_MENU);
@@ -285,6 +282,9 @@ void UARTmacro(unsigned int macro)
 			BP_CLK_DIR=0;//external RTS (PIC output mirrors output from FTDI)
 			//BP_CS=0;//external CTS (PIC input from external circuit)
 			//BP_CLK=0;//external RTS (PIC mirrors output from FTDI)
+		#elif defined(BUSPIRATEV4)
+		case 3:
+			// do nothing but go into transparet UART. ##FIXME##
 		#endif
 		case 1://transparent UART
 			//bpWline("UART bridge");
@@ -351,16 +351,6 @@ void UARTmacro(unsigned int macro)
 			UART2Enable();
 			if(U2BRG<U1BRG) BPMSG1249;
 			break;			
-		#if defined(BUSPIRATEV4)
-		case 5:
-			BPMSG1275; //bpWstring("\r\nDesired BAUD rate: ");
-			bdc=(unsigned long)getlong(9600,1,1000000,0);
-			BPMSG1276; //bpWstring("\r\nCalculated BRG: ");
-			bdc=(((32000000/bdc)/8)-1);
-			bpWlongdec(bdc);
-			bpWline(" ");
-			break;
-		#endif
 		default:
 			//bpWmessage(MSG_ERROR_MACRO);
 			BPMSG1016;
