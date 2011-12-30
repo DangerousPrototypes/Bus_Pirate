@@ -42,4 +42,7 @@ void changemode(void);
 int cmdhistory(void);
 #endif
 int getnumber(int def, int min, int max, int x);	
+#if defined(BUSPIRATEV4)
+long getlong(long def, int min, long max, int x);
+#endif
 

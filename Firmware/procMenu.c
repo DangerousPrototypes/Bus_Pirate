@@ -991,8 +991,7 @@ bpv4reset:			versionInfo();
                 case 0x0D: // not necessary but got random error msg at end, just to be sure
                 case 0x0A: // same here
                 case ' ':
-                case ',': break;
-                    // no match so it is an error
+                case ',': break; // no match so it is an error
                 default: cmderror = 1;
             } //switch(c)
             cmdstart = (cmdstart + 1) & CMDLENMSK;
@@ -1338,7 +1337,108 @@ again: // need to do it proper with whiles and ifs..
 } //getnumber(int def, int min, int max, int x)
 
 
+#if defined(BUSPIRATEV4)
+// gets number from input
+// -1 = abort (x)
+// -2 = input to much
+// 0-max return
+// x=1 exit is enabled (we don't want that in the mode changes ;)
 
+long getlong(long def, int min, long max, int x) //default, minimum, maximum, show exit option
+{
+    char c;
+    char buf[12]; // max long = 2147483647 so 10
+    int i, j, stop, neg;
+    long temp;
+
+again: // need to do it proper with whiles and ifs..
+
+    i = 0;
+    stop = 0;
+    temp = 0;
+    neg = 0;
+
+    bpWstring("\r\n(");
+	if(def<0){
+		bpWstring("x");
+	}else{
+    	bpWlongdec(def);
+	}
+    bpWstring(")>");
+
+    while (!stop) {
+        c = UART1RX();
+        switch (c) {
+            case 0x08: if (i) {
+                    i--;
+                    bpWstring("\x08 \x08");
+                } else {
+                    if (neg) {
+                        neg = 0;
+                        bpWstring("\x08 \x08");
+                    } else {
+                        UART1TX(BELL);
+                    }
+                }
+                break;
+            case 0x0A:
+            case 0x0D: stop = 1;
+                break;
+            case '-': if (!i) // enable negative numbers
+                {
+                    UART1TX('-');
+                    neg = 1;
+                } else {
+                    UART1TX(BELL);
+                }
+                break;
+            case 'x': if (x) return -1; // user wants to quit :( only if we enable it :D
+            default: if ((c >= 0x30) && (c <= 0x39)) // we got a digit
+                {
+                    if (i > 9) // 0-9999 should be enough??
+                    {
+                        UART1TX(BELL);
+                        i = 10;
+                    } else {
+                        UART1TX(c);
+                        buf[i] = c; // store user input
+                        i++;
+                    }
+                } else // ignore input :)
+                {
+                    UART1TX(BELL);
+                }
+
+        }
+    }
+    bpBR;
+
+    if (i == 0) {
+        return def; // no user input so return default option
+    } else {
+        temp = 0;
+        i--;
+        j = i;
+
+        for (; i >= 0; i--) {
+            temp *= 10;
+            temp += (buf[j - i] - 0x30);
+        }
+
+        if ((temp >= min) && (temp <= max)) {
+            if (neg) {
+                return -temp;
+            } else {
+                return temp;
+            }
+        } else { //bpWline("\r\nInvalid choice, try again\r\n");
+            BPMSG1211;
+            goto again;
+        }
+    }
+    return temp; // we dont get here, but keep compiler happy
+}
+#endif
 
 
 
