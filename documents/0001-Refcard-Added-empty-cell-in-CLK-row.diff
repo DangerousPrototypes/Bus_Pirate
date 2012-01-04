@@ -1,0 +1,27 @@
+From ee4e8c27de5e060f2756f98bbe9e641b0d378d3d Mon Sep 17 00:00:00 2001
+From: Nico Erfurth <ne@erfurth.eu>
+Date: Mon, 15 Nov 2010 11:31:13 +0100
+Subject: [PATCH] {Refcard} Added empty cell in CLK-row
+
+The CLK row was missing an empty cell, so all following cells were
+shifted left by one.
+---
+ documents/buspirate_refcard.tex |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/documents/buspirate_refcard.tex b/documents/buspirate_refcard.tex
+index 653c064..4852194 100644
+--- a/documents/buspirate_refcard.tex
++++ b/documents/buspirate_refcard.tex
+@@ -41,7 +41,7 @@
+     {
+                                              & \node[mynode] {\textbf{HiZ}}; & \node[mynode] {\textbf{1-Wire}}; & \node[mynode] {\textbf{UART}}; & \node[mynode] {\textbf{I2C}}; & \node[mynode] {\textbf{SPI}}; & \node[mynode] {\textbf{JTAG}};\\
+       \node[mynode,right,color=MISO] {\textbf{MISO}};   &                               & \node[mynode]{OWD};              & \node[mynode]{TX};             & \node[mynode]{SDA};           & \node[mynode]{MOSI};          & \node[mynode]{TDI};\\
+-      \node[mynode,right,color=CLK] {\textbf{CLK}};  &                               &                                                                   & \node[mynode] {SCL};          & \node[mynode]{CLK};         & \node[mynode]{TCK};\\
++      \node[mynode,right,color=CLK] {\textbf{CLK}};  &                               &                                  &                                & \node[mynode] {SCL};          & \node[mynode]{CLK};         & \node[mynode]{TCK};\\
+       \node[mynode,right,color=MOSI] {\textbf{MOSI}};   &                               &                                  & \node[mynode] {RX};            &                               & \node[mynode]{MISO};          & \node[mynode]{TDO};\\
+       \node[mynode,right,color=CS] {\textbf{CS}};    &                               &                                  &                                &                               & \node[mynode]{CS};            & \node[mynode]{TMS};\\
+     };
+-- 
+1.7.2.3
+

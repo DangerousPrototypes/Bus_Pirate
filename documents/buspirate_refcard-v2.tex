@@ -1,0 +1,60 @@
+\documentclass[10pt]{article}
+\usepackage{color}
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% define colours here 
+%% colours are given in normed RGB values
+%% whereas (0,0,0) indicates all minimum (black) and (1,1,1) all maximum (white)
+%% e.g., \definecolor{MISO}{rgb}{0,0,0}
+%% alternatively use 0-255 values by defining the colours with a capital [RGB] parameter
+%% e.g., \definecolor{CLK}{RGB}{255,127,0}
+%% do not change the given colour names since they correspond to the individual pin
+%% These colors are correct at least for my cable dated 10/14/10 ProductNo THM199C4M
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{GND}{rgb}{0.5,0.1,0.1}  % Brown
+\definecolor{V33}{rgb}{1,0,0}        % Red
+\definecolor{V5}{rgb}{1,0.5,0}       % Orange
+\definecolor{ADC}{rgb}{0.8,0.8,0}    % Yellow (without hurting your eye)
+\definecolor{Vpu}{rgb}{0,0.8,0}      % Green
+\definecolor{AUX}{rgb}{0,0,1}        % Blue
+\definecolor{CLK}{rgb}{0.8,0.4,0.8}  % Purple
+\definecolor{MOSI}{rgb}{0.6,0.6,0.6} % Grey
+\definecolor{CS}{rgb}{0.9,0.9,0.9}   % White (not really)
+\definecolor{MISO}{rgb}{0,0,0}       % Black
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Don't go behind this line without any knowledge of LaTeX and PGF/Tikz... you have been warned
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\coltext}[1]{{\textbf{\color{#1}#1}}}
+
+\renewcommand{\arraystretch}{.9}
+\setlength{\tabcolsep}{2pt}
+
+\thispagestyle{empty} % just a picture
+\sffamily{}\scriptsize
+\begin{tabular}{|l|l|l|l|l|l|}
+  \hline
+    \textbf{SPI}  & \textbf{HiZ} & \textbf{1-Wire} & \textbf{UART} & \textbf{I2C} & \textbf{JTAG}\\ \hline
+    \coltext{MISO} & &     & RX &     & TDO \\ \hline
+    \coltext{CLK}  & &     &    & SCL & TCK \\ \hline
+    \coltext{MOSI} & & OWD & TX & SDA & TDI \\ \hline
+    \coltext{CS}   & &     &    &     & TMS \\ \hline
+  \hline
+    \coltext{AUX} & \multicolumn{5}{|l|}{Auxiliary I/O, freq. probe, PWM} \\ \hline
+    \coltext{Vpu} & \multicolumn{5}{|l|}{Input pull-up resistors (0-5V)} \\ \hline
+    \coltext{ADC} & \multicolumn{5}{|l|}{A/D\,converter,max.\,6V,10bit,500ksps}\\ \hline
+    \textbf{{\color{V5}5V},{\color{V33}3V3}} & \multicolumn{5}{|l|}{Switchable supply, max.\,150mA}\\ \hline
+    \coltext{GND} & \multicolumn{5}{|l|}{Ground to test circuit}\\ \hline
+  \hline
+    \multicolumn{6}{|c|}{\textbf{\tiny BusPirate V3 reference card \hfill dangerousprototypes.com}}\\ 
+  \hline
+\end{tabular}
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
