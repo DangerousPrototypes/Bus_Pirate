@@ -1,0 +1,77 @@
+HiZ>i
+Bus Pirate v3
+http://dangerousprototypes.com
+Firmware v2.3-nightly
+DEVID:0x0447 REVID:0x3042 (B4)
+HiZ>m
+1. HiZ
+2. 1-WIRE
+3. UART
+4. I2C
+5. SPI
+6. JTAG
+7. RAW2WIRE
+8. RAW3WIRE
+9. PC KEYBOARD
+10. MIDI
+11. LCD
+(1) >4
+Mode selected
+I2C mode:
+ 1. Software
+ 2. Hardware
+(1) >1
+Set speed:
+ 1. Slow(~5KHz)
+ 2. Fast(~50KHz)
+(1) >2
+READY
+I2C>W
+POWER SUPPLIES ON
+I2C>p
+ 1. Pull-ups off
+ 2. Pull-ups on
+(1) >2
+Pull-up resistors ON
+I2C>V
+Voltage monitors: 5V: 4.9 | 3.3V: 3.2 | VPULLUP: 3.3 |
+I2C>(1)
+Searching 7bit I2C address space.
+   Found devices at:
+0xA0(0x50 W) 0xA1(0x50 R) 0xA2(0x51 W) 0xA3(0x51 R) 0xA4(0x52 W) 0xA5(0x52 R) 0x
+A6(0x53 W) 0xA7(0x53 R) 0xA8(0x54 W) 0xA9(0x54 R) 0xAA(0x55 W) 0xAB(0x55 R) 0xAC
+(0x56 W) 0xAD(0x56 R) 0xAE(0x57 W) 0xAF(0x57 R)
+I2C>[0xa0 0 1 2 3 4 5 6 7 8]
+I2C START BIT
+WRITE: 0xA0 ACK
+WRITE: 0x00 ACK
+WRITE: 0x01 ACK
+WRITE: 0x02 ACK
+WRITE: 0x03 ACK
+WRITE: 0x04 ACK
+WRITE: 0x05 ACK
+WRITE: 0x06 ACK
+WRITE: 0x07 ACK
+WRITE: 0x08 ACK
+I2C STOP BIT
+I2C>[0xa0 0][0xa1r:8]
+I2C START BIT
+WRITE: 0xA0 ACK
+WRITE: 0x00 ACK
+I2C STOP BIT
+I2C START BIT
+WRITE: 0xA1 ACK
+READ 0x08 BYTES:
+0x01 ACK 0x02 ACK 0x03 ACK 0x04 ACK 0x05 ACK 0x06 ACK 0x07 ACK 0x08 NACK
+I2C STOP BIT
+I2C>[0xa0 0xfa][0xa1 r:6]
+I2C START BIT
+WRITE: 0xA0 ACK
+WRITE: 0xFA ACK
+I2C STOP BIT
+I2C START BIT
+WRITE: 0xA1 ACK
+READ 0x06 BYTES:
+0x00 ACK 0x04 ACK 0xA3 ACK 0x24 ACK 0xC2 ACK 0x7E NACK
+I2C STOP BIT
+I2C>
