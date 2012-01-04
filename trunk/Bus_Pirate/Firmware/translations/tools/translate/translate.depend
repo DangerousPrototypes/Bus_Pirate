@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1281899795 source:c:\jamz\xlate\translate\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1281923016 source:c:\documents and settings\ian\desktop\translate\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+

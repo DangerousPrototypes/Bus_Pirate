@@ -1,0 +1,85 @@
+<HTML>
+<HEAD>
+<SCRIPT language="javascript">
+function chomp(raw_text)
+{	raw_text=raw_text.replace(/(\n|\r)+$/, '');
+	raw_text=raw_text.replace(/( )+$/, '');
+
+	return raw_text;	
+}
+
+function doit()
+{	var i, j, k;
+	var len;
+
+	var from=document.getElementById("from");
+	var to=document.getElementById("to");
+
+	line=new Array();
+	data=new Array();
+	line=from.value.split("\n");
+	var buffer1='';
+	var buffer2='';
+	var temp='';
+
+	buffer2='.global _bpmessages\r\n_bpmessages:\r\n';
+
+	i=0;
+	k=0;
+
+	for(i=0; i<line.length; i++)
+	{	data=line[i].split(";");
+
+
+		if((data[0]!=undefined)&&(data[1]!=undefined)&&(data[2]!=undefined))
+		{	if(data[1]==0)
+			{	buffer1+="#define\t"+chomp(data[0])+"\tbpMsg("+k.toString(10)+", ";
+			}
+			else		
+			{	buffer1+="#define\t"+chomp(data[0])+"\tbpMsgBR("+k.toString(10)+", ";
+			}
+	
+			buffer2+="\t.pascii\t"+chomp(data[2])+"\r\n";
+
+			temp=chomp(data[2]);
+			temp=temp.replace(/(\\r)/g, ' ');
+			temp=temp.replace(/(\\t)/g, ' ');
+			temp=temp.replace(/(\\n)/g, ' ');
+			temp=temp.replace(/(\\\")/g, ' ');
+			temp=temp.replace(/(\\\\)/g, ' ');
+			temp=temp.replace(/(\\\')/g, ' ');
+
+		//	buffer2+=" ;\t\t 123456789*123456789*123456789*123456789*123456789*123456789*123456789*123456789*\r\n";
+		//	buffer2+=" ;\t\t"+temp+"\r\n";
+		//	buffer2+=" ;"+chomp(data[0])+" k="+k.toString(10)+" len=";
+
+			
+			len=temp.length-2;
+			k+=len;
+			buffer1+=len.toString(10)+")\r\n";
+		//	buffer2+=len.toString(10)+"\r\n";
+		}
+	}
+
+	to1.value=buffer1;
+	to2.value=buffer2;
+}
+
+
+
+</SCRIPT>
+</HEAD>
+<BODY>
+strings:<BR>
+<textarea id="from" name="from" cols=80 rows=5>
+</textarea><BR>
+<button onclick="doit()">convert</button><BR>
+.h:<BR>
+<textarea id="to1" name="to1" cols=80 rows=5>
+</textarea>
+<BR>.s<BR>
+<textarea id="to2" name="to2" cols=80 rows=10>
+</textarea>
+
+</BODY>
+</HTML>
