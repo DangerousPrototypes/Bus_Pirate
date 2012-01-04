@@ -44,7 +44,7 @@ typedef unsigned char BYTE;
 // FIRMWARE VERSION STRING
 // Build Firmware Version String
 // used in 'i' and startup
-#define BP_FIRMWARE_STRING "Firmware v6.0-a6 "
+#define BP_FIRMWARE_STRING "Firmware v6.0 r1625 "
 
 
 ////////////////////////////////////////
@@ -122,6 +122,7 @@ typedef unsigned char BYTE;
 //#define BP_USE_RAW3WIRE
 
 #if defined(BP_MAIN)
+
 	#define BP_USE_1WIRE
 	//#ifndef BUSPIRATEV4
 	#define BP_USE_HWUART //hardware uart (now also MIDI)
@@ -132,9 +133,10 @@ typedef unsigned char BYTE;
 	#define BP_USE_RAW2WIRE
 	#define BP_USE_RAW3WIRE
 	#define BP_USE_LCD // include HD44780 LCD library	
-	#define BP_USE_DIO //binary mode
+
 	
 	#if defined(BUSPIRATEV4)
+		#define BP_USE_DIO //binary mode
 		#define BP_USE_PCATKB
 		#define BP_USE_PIC
 		#define BP_USE_BASIC 
