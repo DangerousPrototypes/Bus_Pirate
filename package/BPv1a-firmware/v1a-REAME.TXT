@@ -1,0 +1,6 @@
+Firmware v5.10 is the last official release for hardware v1a. Code has drifed so far from the humble v1a beginnings that we are no longer making releases.
+
+Firmware v5.10 requires bootloader v4.x. The v1a hardware shipped with v2. You will need to upgrade bootloaders with a PIC programmer, no auto-update package was released.
+
+For more see:
+http://dangerousprototypes.com/docs/Bus_Pirate#Firmware_upgrades
