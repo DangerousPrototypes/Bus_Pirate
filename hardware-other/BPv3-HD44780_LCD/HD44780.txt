@@ -1,0 +1,80 @@
+Hack a Day Bus Pirate v2go
+http://www.buspirate.com
+Firmware v2.1-nightly
+DEVID:0x0447 REVID:0x3042 (B4)
+CFG1:0xF9DF CFG2:0x3F7F
+HiZ>m
+1. HiZ
+2. 1-WIRE
+3. UART
+4. I2C
+5. SPI
+6. JTAG
+7. RAW2WIRE
+8. RAW3WIRE
+9. PC KEYBOARD
+10. MIDI
+11. LCD
+12. HWI2C
+(1) >11
+MODE SET
+LCD type:
+ 1. HD44780 (using PCF8574 IO expander)
+(1) >1
+HD44780 LCD TESTER
+REQUIRES PCF8574 I2C IO EXPANDER
+LCD>W
+POWER SUPPLIES ON
+LCD>p
+ 1. Pullup off
+ 2. Pullup on
+(1) >2
+PULLUP RESISTORS ON
+LCD>v
+VOLTAGE MONITOR: 5V: 4.9 | 3.3V: 3.3 | VPULLUP: 5.0 |
+LCD>(0)
+ 0.Macro menu
+ 1.LCD Reset
+ 2.Init LCD
+ 3.Clear LCD
+ 4.Cursor position ex:(4:0)
+ 5.Write test text
+ 6.Write :number test numbers ex:(6:80)
+ 7.Write :number test characters ex:(7:80)
+ 8.Insert text at cursor
+LCD>(2)
+Display lines:
+ 1. 1
+ 2. Multiple
+(2) >2
+RESET
+INIT
+LCD>(6:80)
+LCD>(7:80)
+LCD>(3)
+CLEARED
+LCD>(8)
+Enter text to insert at the curser position.
+HD44780 LCD demo
+LCD>(4:0x40)
+LCD>(8)
+Enter text to insert at the curser position.
+Bus Pirate v2go
+LCD>(4:0x14)(8)(4:0x54)(8)
+Enter text to insert at the curser position.
+Firmware v2.0+
+Enter text to insert at the curser position.
+DangerousPrototypes
+LCD>[0b10000000
+HD44780 RS LOW, COMMAND MODE
+CMD WRITE: 0x80
+LCD>]rrrrrrr
+HD44780 RS HIGH, DATA MODE
+READ: 0x48
+READ: 0x44
+READ: 0x34
+READ: 0x34
+READ: 0x37
+READ: 0x38
+READ: 0x30
+LCD>
