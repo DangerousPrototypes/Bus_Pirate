@@ -1,0 +1,68 @@
+\documentclass[10pt]{article}
+\usepackage{pgf}     % drawing in the LaTeX way of life
+\usepackage{tikz}    % tikz is not a drawing program
+\usepackage[graphics,tightpage,active]{preview} % cut the page to the picture boarders
+\setlength{\PreviewBorder}{1pt}  % add a small boarder
+\PreviewEnvironment{tikzpicture} 
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% define colours here 
+%% colours are given in normed RGB values
+%% whereas (0,0,0) indicates all minimum (black) and (1,1,1) all maximum (white)
+%% e.g., \definecolor{MISO}{rgb}{0,0,0}
+%% alternatively use 0-255 values by defining the colours with a capital [RGB] parameter
+%% e.g., \definecolor{CLK}{RGB}{255,127,0}
+%% do not change the given colour names since they correspond to the individual pin
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{MISO}{rgb}{0,0,0}      % Black
+\definecolor{CLK}{rgb}{1,0.5,0}     % Orange
+\definecolor{MOSI}{rgb}{1,0,0}      % Red
+\definecolor{CS}{rgb}{0.5,0.1,0.1}  % Brown
+\definecolor{AUX}{rgb}{0.8,0.8,0}   % Yellow (without hurting your eye)
+\definecolor{Vpu}{rgb}{0,0.8,0}     % Green
+\definecolor{ADC}{rgb}{0,0,1}       % Blue
+\definecolor{V5}{rgb}{0.8,0.4,0.8}  % Violet
+\definecolor{V33}{rgb}{0.6,0.6,0.6} % Grey
+\definecolor{GND}{rgb}{0.9,0.9,0.9} % White (not really)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Don't go behind this line without any knowledge of LaTeX and PGF/Tikz... you have been warned
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\thispagestyle{empty} % just a picture
+  \begin{tikzpicture}[scale=1, node distance=0,inner sep=0.3] % no scaling, no distance between nodes, set inner separation between text and nodes
+    \sffamily{}\scriptsize
+    \tikzstyle{mynode} = [draw=none,fill=none,anchor=center] % define a own style for all this text-nodes
+    
+    \matrix[row sep=0.1cm,column sep=0.075cm,anchor=north west] at (0,2.85) % create the first matrix similar to a Latex table 
+    {
+                                             & \node[mynode] {\textbf{HiZ}}; & \node[mynode] {\textbf{1-Wire}}; & \node[mynode] {\textbf{UART}}; & \node[mynode] {\textbf{I2C}}; & \node[mynode] {\textbf{SPI}}; & \node[mynode] {\textbf{JTAG}};\\
+      \node[mynode,right,color=MISO] {\textbf{MISO}};   &                               & \node[mynode]{OWD};              & \node[mynode]{TX};             & \node[mynode]{SDA};           & \node[mynode]{MOSI};          & \node[mynode]{TDI};\\
+      \node[mynode,right,color=CLK] {\textbf{CLK}};  &                               &                                                                   & \node[mynode] {SCL};          & \node[mynode]{CLK};         & \node[mynode]{TCK};\\
+      \node[mynode,right,color=MOSI] {\textbf{MOSI}};   &                               &                                  & \node[mynode] {RX};            &                               & \node[mynode]{MISO};          & \node[mynode]{TDO};\\
+      \node[mynode,right,color=CS] {\textbf{CS}};    &                               &                                  &                                &                               & \node[mynode]{CS};            & \node[mynode]{TMS};\\
+    };
+    \matrix[row sep=0cm,column sep=0cm,right,anchor=south west] at (0,0.2) % create the second matrix 
+    {
+    \node[mynode,right,color=AUX]{\textbf{AUX}};      & \node[mynode,right] {Auxiliary I/O, freq. probe, PWM}; \\
+    \node[mynode,right,color=Vpu]{\textbf{Vpu}};      & \node[mynode,right] {Input pull-up resistors (0-5V)}; \\
+    \node[mynode,right,color=ADC]{\textbf{ADC}};      & \node[mynode,right] {A/D\,converter,max.\,6V,10bit,500ksps}; \\
+    \node[mynode,right]{\textbf{{\color{V5}5V},{\color{V33}3.3V}}};  & \node[mynode,right] {Switchable supply, max.\,150mA}; \\
+    \node[mynode,right,color=GND]{\textbf{GND}};      & \node[mynode,right] {Ground to test circuit}; \\
+    };
+    \foreach \y in {0,1,2,3,4}  % draw the grid
+        \draw[gray] (0,2.65-0.3*\y)--++(5,0);
+    \foreach \x in {0.75,1.275,2.125,2.95,3.55,4.3} 
+        \draw[gray] (\x,2.9)--++(0,-1.45);
+    \draw[gray] (0,0) rectangle ++(5,2.9); % draw a rectangle with the size of the pcb
+    \node[right] at (0,0.1) {\tiny bus-pirate reference card, dangerousprototypes.com, \hspace{0.4cm}V1.0}; % add some infos
+  \end{tikzpicture}
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
