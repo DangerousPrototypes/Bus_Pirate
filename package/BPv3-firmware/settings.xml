@@ -5,7 +5,7 @@
   <WindowOnTop>false</WindowOnTop>
   <WindowWidth>346</WindowWidth>
   <WindowHeight>538</WindowHeight>
-  <Filename>E:\Work\dp\Bus_Pirate\package\v3-firmware\BPv3-frimware-v6.hex</Filename>
+  <Filename>E:\Work\bus-pirate\trunk\firmware\v4-nightly\BPv3&amp;v2go\BPv3-Firmware-v4.1.hex</Filename>
   <DefaultStartSettings>
     <AdvancedMode>true</AdvancedMode>
     <AdvancedModeAllow>false</AdvancedModeAllow>
