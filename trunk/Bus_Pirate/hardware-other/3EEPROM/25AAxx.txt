@@ -1,0 +1,64 @@
+Hack a Day Bus Pirate v2go
+http://www.buspirate.com
+Firmware v2.0
+HiZ>m
+1. HiZ
+2. 1-WIRE
+3. UART
+4. I2C
+5. SPI
+6. JTAG
+7. RAW2WIRE
+8. RAW3WIRE
+9. PC KEYBOARD
+10. MIDI
+11. LCD
+(1) >5
+MODE SET
+Set speed:
+ 1. 30KHz
+ 2. 125KHz
+ 3. 250KHz
+ 4. 1MHz
+(1) >
+Clock polarity:
+ 1. Idle low *default
+ 2. Idle high
+(1) >
+Output clock edge:
+ 1. Idle to active
+ 2. Active to idle *default
+(2) >
+Input sample phase:
+ 1. Middle *default
+ 2. End
+(1) >
+Output type:
+ 1. High-Z outputs (H=input, L=GND)
+ 2. Normal outputs (H=Vcc, L=GND)
+(1) >2
+SPI READY
+SPI>W
+POWER SUPPLIES ON
+SPI>v
+VOLTAGE MONITOR: 5V: 5.0 | 3.3V: 3.3 | VPULLUP: 3.3 |
+SPI>[0b110]
+CS ENABLED
+WRITE: 0x06
+CS DISABLED
+SPI>[0b10 0 3 2 1 ]
+CS ENABLED
+WRITE: 0x02
+WRITE: 0x00
+WRITE: 0x03
+WRITE: 0x02
+WRITE: 0x01
+CS DISABLED
+SPI>[0b11 0 r:3]
+CS ENABLED
+WRITE: 0x03
+WRITE: 0x00
+BULK READ 0x03 BYTES:
+0x03 0x02 0x01
+CS DISABLED
+SPI>
