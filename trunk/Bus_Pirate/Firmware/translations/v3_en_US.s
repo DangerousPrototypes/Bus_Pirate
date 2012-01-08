@@ -224,11 +224,11 @@ _bpmessages:
 	.pascii	"CS:\r\n 1. CS\r\n 2. /CS *default"
 	.pascii	"Position in degrees"
 	.pascii	"Servo active"
-	.pascii	"Waiting activity on MISO (Any key to exit)."
+	.pascii	"Waiting activity..."
 	.pascii	"** Early Exit!"
-	.pascii	"*Warning* Baud>16m: The BP is not fast enough to measure bauds above 16000000, Done."
-	.pascii	"\n\rActual Calculated Baud Rate: \t"
-	.pascii	"\n\rNearest Common Baud Rate: \t"
+	.pascii	"**Baud>16m: BP Cannot measure > 16000000, Done."
+	.pascii	"\n\rCalculated: \t"
+	.pascii	"\n\rEstimated:  \t"
 	.pascii	" bps"
 	.pascii	" General\t\t\t\t\tProtocol interaction"
 	.pascii	" ---------------------------------------------------------------------------"
@@ -253,6 +253,8 @@ _bpmessages:
 	.pascii	" s\tScript engine\t\t\t:\tRepeat e.g. r:10"
 	.pascii	" v\tShow volts/states\t\t;\tBits to read/write e.g. 0x55;2"
 	.pascii	" w/W\tPSU (off/ON)\t\t<x>/<x= >/<0>\tUsermacro x/assign x/list all"
+
+
 
 
 #endif
