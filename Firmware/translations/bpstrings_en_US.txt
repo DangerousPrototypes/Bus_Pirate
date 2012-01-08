@@ -309,11 +309,11 @@ BPMSG1274;1;"disabled"
 
 //uart getbaud function
 //starting at 1280 for v4 room
-BPMSG1280;1;"Waiting activity on MISO (Any key to exit)."
+BPMSG1280;1;"Waiting activity..."
 BPMSG1281;1;"** Early Exit!"
-BPMSG1282;1;"*Warning* Baud>16m: The BP is not fast enough to measure bauds above 16000000, Done."
-BPMSG1283;0;"\n\rActual Calculated Baud Rate: \t"
-BPMSG1284;0;"\n\rNearest Common Baud Rate: \t"
+BPMSG1282;1;"** Baud>16m: The BP cannot measure above 16000000, Done."
+BPMSG1283;0;"\n\rCalculated: \t"
+BPMSG1284;0;"\n\rEstimated:  \t"
 BPMSG1285;1;" bps"
 
 
