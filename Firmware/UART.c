@@ -435,6 +435,39 @@ void UARTgetbaud_clrTimer(void)
 	TMR3HLD=0;
 }
 
+#define UARTgetbaud_CommonBauds_COUNT 14
+static unsigned long UARTgetbaud_CommonBauds[]={300,600,1200,2400,4800,9600,14400,19200,28800,38400,56000,57600,115200,128000,256000};
+
+unsigned long UARTgetbaud_EstimatedBaud(unsigned long _abr_)
+{
+	signed long LastTest=400000, CurrentTest=0, Keeper=0;
+	int i=0;
+
+	for(i=0;i<UARTgetbaud_CommonBauds_COUNT;i++)
+	{
+		CurrentTest = UARTgetbaud_CommonBauds[i];
+		
+		if (_abr_ < CurrentTest) {
+			CurrentTest = CurrentTest - _abr_;
+		} else {
+			CurrentTest = _abr_ - CurrentTest;
+		}	
+			
+		if(CurrentTest<LastTest)
+		{
+			Keeper = UARTgetbaud_CommonBauds[i];
+		} 
+		
+		LastTest = CurrentTest;
+	}
+	
+	if(Keeper==400000)		//Hmm keeper never chaned. Theres a prob return 0
+		return 0;
+	else
+		return Keeper;
+}
+
+/*
 unsigned long UARTgetbaud_EstimatedBaud(unsigned long _abr_)
 {
 	if((_abr_>=250) && (_abr_<=450)) {
@@ -471,7 +504,7 @@ unsigned long UARTgetbaud_EstimatedBaud(unsigned long _abr_)
 		return 0;
 	}
 }
-
+*/
 
 unsigned long UARTgetbaud(int DataOnly)
 {
