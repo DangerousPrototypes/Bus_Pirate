@@ -436,7 +436,7 @@ void UARTgetbaud_clrTimer(void)
 }
 
 #define UARTgetbaud_CommonBauds_COUNT 14
-static unsigned long UARTgetbaud_CommonBauds[]={300,600,1200,2400,4800,9600,14400,19200,28800,38400,56000,57600,115200,128000,256000};
+const static unsigned long UARTgetbaud_CommonBauds[]={300,600,1200,2400,4800,9600,14400,19200,28800,38400,56000,57600,115200,128000,256000};
 
 unsigned long UARTgetbaud_EstimatedBaud(unsigned long _abr_)
 {
