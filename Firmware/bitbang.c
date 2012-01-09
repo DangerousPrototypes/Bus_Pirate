@@ -271,7 +271,7 @@ void bbPins(unsigned int dir, unsigned int pins, unsigned char delay){
 		IODIR &=(~pins);//direction to output
 	}else{
 		if(modeConfig.HiZ==0){
-			LATB |= pins;//normal output high
+			IOLAT |= pins;//normal output high
 			IODIR &=(~pins);//direction to output
 		}else{
 			IODIR |= pins;//open collector output high
