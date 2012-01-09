@@ -71,7 +71,7 @@ unsigned char SUMPlogicCommand(unsigned char inByte){
 //	static unsigned char i;
 	static unsigned long l;
 
-	enum _SUMP {
+	static enum _SUMP {
 		C_IDLE = 0,
 		C_PARAMETERS,
 		C_PROCESS,
