@@ -44,7 +44,7 @@ typedef unsigned char BYTE;
 // FIRMWARE VERSION STRING
 // Build Firmware Version String
 // used in 'i' and startup
-#define BP_FIRMWARE_STRING "Firmware v6.0 r1625 "
+#define BP_FIRMWARE_STRING "Firmware v6.1-beta-r1664 "
 
 
 ////////////////////////////////////////

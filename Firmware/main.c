@@ -132,7 +132,7 @@ int main(void) {
 //setup clock, terminal UART, pins, LEDs, and display version info
 
 void Initialize(void) {
-
+	unsigned char i;
 #if defined (BUSPIRATEV2) || defined (BUSPIRATEV1A)
     CLKDIVbits.RCDIV0 = 0; //clock divider to 0
     AD1PCFG = 0xFFFF; // Default all pins to digital
@@ -175,6 +175,7 @@ void Initialize(void) {
     //find the Bus Pirate revision
     //pullup on, do it now so it can settle during the next operations
     CNPU1bits.CN6PUE = 1;
+    CNPU1bits.CN7PUE = 1;
 #endif
     //#ifndef BUSPIRATEV4
     // Get the chip type and revision
@@ -184,14 +185,23 @@ void Initialize(void) {
 
 #if defined (BUSPIRATEV2)
     //now check the revision
-    //if 0 3b, else v2go, or v3
-    if (PORTBbits.RB2 == 1) {
+	//Version | RB3 | RB2
+	//2go, 3a | 1   |  1
+	//v3b     | 1   |  0
+	//v3.5    | 0   |  0
+	i=PORTB; //get settings
+	i=i>>2; //remove unused
+	i&=(~0b11111100); //clear others
+    if (i==0b11) {
         bpConfig.HWversion = 'a';
-    } else {
+    } else if(i==0b10){
         bpConfig.HWversion = 'b';
-    }
+    }else if(i==0){
+        bpConfig.HWversion = '5';
+	}
     //pullup off
     CNPU1bits.CN6PUE = 0;
+    CNPU1bits.CN7PUE = 0;
 #else
     bpConfig.HWversion = 0;
 #endif
