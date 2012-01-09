@@ -1451,7 +1451,11 @@ void versionInfo(void) {
 
 #if defined (BUSPIRATEV2) //we can tell if it's v3a or v3b, show it here
     bpWstring(BP_VERSION_STRING);
+    UART1TX('.');
     UART1TX(bpConfig.HWversion);
+	if(bpConfig.dev_type==0x44F){//sandbox electronics clone with 44pin PIC24FJ64GA004
+    	bpWstring(" clone w/different PIC");
+	}
     bpBR;
 #else
     bpWline(BP_VERSION_STRING);
@@ -1499,7 +1503,13 @@ void versionInfo(void) {
             break;
     }
 #else
-    bpWstring(" (24FJ64GA002 ");
+    bpWstring(" (24FJ64GA00");
+	if(bpConfig.dev_type==0x44F){//sandbox electronics clone with 44pin PIC24FJ64GA004
+    	bpWstring("4 ");
+	}else{
+    	bpWstring("2 ");
+	}
+
     switch (bpConfig.dev_rev) {
         case PIC_REV_A3:
             bpWstring("A3"); //also A4, but that's not in the wild and makes it confusing to users
