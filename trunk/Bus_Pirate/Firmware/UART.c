@@ -22,9 +22,9 @@
 
 #if defined(ENABLE_MATCHBAUDBRIDGE_BETA)
 #if defined(BUSPIRATEV4)
-// This is for asking to match settings for main and mode on bridge macro(s).
-#include "busPirateCore.h"//need access to bpConfig
-extern struct _bpConfig bpConfig; //holds persistant bus pirate settings (see base.h) need hardware version info
+	// This is for asking to match settings for main and mode on bridge macro(s).
+	#include "busPirateCore.h"//need access to bpConfig
+	extern struct _bpConfig bpConfig; //holds persistant bus pirate settings (see base.h) need hardware version info
 #endif
 #endif
 
@@ -46,6 +46,12 @@ void UARTgetbaud_InitTimer(void);
 void UARTgetbaud_clrTimer(void);
 unsigned long UARTgetbaud_EstimatedBaud(unsigned long _abr_);
 unsigned long UARTgetbaud(int DataOnly);
+
+#if defined(ENABLE_MATCHBAUDBRIDGE_BETA)
+#if defined(BUSPIRATEV4)
+void UARTmatchSetup(void);
+#endif
+#endif
 
 struct _UART{
 	unsigned char dbp:2; //databits and parity
@@ -272,6 +278,45 @@ void UARTcleanup(void)
 
 }
 
+#if defined(ENABLE_MATCHBAUDBRIDGE_BETA)
+#if defined(BUSPIRATEV4)
+void UARTmatchSetup(void)
+{
+	if(modeConfig.speed!=bpConfig.termSpeed)
+	{
+		bpWline("\r\n** Notice: Your Main and Mode baud rates do not match:");
+		#define UARTbrg2baud(x) UARTgetbaud_EstimatedBaud(x)
+		bpWstring("\r\n + Main UART (USB) is  @ ");
+		bpWlongdec(UARTbrg2baud((32000000/((UART2speed[bpConfig.termSpeed]+1)*8))));
+		
+		if(modeConfig.speed==9) 
+		{
+			bpWstring(" bps\r\n + Mode UART (UART) is ~ ");
+			bpWlongdec((32000000/((U2BRG+1)*8)));
+		} 
+		else 
+		{
+			bpWstring(" bps\r\n + Mode UART (UART) is @ ");
+			bpWlongdec(UARTbrg2baud((32000000/((UART2speed[modeConfig.speed]+1)*8)))); 
+		}
+		bpWstring(" bps\r\n\r\nAuto-Set Mode UART to match USB UART, " );
+		if(agree())
+		{
+			bpWstring("\r\nSetting Main and Mode to match...");
+			modeConfig.speed = bpConfig.termSpeed;
+			UART2Disable();
+			UART2Setup(UART2speed[bpConfig.termSpeed],modeConfig.HiZ, uartSettings.rxp, uartSettings.dbp, uartSettings.sb );
+			bpWline(" OK");
+			UART2Enable();
+		}	else {
+			bpWline("\r\nNothing set.");
+		}
+	}
+	bpWline("\r\nContinuing...");
+}
+#endif
+#endif
+
 void UARTmacro(unsigned int macro)
 {
 	switch(macro){
@@ -294,40 +339,16 @@ void UARTmacro(unsigned int macro)
 			// do nothing but go into transparet UART. ##FIXME##
 			#endif
 		case 1://transparent UART
-			//bpWline("UART bridge");
-			BPMSG1204;
-			
-			// Ask to match Main and Mode settings for bridge.
+				
+			// UPDATE TO AUTOSET BAUD RATES FOR BRIDGE MODE MACRO(s)
 			#if defined(ENABLE_MATCHBAUDBRIDGE_BETA)
 			#if defined(BUSPIRATEV4)
-			if(modeConfig.speed!=bpConfig.termSpeed)
-			{
-				bpWline("\r\n** Notice: Your Main and Mode baud rates do not match:");
-				#define UARTbrg2baud(x) UARTgetbaud_EstimatedBaud(x)
-				bpWstring("\r\n + Main UART (USB) is  @ ");
-				bpWlongdec(UARTbrg2baud((32000000/((UART2speed[bpConfig.termSpeed]+1)*8))));
-				bpWstring(" bps\r\n + Mode UART (UART) is @ ");
-				bpWlongdec(UARTbrg2baud((32000000/((UART2speed[modeConfig.speed]+1)*8))));
-				bpWstring(" bps\r\n\r\nAuto-Set Mode UART to match USB UART, " );
-				if(agree())
-				{
-					bpWline("\r\nSetting Main and Mode to match...");
-					modeConfig.speed = bpConfig.termSpeed;
-					UART2Disable();
-					UART2Setup(UART2speed[bpConfig.termSpeed],modeConfig.HiZ, uartSettings.rxp, uartSettings.dbp, uartSettings.sb );
-					bpWline(" OK\r\nResuming bridge macro...");
-					UART2Enable();
-					if(U2BRG<U1BRG) BPMSG1249;
-					//break;	//Breaks for development
-				}	else {
-					bpWline("\r\nNothing set. Continuing...");
-					//break;	//Breaks for development
-				}
-			}
-			//break;			//Breaks for development
+			UARTmatchSetup();
 			#endif
 			#endif
 			
+			//bpWline("UART bridge");
+			BPMSG1204;
 			//bpWline("Reset to exit");
 			BPMSG1205; 
 			if(!agree()) break;
@@ -390,10 +411,6 @@ void UARTmacro(unsigned int macro)
 			UART2Enable();
 			if(U2BRG<U1BRG) BPMSG1249;
 			break;			
-		case 5:
-			bpWlongdec(UARTgetbaud_EstimatedBaud(getlong(115200,1,999999,0)));
-			bpWline("\r\nDONE\r\n");
-			break;
 		default:
 			//bpWmessage(MSG_ERROR_MACRO);
 			BPMSG1016;
