@@ -305,9 +305,9 @@ void UARTmacro(unsigned int macro)
 				bpWline("\r\n** Notice: Your Main and Mode baud rates do not match:");
 				#define UARTbrg2baud(x) UARTgetbaud_EstimatedBaud(x)
 				bpWstring("\r\n + Main UART (USB) is  @ ");
-				bpWlongdec(UARTbrg2baud((32000000/((UART2speed[modeConfig.speed]+1)*8))));
-				bpWstring(" bps\r\n + Mode UART (UART) is @ ");
 				bpWlongdec(UARTbrg2baud((32000000/((UART2speed[bpConfig.termSpeed]+1)*8))));
+				bpWstring(" bps\r\n + Mode UART (UART) is @ ");
+				bpWlongdec(UARTbrg2baud((32000000/((UART2speed[modeConfig.speed]+1)*8))));
 				bpWstring(" bps\r\n\r\nAuto-Set Mode UART to match USB UART, " );
 				if(agree())
 				{
