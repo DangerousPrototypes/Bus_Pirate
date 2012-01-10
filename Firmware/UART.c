@@ -20,14 +20,6 @@
 #include "uart2io.h"
 #include "binIOhelpers.h"
 
-#if defined(ENABLE_MATCHBAUDBRIDGE_BETA)
-#if defined(BUSPIRATEV4)
-	// This is for asking to match settings for main and mode on bridge macro(s).
-	#include "busPirateCore.h"//need access to bpConfig
-	extern struct _bpConfig bpConfig; //holds persistant bus pirate settings (see base.h) need hardware version info
-#endif
-#endif
-
 #include "procMenu.h"		// for the userinteraction subs
 
 
@@ -47,11 +39,6 @@ void UARTgetbaud_clrTimer(void);
 unsigned long UARTgetbaud_EstimatedBaud(unsigned long _abr_);
 unsigned long UARTgetbaud(int DataOnly);
 
-#if defined(ENABLE_MATCHBAUDBRIDGE_BETA)
-#if defined(BUSPIRATEV4)
-void UARTmatchSetup(void);
-#endif
-#endif
 
 struct _UART{
 	unsigned char dbp:2; //databits and parity
@@ -278,44 +265,6 @@ void UARTcleanup(void)
 
 }
 
-#if defined(ENABLE_MATCHBAUDBRIDGE_BETA)
-#if defined(BUSPIRATEV4)
-void UARTmatchSetup(void)
-{
-	if(modeConfig.speed!=bpConfig.termSpeed)
-	{
-		bpWline("\r\n** Notice: Your Main and Mode baud rates do not match:");
-		#define UARTbrg2baud(x) UARTgetbaud_EstimatedBaud(x)
-		bpWstring("\r\n + Main UART (USB) is  @ ");
-		bpWlongdec(UARTbrg2baud((32000000/((UART2speed[bpConfig.termSpeed]+1)*8))));
-		
-		if(modeConfig.speed==9) 
-		{
-			bpWstring(" bps\r\n + Mode UART (UART) is ~ ");
-			bpWlongdec((32000000/((U2BRG+1)*8)));
-		} 
-		else 
-		{
-			bpWstring(" bps\r\n + Mode UART (UART) is @ ");
-			bpWlongdec(UARTbrg2baud((32000000/((UART2speed[modeConfig.speed]+1)*8)))); 
-		}
-		bpWstring(" bps\r\n\r\nAuto-Set Mode UART to match USB UART, " );
-		if(agree())
-		{
-			bpWstring("\r\nSetting Main and Mode to match...");
-			modeConfig.speed = bpConfig.termSpeed;
-			UART2Disable();
-			UART2Setup(UART2speed[bpConfig.termSpeed],modeConfig.HiZ, uartSettings.rxp, uartSettings.dbp, uartSettings.sb );
-			bpWline(" OK");
-			UART2Enable();
-		}	else {
-			bpWline("\r\nNothing set.");
-		}
-	}
-	bpWline("\r\nContinuing...");
-}
-#endif
-#endif
 
 void UARTmacro(unsigned int macro)
 {
@@ -339,13 +288,6 @@ void UARTmacro(unsigned int macro)
 			// do nothing but go into transparet UART. ##FIXME##
 			#endif
 		case 1://transparent UART
-				
-			// UPDATE TO AUTOSET BAUD RATES FOR BRIDGE MODE MACRO(s)
-			#if defined(ENABLE_MATCHBAUDBRIDGE_BETA)
-			#if defined(BUSPIRATEV4)
-			UARTmatchSetup();
-			#endif
-			#endif
 			
 			//bpWline("UART bridge");
 			BPMSG1204;
