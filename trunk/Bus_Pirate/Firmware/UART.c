@@ -20,6 +20,14 @@
 #include "uart2io.h"
 #include "binIOhelpers.h"
 
+#if defined(ENABLE_MATCHBAUDBRIDGE_BETA)
+#if defined(BUSPIRATEV4)
+// This is for asking to match settings for main and mode on bridge macro(s).
+#include "busPirateCore.h"//need access to bpConfig
+extern struct _bpConfig bpConfig; //holds persistant bus pirate settings (see base.h) need hardware version info
+#endif
+#endif
+
 #include "procMenu.h"		// for the userinteraction subs
 
 
@@ -271,8 +279,8 @@ void UARTmacro(unsigned int macro)
 			//bpWline(OUMSG_UART_MACRO_MENU);
 			BPMSG1203;
 			break;
-		#if defined(BUSPIRATEV25) || defined(BUSPIRATEV3)
 		case 3://UART bridge with flow control
+			#if defined(BUSPIRATEV25) || defined(BUSPIRATEV3)
 			//setup RTS CTS on FTDI chip side
 			FTDI_CTS_DIR=0; //CTS (PIC output to FTDI)
 			FTDI_RTS_DIR=1; //RTS (PIC input from FTDI)
@@ -282,13 +290,44 @@ void UARTmacro(unsigned int macro)
 			BP_CLK_DIR=0;//external RTS (PIC output mirrors output from FTDI)
 			//BP_CS=0;//external CTS (PIC input from external circuit)
 			//BP_CLK=0;//external RTS (PIC mirrors output from FTDI)
-		#elif defined(BUSPIRATEV4)
-		case 3:
+			#elif defined(BUSPIRATEV4)
 			// do nothing but go into transparet UART. ##FIXME##
-		#endif
+			#endif
 		case 1://transparent UART
 			//bpWline("UART bridge");
 			BPMSG1204;
+			
+			// Ask to match Main and Mode settings for bridge.
+			#if defined(ENABLE_MATCHBAUDBRIDGE_BETA)
+			#if defined(BUSPIRATEV4)
+			if(modeConfig.speed!=bpConfig.termSpeed)
+			{
+				bpWline("\r\n** Notice: Your Main and Mode baud rates do not match:");
+				#define UARTbrg2baud(x) UARTgetbaud_EstimatedBaud(x)
+				bpWstring("\r\n + Main UART (USB) is  @ ");
+				bpWlongdec(UARTbrg2baud((32000000/((UART2speed[modeConfig.speed]+1)*8))));
+				bpWstring(" bps\r\n + Mode UART (UART) is @ ");
+				bpWlongdec(UARTbrg2baud((32000000/((UART2speed[bpConfig.termSpeed]+1)*8))));
+				bpWstring(" bps\r\n\r\nAuto-Set Mode UART to match USB UART, " );
+				if(agree())
+				{
+					bpWline("\r\nSetting Main and Mode to match...");
+					modeConfig.speed = bpConfig.termSpeed;
+					UART2Disable();
+					UART2Setup(UART2speed[bpConfig.termSpeed],modeConfig.HiZ, uartSettings.rxp, uartSettings.dbp, uartSettings.sb );
+					bpWline(" OK\r\nResuming bridge macro...");
+					UART2Enable();
+					if(U2BRG<U1BRG) BPMSG1249;
+					//break;	//Breaks for development
+				}	else {
+					bpWline("\r\nNothing set. Continuing...");
+					//break;	//Breaks for development
+				}
+			}
+			//break;			//Breaks for development
+			#endif
+			#endif
+			
 			//bpWline("Reset to exit");
 			BPMSG1205; 
 			if(!agree()) break;
