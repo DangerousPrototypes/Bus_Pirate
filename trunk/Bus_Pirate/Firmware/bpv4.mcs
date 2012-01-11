@@ -2,396 +2,6 @@
 MagicCookie={0b13fe8c-dfe0-40eb-8900-6712719559a7}
 Version=1.0
 [File000]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\main.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File001]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\raw2wire.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File002]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\raw3wire.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File003]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\SPI.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File004]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\base.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File005]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\I2C.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File006]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\1wire.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File007]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\AUXpin.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File008]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\busPirateCore.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File009]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\procMenu.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File010]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\baseIO.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File011]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\baseUI.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File012]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\uart2io.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File013]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\UART.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File014]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\selftest.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File015]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\bitbang.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File016]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\binIO.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File017]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\binIOhelpers.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File018]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\binwire.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File019]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\SUMP.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File020]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\basic.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File021]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\pic.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File022]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\en_US.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={DE18EB1A-B46B-486B-B96F-A811A635DFAC}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-as.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g
-TraceCmdString=
-DebugOptions=
-[File023]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\HD44780.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File024]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\pc_at_keyboard.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File025]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\dio.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File026]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\cdc.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File027]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\usb_stack.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File028]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\onboardEEPROM.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File029]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\work\1wire_lib.o
-Folder=Intermediary
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-g -Wall -mlarge-code -mlarge-data
-TraceCmdString=
-DebugOptions=
-[File030]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\main.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -404,7 +14,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File031]
+[File001]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\raw2wire.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -417,7 +27,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File032]
+[File002]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\raw3wire.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -430,7 +40,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File033]
+[File003]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\SPI.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -443,7 +53,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File034]
+[File004]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\base.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -456,7 +66,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File035]
+[File005]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\I2C.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -469,7 +79,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File036]
+[File006]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\1wire.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -482,7 +92,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File037]
+[File007]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\AUXpin.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -495,7 +105,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File038]
+[File008]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\busPirateCore.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -508,7 +118,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File039]
+[File009]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\procMenu.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -521,7 +131,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File040]
+[File010]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\baseIO.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -534,7 +144,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File041]
+[File011]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\baseUI.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -547,7 +157,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File042]
+[File012]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\uart2io.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -560,7 +170,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File043]
+[File013]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\UART.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -573,7 +183,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File044]
+[File014]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\selftest.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -586,7 +196,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File045]
+[File015]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\bitbang.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -599,7 +209,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File046]
+[File016]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\binIO.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -612,7 +222,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File047]
+[File017]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\binIOhelpers.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -625,7 +235,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File048]
+[File018]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\binwire.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -638,7 +248,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File049]
+[File019]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\SUMP.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -651,7 +261,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File050]
+[File020]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\basic.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -664,7 +274,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File051]
+[File021]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\pic.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -677,7 +287,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File052]
+[File022]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\en_US.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -690,7 +300,7 @@ SuiteArgsString=
 ToolArgsString=-g
 TraceCmdString=
 DebugOptions=
-[File053]
+[File023]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\HD44780.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -703,7 +313,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File054]
+[File024]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\pc_at_keyboard.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -716,7 +326,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File055]
+[File025]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\dio.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -729,7 +339,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File056]
+[File026]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\cdc.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -742,7 +352,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File057]
+[File027]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\usb_stack.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -755,7 +365,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File058]
+[File028]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\onboardEEPROM.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -768,7 +378,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File059]
+[File029]
 Location=E:\Work\dp\Bus_Pirate\Firmware\work\1wire_lib.o
 Folder=Intermediary
 DeviceName=PIC24FJ256GB106
@@ -781,33 +391,7 @@ SuiteArgsString=
 ToolArgsString=-g -Wall -mlarge-code -mlarge-data
 TraceCmdString=
 DebugOptions=
-[File060]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\.\output\bpv4.cof
-Folder=Output
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={433C3D55-811D-409D-A6BF-159CF9355B42}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-ld.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-Map="$(BINDIR_)$(TARGETBASE).map" --report-mem -o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)"
-TraceCmdString=
-DebugOptions=
-[File061]
-Location=C:\WinAVR-20100110\Datasheets\sources\BUS PIRATE\dp-svn\.\output\bpv4.hex
-Folder=Output
-DeviceName=PIC24FJ256GB106
-LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
-LanguageToolID={433C3D55-811D-409D-A6BF-159CF9355B42}
-LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-ld.exe
-PPAD=$(BINDIR)|.\output||$(TMPDIR)|.\work||$(AINDIR)||$(INCDIR)||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
-SOLK=<src>|main.c|raw2wire.c|raw3wire.c|SPI.c|base.c|I2C.c|1wire.c|AUXpin.c|busPirateCore.c|procMenu.c|baseIO.c|baseUI.c|uart2io.c|UART.c|selftest.c|bitbang.c|binIO.c|binIOhelpers.c|binwire.c|SUMP.c|basic.c|pic.c|translations\en_US.s|HD44780.c|pc_at_keyboard.c|dio.c|cdc.c|usb_stack.c|onboardEEPROM.c|1wire_lib.c||<obj>||<lib>||<lkr>|p24FJ256GB106.gld||
-SuiteArgsString=
-ToolArgsString=-Map="$(BINDIR_)$(TARGETBASE).map" --report-mem -o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)"
-TraceCmdString=
-DebugOptions=
-[File062]
+[File030]
 Location=E:\Work\dp\Bus_Pirate\Firmware\.\output\bpv4.cof
 Folder=Output
 DeviceName=PIC24FJ256GB106
@@ -820,7 +404,7 @@ SuiteArgsString=
 ToolArgsString=-Map="$(BINDIR_)$(TARGETBASE).map" --report-mem -o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)"
 TraceCmdString=
 DebugOptions=
-[File063]
+[File031]
 Location=E:\Work\dp\Bus_Pirate\Firmware\.\output\bpv4.hex
 Folder=Output
 DeviceName=PIC24FJ256GB106
