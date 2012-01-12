@@ -50,8 +50,9 @@ Low power request macro
 
 #define  USBLEDON()   USBLED = 0
 
-#define USB_VID (0x4d8)
-#define USB_PID (0x000A)
+#define USB_VID (0x04d8)
+//#define USB_PID (0x000A) ; Microchip CDC Demo code VID/PID, better not to use this one
+#define USB_PID (0xFAFF) ; DangerousPrototypes Bootloader VID/PID
 #define USB_DEV 0x0002
 
 #define USB_NUM_CONFIGURATIONS          1u

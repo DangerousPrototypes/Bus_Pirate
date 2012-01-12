@@ -86,10 +86,14 @@ ServiceBinary=%12%\%DRIVERFILENAME%.sys
 [SourceDisksFiles]
 [SourceDisksNames]
 [DeviceList]
-%DESCRIPTION%=DriverInstall, USB\VID_04D8&PID_000A,USB\VID_04D8&PID_FB00  
+%DESCRIPTION%=DriverInstall, USB\VID_04D8&PID_FB00 ; DangerousPrototypes Firmware VID/PID
+%DESLOADER%=DriverInstall, USB\VID_04D8&PID_000A   ; Microchip CDC Demo code VID/PID, better not to use this one
+%DESLOADER%=DriverInstall, USB\VID_04D8&PID_FAFF   ; DangerousPrototypes Bootloader VID/PID
 
 [DeviceList.NTamd64] 
-%DESCRIPTION%=DriverInstall, USB\VID_04D8&PID_000A,USB\VID_04D8&PID_FB00 
+%DESCRIPTION%=DriverInstall, USB\VID_04D8&PID_FB00 ; DangerousPrototypes Firmware VID/PID
+%DESLOADER%=DriverInstall, USB\VID_04D8&PID_000A   ; Microchip CDC Demo code VID/PID, better not to use this one
+%DESLOADER%=DriverInstall, USB\VID_04D8&PID_FAFF   ; DangerousPrototypes Bootloader VID/PID
 
 
 ;------------------------------------------------------------------------------
@@ -102,7 +106,8 @@ MFGFILENAME="mchpcdc"
 DRIVERFILENAME ="usbser"
 MFGNAME="Microchip Technology, Inc."
 INSTDISK="Microchip Technology, Inc. Installation Disc"
-DESCRIPTION="Communications Port"
+DESCRIPTION="Bus Pirate v4"
+DESLOADER="Bus Pirate v4 Bootloader"
 SERVICE="USB RS-232 Emulation Driver"
 
 
