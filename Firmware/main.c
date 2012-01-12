@@ -132,7 +132,9 @@ int main(void) {
 //setup clock, terminal UART, pins, LEDs, and display version info
 
 void Initialize(void) {
+#if defined (BUSPIRATEV2)
 	unsigned char i;
+#endif
 #if defined (BUSPIRATEV2) || defined (BUSPIRATEV1A)
     CLKDIVbits.RCDIV0 = 0; //clock divider to 0
     AD1PCFG = 0xFFFF; // Default all pins to digital
