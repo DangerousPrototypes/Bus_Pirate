@@ -18,9 +18,25 @@
 #include "base.h"
 #include "procMenu.h"
 
+static enum _SMPSmode
+	{
+		SMPS_ON,
+		SMPS_OFF,
+	} SMPSmode = SMPS_OFF;
+	
 unsigned int PWM_dutycycle, V_out;
 	
 void bpSMPS(void) {
+	if(SMPSmode == SMPS_OFF) {					// SMPS is off, turn it on
+		smpsStart();
+		SMPSmode = SMPS_ON;
+	} else {									// SMPS is on, turn it off
+		smpsStop();
+		SMPSmode = SMPS_OFF;
+	}
+}
+
+void smpsStart(void) {
 	consumewhitechars();
 	V_out = getnumber(0,550,1300,0);			// Output voltage in centivolt
 	
@@ -43,10 +59,9 @@ void bpSMPS(void) {
 	OC5CON = 0x1C06;
 	
 	AD1CON1bits.ADON = 1;						// turn ADC ON
-	
-	while(!UART1RXRdy());						// wait for keypress to exit
-	
-	// Cleanup
+}
+
+void smpsStop(void) {
 	AD1CON1bits.ADON = 0;						// Turn ADC OFF
 	IEC0bits.AD1IE = 0;							// Disable ADC interrupt
 	AD1CON1bits.ASAM = 0; 						// Disable auto sample
@@ -54,8 +69,6 @@ void bpSMPS(void) {
 	OC5RS = 0;
 	OC5CON2 = 0;
 	OC5CON = 0;
-	UART1RX();
-	bpWline("");                  			   // need a linefeed :D
 }
 
 void __attribute__((interrupt, no_auto_psv)) _ADC1Interrupt() {
