@@ -23,6 +23,9 @@
 #include "binIO.h"
 #include "SUMP.h"
 #include "basic.h"
+#ifdef BUSPIRATEV4
+#include "smps.h"
+#endif
 
 extern struct _bpConfig bpConfig;
 extern struct _modeConfig modeConfig;
@@ -538,6 +541,8 @@ end:			case 0x05: // ^E (goto end of line)
                 case 'K': modeConfig.altAUX = 3;
                     //bpWline("AUX2 selected");
                     BPMSG1264;
+                    break;
+				case 'M': bpSMPS();
                     break;
 #endif
                 case 'L': //bpWline("-bit order set (MSB)");
