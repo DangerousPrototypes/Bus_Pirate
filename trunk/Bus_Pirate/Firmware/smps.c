@@ -44,7 +44,7 @@ void smpsStart(void) {
 	V_out = V_out*45/58;						// Change to 1024 bit ADC reading to make comparison faster
 	
 	// Assign pin with PPS
-	BP_AUX_RPOUT = OC5_IO;
+	BP_AUX1_RPOUT = OC5_IO;
 
 	// ADC settings
 	AD1CHS = BP_ADC_PROBE;						// Set channel to ADC pin
@@ -69,6 +69,7 @@ void smpsStop(void) {
 	OC5RS = 0;
 	OC5CON2 = 0;
 	OC5CON = 0;
+	BP_AUX1_RPOUT = 0;
 }
 
 void __attribute__((interrupt, no_auto_psv)) _ADC1Interrupt() {
