@@ -17,23 +17,22 @@ _CONFIG2(	FNOSC_FRCPLL & 	//Internal FRC with PLL
 
 int main(void)
 {
+   unsigned long i;         //a 32 bit variable to use as a timer
+ 
+   CLKDIVbits.RCDIV0=0;     //clock divider to 0
+   AD1PCFG = 0xFFFF;        // Default all pins to digital
+   OSCCONbits.SOSCEN=0;     //Disables the secondary oscilator
 
-	CLKDIVbits.RCDIV0=0; 	//clock divider to 0
-    AD1PCFG = 0xFFFF;      	// Default all pins to digital
-   	OSCCONbits.SOSCEN=0;	//Disables the secondary oscilator
+   TRISAbits.TRISA1 = 0;    //sets the Mode LED pin RA1 as output
+   LATAbits.LATA1 = 0;      //turns LED off
 	
-   	TRISAbits.TRISA1 = 0;	//sets the Mode LED pin RA1 as output
-   	LATAbits.LATA1 = 0;   	//turns LED off
-   	
-	unsigned long int i;
-			
 //////////////////////////////////////////////////////////////////
 ///FOREVER LOOP///////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
     while(1)
     {
+      LATAbits.LATA1 = ~LATAbits.LATA1; //toggles the MODE LED
       i =0xFFFFF;                       //sets i to 1048575
-      LATAbits.LATA1 = ~PORTAbits.RA1;  //togles the MODE LED 
-      while (i--);						//delay function
-	}                  					//decrements i until 0	
-}                                       
+      while (i--);                      //delay function
+    }                                   //decrements i until 0   
+}                                      
