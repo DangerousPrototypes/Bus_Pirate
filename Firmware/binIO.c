@@ -28,6 +28,9 @@
 #include "pic.h"
 #include "binIO.h"
 #include "AUXpin.h"
+#if defined (BUSPIRATEV4)
+#include "smps.h"
+#endif
 
 extern struct _modeConfig modeConfig;
 
@@ -61,6 +64,7 @@ Commands:
 00000101 //enter raw wire mode
 00000110 // enter openOCD
 00000111 // pic programming mode
+00001000 // SMPS setting mode for v4
 00001111 //reset, return to user terminal
 00010000 //short self test
 00010001 //full self test with jumpers
@@ -132,6 +136,13 @@ void binBB(void) {
                 binReset();
 #ifdef BP_USE_PIC
                 binpic();
+#endif
+                binReset();
+                binBBversion(); //say name on return
+            } else if (inByte == 8) {//goto SMPS mode
+                binReset();
+#ifdef BUSPIRATEV4
+                binSMPS();
 #endif
                 binReset();
                 binBBversion(); //say name on return
