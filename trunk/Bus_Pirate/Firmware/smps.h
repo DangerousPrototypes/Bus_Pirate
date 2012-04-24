@@ -16,5 +16,7 @@
  
 void bpSMPS(void);
 void smpsStart(void);
+void smpsBinStart(unsigned int V_out);
 void smpsStop(void);
 void __attribute__((interrupt, no_auto_psv)) _ADC1Interrupt();
+void binSMPS(void);
