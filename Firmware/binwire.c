@@ -7,8 +7,14 @@ extern struct _modeConfig modeConfig;
 extern struct _bpConfig bpConfig;
 void binrawversionString(void);
 void PIC24NOP(void);
+
+void PIC614Write(unsigned char cmd, unsigned char datl, unsigned char dath);
+void PIC614Read(unsigned char c);
+
+void PIC416Read(unsigned char c);
 void PIC416Write(unsigned char cmd, unsigned char datl, unsigned char dath);
-void PIC424Write(unsigned long cmd, unsigned char pn);
+void PIC424Write_internal(unsigned long cmd, unsigned char pn);
+void PIC424Write(unsigned char *cmd, unsigned char pn);
 void PIC424Read(void);
 
 #define R3WMOSI_TRIS 	BP_MOSI_DIR
@@ -51,29 +57,16 @@ void binrawversionString(void) {
     bpWstring("RAW1");
 }
 
-void PIC24NOP(void) {
-    //send four bit SIX command (write)
-    bbWriteBit(0); //send bit
-    bbWriteBit(0); //send bit
-    bbWriteBit(0); //send bit
-    bbWriteBit(0); //send bit
-
-    //send data payload
-    bbWriteByte(0x00); //send byte
-    bbWriteByte(0x00); //send byte
-    bbWriteByte(0x00); //send byte
-
-}
-
 enum {
-    PIC614 = 0,
+    PICUNK = 0,
     PIC416,
     PIC424,
+    PIC614,
 };
 
 void binwire(void) {
     static unsigned char inByte, rawCommand, i, c, wires, picMode = PIC614;
-    static unsigned int cmds, j;
+    static unsigned int cmds, cmdw, cmdr, j;
 
     modeConfig.HiZ = 1; //yes, always hiz (bbio uses this setting, should be changed to a setup variable because stringing the modeconfig struct everyhwere is getting ugly!)
     modeConfig.lsbEN = 0; //just in case!
@@ -312,71 +305,75 @@ void binwire(void) {
                             case PIC424:
                                 //get the number of commands that will follow
                                 cmds = UART1RX(); //  //get byte, reuse rawCommand variable
-                                //cmds=cmds; //make sure an int
-                                //get the command to send before the read...
-                                //rawCommand=UART1RX(); //
-
-                                /*
-                                                                                                                                        pic[0]=UART1RX(); ////get byte, reuse rawCommand variable
-
-                                pic[1] = UART1RX(); //; //get byte, reuse rawCommand variable
-                                pic[2] = UART1RX(); //  //get byte, reuse rawCommand variable
-
 
                                 for (j = 0; j < cmds; j++) {
                                     //write command
-                                    //send four bit SIX command (write)
-                                    bbWriteBit(0); //send bit
-                                    bbWriteBit(0); //send bit
-                                    bbWriteBit(0); //send bit
-                                    bbWriteBit(0); //send bit
-
-                                    //send data payload
-                                    bbWriteByte(pic[0]); //send byte
-                                    bbWriteByte(pic[1]); //send byte
-                                    bbWriteByte(pic[2]); //send byte
-
-                                    //do any post instruction NOPs
-                                    //bpConfig.terminalInput[j+3]&=0x0F;
-                                    //for(i=0; i<2; i++){
-                                    PIC24NOP();
-                                    PIC24NOP();
-                                    //}
-
-                                    //send four bit REGOUT command (read)
-                                    bbWriteBit(1); //send bit
-                                    bbWriteBit(0); //send bit
-                                    bbWriteBit(0); //send bit
-                                    bbWriteBit(0); //send bit
-
-                                    //one byte output
-                                    bbWriteByte(0x00); //send byte
-
-                                    //read 2 bytes
-                                    //return bytes
-                                    UART1TX(bbReadByte());
-                                    UART1TX(bbReadByte());
-
-                                    //ALWAYS POST nop TWICE after a read
-                                    PIC24NOP();
-                                    PIC24NOP();
-                                }
-                                 */
-                                for (j = 0; j < cmds; j++) {
-                                    //write command
-                                    PIC424Write(0xBA0B96, 2);
+                                    PIC424Write_internal(0xBA0B96, 2);
                                     PIC424Read();
 
-                                    PIC424Write(0xBADBB6, 2);
-                                    PIC424Write(0xBAD3D6, 2);
+                                    PIC424Write_internal(0xBADBB6, 2);
+                                    PIC424Write_internal(0xBAD3D6, 2);
                                     PIC424Read();
 
-                                    PIC424Write(0xBA0BB6, 2);
+                                    PIC424Write_internal(0xBA0BB6, 2);
                                     PIC424Read();
 
                                 }
                                 break;
                         }
+                        break;
+                    case 0b10100111: // x write, y read commands.
+                        cmdw = UART1RX();
+                        cmdr = UART1RX();
+
+                        if (picMode == PIC424) {
+                            cmds = cmdw * 5 + cmdr;
+                        } else if (picMode == PIC416) {
+                            cmds = cmdw * 4 + cmdr * 2;
+                        } else if (picMode == PIC614) {
+                            cmds = cmdw * 4 + cmdr * 2;
+                        } else {
+                            UART1TX(0);
+                            break;
+                        }
+
+                        for (j = 0; j < cmds; j++) {
+                            bpConfig.terminalInput[j] = UART1RX();
+                        }
+
+                        if (cmdr != 0)
+                            UART1TX(1); // ACK
+
+                        j=0;
+                        while (j < cmds) {
+                            if (bpConfig.terminalInput[j] == 1) { // write command
+                                if (picMode == PIC614) {
+                                    PIC614Write(bpConfig.terminalInput[j+1], bpConfig.terminalInput[j + 2], bpConfig.terminalInput[j + 3]);
+                                    j += 4;
+                                } else if (picMode == PIC416) {
+                                    PIC416Write(bpConfig.terminalInput[j+1], bpConfig.terminalInput[j + 2], bpConfig.terminalInput[j + 3]);
+                                    j += 4;
+                                } else if (picMode == PIC424) {
+                                    PIC424Write(&bpConfig.terminalInput[j + 1], bpConfig.terminalInput[j + 4]);
+                                    j += 5;
+                                }
+                            } else if (bpConfig.terminalInput[j] == 2) { // read command
+                                if (picMode == PIC614) {
+                                    PIC614Read(bpConfig.terminalInput[j+1]);
+                                    j += 2;
+                                } else if (picMode == PIC416) {
+                                    PIC416Read(bpConfig.terminalInput[j+1]);
+                                    j += 2;
+                                } else if (picMode == PIC424) {
+                                    PIC424Read();
+                                    j++;
+                                }
+                            }
+                        }
+
+                        if (cmdr == 0)
+                            UART1TX(1); // ACK
+
                         break;
                     default:
                         UART1TX(0x00); //send 0/Error
@@ -426,13 +423,59 @@ void binwire(void) {
 
 }
 
+void PIC614Read(unsigned char c) {
+    unsigned char i;
+
+    for (i = 0; i < 6; i++) {
+        bbWriteBit(c & 0b1); //send bit
+        c = c >> 1; //pop the LSB off
+    }
+
+    UART1TX(bbReadByte());
+    UART1TX(bbReadByte());
+}
+
+void PIC614Write(unsigned char cmd, unsigned char datl, unsigned char dath) {
+    unsigned char i, nodata;
+
+    // MSB tells that there is no data output
+    nodata = cmd & 0x80;
+
+    for (i = 0; i < 6; i++) {
+        bbWriteBit(cmd & 0b1); //send bit
+        cmd = cmd >> 1; //pop the LSB off
+    }
+
+    if (nodata)
+        return;
+
+    bbWriteByte(datl); //send byte
+    bbWriteByte(dath); //send byte
+
+}
+
+void PIC416Read(unsigned char c) {
+    unsigned char i;
+
+    for (i = 0; i < 4; i++) {
+        if (c & 0b1) {//send 1
+            bbWriteBit(1); //send bit
+        } else { //send 0
+            bbWriteBit(0); //send bit
+        }
+        c = c >> 1; //pop the LSB off
+    }
+
+    bbReadByte(); //dummy byte, setup input
+    UART1TX(bbReadByte());
+}
+
 void PIC416Write(unsigned char cmd, unsigned char datl, unsigned char dath) {
     unsigned char i, delay;
 
     //use upper 2 bits of pic[0] to determine a delay, if any.
     delay = cmd >> 6;
-    //needs to support 4 or 6 or etc modes
-    //should steal from pic.c
+
     for (i = 0; i < 4; i++) {
 
         //hold data for write time
@@ -451,14 +494,45 @@ void PIC416Write(unsigned char cmd, unsigned char datl, unsigned char dath) {
         cmd = cmd >> 1; //pop the LSB off
     }
 
-    //needs to support 14 or 16 bit writes
-    //should steal from pic.c
     bbWriteByte(datl); //send byte
     bbWriteByte(dath); //send byte
 
 }
 
-void PIC424Write(unsigned long cmd, unsigned char pn) {
+void PIC24NOP(void) {
+    //send four bit SIX command (write)
+    bbWriteBit(0); //send bit
+    bbWriteBit(0); //send bit
+    bbWriteBit(0); //send bit
+    bbWriteBit(0); //send bit
+
+    //send data payload
+    bbWriteByte(0x00); //send byte
+    bbWriteByte(0x00); //send byte
+    bbWriteByte(0x00); //send byte
+
+}
+
+void PIC424Write(unsigned char *cmd, unsigned char pn) {
+    //send four bit SIX command (write)
+    bbWriteBit(0); //send bit
+    bbWriteBit(0); //send bit
+    bbWriteBit(0); //send bit
+    bbWriteBit(0); //send bit
+
+    //send data payload
+    bbWriteByte(cmd[0]); //send byte
+    bbWriteByte(cmd[1]); //send byte
+    bbWriteByte(cmd[2]); //send byte
+
+    //do any post instruction NOPs
+    pn &= 0x0F;
+    while(pn--) {
+        PIC24NOP();
+    }
+}
+
+void PIC424Write_internal(unsigned long cmd, unsigned char pn) {
     unsigned char i;
     //send four bit SIX command (write)
     bbWriteBit(0); //send bit
@@ -479,6 +553,8 @@ void PIC424Write(unsigned long cmd, unsigned char pn) {
 }
 
 void PIC424Read(void) {
+    unsigned char c;
+
     //send four bit REGOUT command (read)
     bbWriteBit(1); //send bit
     bbWriteBit(0); //send bit
@@ -489,9 +565,10 @@ void PIC424Read(void) {
     bbWriteByte(0x00); //send byte
 
     //read 2 bytes
-    //return bytes
+    //return bytes in little endian format
+    c = bbReadByte();
     UART1TX(bbReadByte());
-    UART1TX(bbReadByte());
+    UART1TX(c);
 
     //ALWAYS POST nop TWICE after a read
     PIC24NOP();
