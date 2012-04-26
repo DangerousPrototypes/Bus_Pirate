@@ -2,6 +2,9 @@
 #include "bitbang.h"
 #include "busPirateCore.h"
 #include "binIOhelpers.h"
+#ifdef BUSPIRATEV4
+#include "smps.h"
+#endif
 
 extern struct _modeConfig modeConfig;
 extern struct _bpConfig bpConfig;
@@ -50,6 +53,11 @@ void PIC424Read(void);
  * 0101xxxx - Bulk read, read 1-16bytes (0=1byte!)
  * 0110000x � Set speed
  * 1000wxyz � Config, w=output type, x=3wire, y=lsb, z=n/a
+ ****************** BPv4 Specific Instructions *********************
+ * 11110000 - Return SMPS output voltage
+ * 11110001 - Stop SMPS operation
+ * 1111xxxx - Start SMPS operation (xxxx and next byte give requested output voltage)
+              Lowest possible value is 512 = 0b0010 0000
 
  */
 
@@ -66,7 +74,7 @@ enum {
 
 void binwire(void) {
     static unsigned char inByte, rawCommand, i, c, wires, picMode = PIC614;
-    static unsigned int cmds, cmdw, cmdr, j;
+    static unsigned int cmds, cmdw, cmdr, j, V_out;
 
     modeConfig.HiZ = 1; //yes, always hiz (bbio uses this setting, should be changed to a setup variable because stringing the modeconfig struct everyhwere is getting ugly!)
     modeConfig.lsbEN = 0; //just in case!
@@ -414,7 +422,25 @@ void binwire(void) {
                 bbCS(1); //takes care of custom HiZ settings too
                 UART1TX(1); //send 1/OK
                 break;
-
+				
+			case 0b1111: // SMPS commands
+                switch (inByte) {
+					case 0xf0:
+						smpsADC();	// Send raw ADC reading
+						break;
+					case 0xf1:
+						smpsStop();	// Stop SMPS operation
+						UART1TX(1); // Send 1/OK
+						break;
+					default:
+						V_out = inByte & 0x0f;
+						V_out <<= 8;
+						V_out |= UART1RX();
+						smpsStart(V_out);
+						UART1TX(1); // Send 1/OK
+						break;
+				}
+				break;
             default:
                 UART1TX(0x00); //send 0/Error
                 break;

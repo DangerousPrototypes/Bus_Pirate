@@ -14,9 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
  
-void bpSMPS(void);
-void smpsStart(void);
-void smpsBinStart(unsigned int V_out);
+void smpsStart(unsigned int V);
 void smpsStop(void);
+void smpsADC(void);
 void __attribute__((interrupt, no_auto_psv)) _ADC1Interrupt();
-void binSMPS(void);
