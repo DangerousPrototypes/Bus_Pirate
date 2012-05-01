@@ -1,0 +1,15 @@
+v3
+*Silk update with logo
+*Board shape change to fit standard PCB footprint for cases
+*PART REDUCTION: v2c uses 3pcs 1x2 pin headers. v3 uses 1pc 1x2 and 1pcs 1x3
+
+v2c
+*Silk cleanup
+
+v2b
+*Added backlight adjustable resistor
+*Silk cleanup
+
+
+v2a
+*Added T1 and R4 to do backlight dimming with the Bus Pirate PWM.
