@@ -28,6 +28,13 @@
 #include "pic.h"
 #include "binIO.h"
 #include "AUXpin.h"
+//--- Added JM
+#ifdef BUSPIRATEV4
+#include "jtag.h"
+#endif
+//--- End added JM
+
+
 
 extern struct _modeConfig modeConfig;
 
@@ -66,7 +73,14 @@ Commands:
 00010001 //full self test with jumpers
 00010010 // setup PWM
 00010011 // clear PWM
-00010100 //ADC measurement
+00010100 // ADC measurement
+
+// Added JM  Only with BP4
+00010101 // ADC ....
+00010110 // ADC Stop
+00011000 // XSVF Player
+// End added JM
+//
 010xxxxx //set input(1)/output(0) pin state (returns pin read)
  */
 void binBBversion(void) {
@@ -215,6 +229,14 @@ void binBB(void) {
 				UART1TX((l>>(8*2)));
 				UART1TX((l>>(8*1)));
 				UART1TX((l));
+//--- Added JM
+#ifdef BUSPIRATEV4			
+            } else if (inByte == 0b11000) {  //XSVF Player to program CPLD
+                BP_VREGEN = 1;
+                bpWstring("XSV1");
+		jtag();
+#endif
+//--- End added JM
             } else if ((inByte >> 5)&0b010) {//set pin direction, return read
                 UART1TX(binBBpindirectionset(inByte));
             } else {//unknown command, error
