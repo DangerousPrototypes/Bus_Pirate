@@ -25,7 +25,7 @@ pic10, pic12, pic14, pic16 and pic18
 [0xFF] sends 6 byte cmd (pic10, 12, 14, 16)
 
 */
-#include "globals.h"
+#include "base.h"
 #include "pic.h"
 #include "bitbang.h"
 #include "baseIO.h"

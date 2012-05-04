@@ -250,7 +250,7 @@ void binBB(void) {
 }//function
 
 unsigned char getRXbyte(void) {
-    while (UART1RXRdy() == 0); //wait for a byte
+    //JTR Not required while (UART1RXRdy() == 0); //wait for a byte
     return UART1RX(); ///* JTR usb port; */ //grab it
 }
 
@@ -270,7 +270,7 @@ unsigned char binBBpindirectionset(unsigned char inByte) {
     //without special adjustments
     i = 0;
     if (inByte & 0b10000)i = 1;
-    BP_AUX_DIR = i;
+    BP_AUX0_DIR = i;
 
     i = 0;
     if (inByte & 0b1000)i = 1;
@@ -293,7 +293,7 @@ unsigned char binBBpindirectionset(unsigned char inByte) {
 
     //return PORT read
     inByte &= (~0b00011111);
-    if (BP_AUX != 0)inByte |= 0b10000;
+    if (BP_AUX0 != 0)inByte |= 0b10000;
     if (BP_MOSI != 0)inByte |= 0b1000;
     if (BP_CLK != 0)inByte |= 0b100;
     if (BP_MISO != 0)inByte |= 0b10;
@@ -325,7 +325,7 @@ unsigned char binBBpinset(unsigned char inByte) {
     //without special adjustments
     i = 0;
     if (inByte & 0b10000)i = 1;
-    BP_AUX = i;
+    BP_AUX0 = i;
 
     i = 0;
     if (inByte & 0b1000)i = 1;
@@ -348,7 +348,7 @@ unsigned char binBBpinset(unsigned char inByte) {
 
     //return PORT read
     inByte &= (~0b00011111);
-    if (BP_AUX != 0)inByte |= 0b10000;
+    if (BP_AUX0 != 0)inByte |= 0b10000;
     if (BP_MOSI != 0)inByte |= 0b1000;
     if (BP_CLK != 0)inByte |= 0b100;
     if (BP_MISO != 0)inByte |= 0b10;

@@ -17,7 +17,7 @@
 #include "procMenu.h"
 
 						//TRISDbits.TRISD5
-#define AUXPIN_DIR      BP_AUX_DIR
+#define AUXPIN_DIR      BP_AUX0_DIR
 
 						// 20
 #define AUXPIN_RPIN     BP_AUX_RPIN 
@@ -326,7 +326,7 @@ void bpAuxHiZ(void)
 #ifndef BUSPIRATEV4
 
         if(modeConfig.altAUX==0)
-        {       BP_AUX_DIR=1;//aux input
+        {       BP_AUX0_DIR=1;//aux input
         }
         else
         {       BP_CS_DIR=1;
@@ -334,7 +334,7 @@ void bpAuxHiZ(void)
 #endif
 #ifdef BUSPIRATEV4
         switch(modeConfig.altAUX)
-        {       case 0: BP_AUX_DIR=1;
+        {       case 0: BP_AUX0_DIR=1;
                                 break;
                 case 1: BP_CS_DIR=1;
                                 break;
@@ -353,8 +353,8 @@ void bpAuxHigh(void){
 
 #ifndef BUSPIRATEV4
         if(modeConfig.altAUX==0)
-        {       BP_AUX_DIR=0;//aux output
-                BP_AUX=1;//aux high
+        {       BP_AUX0_DIR=0;//aux output
+                BP_AUX0=1;//aux high
         }
         else
         {       BP_CS_DIR=0;//aux input
@@ -363,8 +363,8 @@ void bpAuxHigh(void){
 #endif
 #ifdef BUSPIRATEV4
         switch(modeConfig.altAUX)
-        {       case 0: BP_AUX_DIR=0;
-                                BP_AUX=1;
+        {       case 0: BP_AUX0_DIR=0;
+                                BP_AUX0=1;
                                 break;
                 case 1: BP_CS_DIR=0;
                                 BP_CS=1;
@@ -387,8 +387,8 @@ void bpAuxLow(void){
         
 #ifndef BUSPIRATEV4
         if(modeConfig.altAUX==0)
-        {       BP_AUX_DIR=0;//aux output
-                BP_AUX=0;//aux high
+        {       BP_AUX0_DIR=0;//aux output
+                BP_AUX0=0;//aux high
         }
         else
         {       BP_CS_DIR=0;//aux input
@@ -397,8 +397,8 @@ void bpAuxLow(void){
 #endif
 #ifdef BUSPIRATEV4
         switch(modeConfig.altAUX)
-        {       case 0: BP_AUX_DIR=0;
-                                BP_AUX=0;
+        {       case 0: BP_AUX0_DIR=0;
+                                BP_AUX0=0;
                                 break;
                 case 1: BP_CS_DIR=0;
                                 BP_CS=0;
@@ -422,10 +422,10 @@ unsigned int bpAuxRead(void){
 
 #ifndef BUSPIRATEV4
         if(modeConfig.altAUX==0){
-                BP_AUX_DIR=1;//aux input
+                BP_AUX0_DIR=1;//aux input
                 asm( "nop" );//needs one TCY to get pin direction
                 asm( "nop" );//needs one TCY to get pin direction
-                c=BP_AUX;
+                c=BP_AUX0;
         }else{
                 BP_CS_DIR=1;
                 asm( "nop" );//needs one TCY to get pin direction
@@ -436,22 +436,22 @@ unsigned int bpAuxRead(void){
 
 #ifdef BUSPIRATEV4
         switch(modeConfig.altAUX)
-        {       case 0: BP_AUX_DIR=1;
+        {       case 0: BP_AUX0_DIR=1;
                                 asm("nop");
                                 asm("nop");
-                                c=BP_AUX;
+                                c=BP_AUX0;
                                 break;
-                case 1: BP_AUX_DIR=1;
+                case 1: BP_AUX0_DIR=1;
                                 asm("nop");
                                 asm("nop");
                                 c=BP_CS;
                                 break;
-                case 2: BP_AUX_DIR=1;
+                case 2: BP_AUX0_DIR=1;
                                 asm("nop");
                                 asm("nop");
                                 c=BP_AUX1;
                                 break;
-                case 3: BP_AUX_DIR=1;
+                case 3: BP_AUX0_DIR=1;
                                 asm("nop");
                                 asm("nop");
                                 c=BP_AUX2;

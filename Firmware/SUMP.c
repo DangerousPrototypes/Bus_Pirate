@@ -31,9 +31,7 @@ static enum _LAstate {
 //static unsigned char samples[LA_SAMPLE_SIZE];
 static unsigned char sumpPadBytes;
 static unsigned int sumpSamples;
-void SUMPreset(void);
-unsigned char SUMPlogicCommand(unsigned char inByte);
-unsigned char SUMPlogicService(void);
+
 
 void SUMP(void){
 

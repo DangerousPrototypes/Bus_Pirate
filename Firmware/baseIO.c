@@ -13,29 +13,13 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include "globals.h"
+#include "base.h"
 #include "busPirateCore.h"//need access to bpConfig
 extern struct _bpConfig bpConfig; //holds persistant bus pirate settings (see base.h) need hardware version info
 
-//add byte to buffer, pause if full
-//uses PIC 4 byte UART FIFO buffer
-
 #if defined (BUSPIRATEV4)
-//this struct buffers the USB input because the stack doesn't like 1 byte reads
-static unsigned char lock = 0, fcnt = 0;
-extern BYTE cdc_In_buffer[64];
-BYTE CDC_In_count=0;
-extern BYTE *InPtr;
-extern BYTE *OutPtr;
-
-//USB output buffer
-#define USB_OUT_BUF 64
-unsigned char buf[USB_OUT_BUF];
-unsigned char uartincnt = 0;
-
-void _T1Interrupt(void);
-//void usbbufservice(void);
-//unsigned char usbbufgetbyte(unsigned char* c);
+extern BYTE cdc_In_len;
+extern BYTE cdc_Out_len;
 #endif
 
 //echo ASCII 0 or 1, given unsigned char c
@@ -270,7 +254,7 @@ unsigned int bpReadFlash(unsigned int page, unsigned int addr) {
 
     tblold = TBLPAG;
     TBLPAG = page;
-    flash = (__builtin_tblrdh(addr) << 8) | __builtin_tblrdl(addr);
+    //flash = (__builtin_tblrdh(addr) << 8) | __builtin_tblrdl(addr);
     TBLPAG = tblold;
 
     return flash;
@@ -441,42 +425,13 @@ void __attribute__((interrupt, no_auto_psv)) _U1TXInterrupt(void) {
 
 #endif
 
-
-
 #if defined(BUSPIRATEV4)
 
+extern BDentry *CDC_Outbdp, *CDC_Inbdp;
+
 void UART1TX(char c) {
-
     if (bpConfig.quiet) return;
-	
-	#ifdef DOUBLE_BUFFER
-	    lock = 1;
-	    *InPtr = c;
-	    InPtr++;
-	    CDC_In_count++;
-	    if (CDC_In_count > 62) {//62
-    		WaitInReady();
-	        SendCDC_In_ArmNext(CDC_In_count);
-	        FAST_usb_handler();
-			CDC_In_count=0;
-	    }
-	    lock = 0;
-	    //setup timer to throw data if the buffer doesn't fill
-	    fcnt = 0;
-	#else
-
-	    lock = 1;
-		cdc_In_buffer[0] = c; //answer OK
-	    CDC_In_count++;
-	    if (CDC_In_count > 62) {//62
-			WaitInReady();
-			putUnsignedCharArrayUsbUsart(cdc_In_buffer, CDC_In_count);
-			CDC_In_count=0
-	    }
-	    lock = 0;
-	    //setup timer to throw data if the buffer doesn't fill
-	    fcnt = 0;
-	#endif
+    putc_cdc(c);
 }
 
 void UARTbuf(char c) {
@@ -488,58 +443,38 @@ void WAITTXEmpty(void) {
 }
 
 unsigned char UART1TXRdy(void) {
-    WaitInReady();
-    return getInReady();
+    return 1;
 }
 
-//is data available in RX buffer?
+//is data available?
+
 unsigned char UART1RXRdy(void) {
-    return(usbbufservice()); //service USB buffer system
+    if (cdc_Out_len) return 1;
+    if (getOutReady()) return 1;
+    return 0;
 }
 
 //get a byte from UART
 
 unsigned char UART1RX(void) {
-    unsigned char c = 0;
-
-	while(!UART1RXRdy());
-
- 	usbbufgetbyte(&c);
-
-	#ifdef ECHO_TEST
-	   *InPtr = c;
-	    InPtr++;
-	    CDC_In_count++;
-	    if (CDC_In_count > 62) {//62
-	        SendCDC_In_ArmNext(CDC_In_count);
-	        FAST_usb_handler();
-			CDC_In_count=0;
-	    }
-	#endif
-
-	return c;
-}
-
-void UARTbufSetup(void) {
-    // Not required for USB
-}
-
-void UARTbufService(void) {
-    // serial TX/IN Not required for USB
+    return getc_cdc();
 }
 
 void UARTbufFlush(void) {
-    WaitInReady();
-    SendCDC_In_ArmNext(CDC_In_count);
-    fcnt = 0;
+    CDC_Flush_In_Now();
 }
 
 unsigned char CheckCommsError(void) {
     return 0; //check for user terminal buffer overflow error
 }
 
+void UARTbufSetup(void) {
+}
+
+void UARTbufService(void) {
+}
+
 void ClearCommsError(void) {
-    //clear overrun error if exists  
 }
 
 void InitializeUART1(void) {
@@ -547,39 +482,6 @@ void InitializeUART1(void) {
 
 void UART1Speed(unsigned char brg) {
 }
-
-//Interrupt Remap method 1:  Using direct interrupt address
-
-void __attribute__((interrupt, no_auto_psv)) _T1Interrupt() {
-	IFS0bits.T1IF = 0;
-	#ifndef USB_INTERRUPT
-		usb_handler();
-	#endif
-
-	#ifdef DOUBLE_BUFFER
-	    if (CDC_In_count > 0) {
-	        if (lock == 0 && fcnt > 5 && getInReady()) {
-	            SendCDC_In_ArmNext(CDC_In_count);
-	            CDC_In_count = 0;
-	            fcnt = 0;
-	        } else {
-	            fcnt++;
-	        }
-	    }
-	#else
-	    if (CDC_In_count > 0) {
-	        if (lock == 0 && fcnt > 5 && getInReady()) {
-				WaitInReady();
-				putUnsignedCharArrayUsbUsart(cdc_In_buffer, CDC_In_count);
-	            CDC_In_count = 0;
-	            fcnt = 0;
-	        } else {
-	            fcnt++;
-	        }
-	    }
-	#endif
-}
-
 #endif
 
 

@@ -41,19 +41,19 @@ unsigned char selfTest(unsigned char showProgress, unsigned char jumperTest){
 		//bpPOSTWline("Connect (Vpu to +5V) and (ADC to +3.3V)");
 		BPMSG1163;
 		BPMSG1251; // //bpPOSTWline("Press a key to start");
-		while(!UART1RXRdy()); //wait for key
+		//JTR Not required while(!UART1RXRdy()); //wait for key
 		UART1RX();//discard byte
 	}
 
 	//bpPOSTWline("Ctrl");
 	BPMSG1164;
-	BP_AUX=1;
-	BP_AUX_DIR=0; 
+	BP_AUX0=1;
+	BP_AUX0_DIR=0;
 	//bpPOSTWstring("AUX");
 	BPMSG1165;
-	bpTest(BP_AUX,1);
-	BP_AUX=0;
-	BP_AUX_DIR=1; 
+	bpTest(BP_AUX0,1);
+	BP_AUX0=0;
+	BP_AUX0_DIR=1;
 				
 	BP_LEDMODE=1;
 	BP_LEDMODE_DIR=0;	
@@ -213,7 +213,7 @@ unsigned char selfTest(unsigned char showProgress, unsigned char jumperTest){
 		#endif
 		BPMSG1178;
 		BPMSG1250;
-		while(!UART1RXRdy());
+		//JTR Not required while(!UART1RXRdy());
 		UART1RX();
 		#ifdef BUSPIRATEV4
 			BP_USBLED_OFF();

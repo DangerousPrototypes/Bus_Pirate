@@ -20,6 +20,8 @@
 #define BP_VERSION_STRING "Bus Pirate v1a"
 #define BP_VERSION "v1a"
 
+#define NUM_OF_SUMP_CHANNELS 5
+
 //this configures the placement of the serial port for 
 //the PC side terminal interface
 //the other modules should be similarly abstracted, but since v0A and v1a share pins, it doesn't mater

@@ -67,7 +67,7 @@ int agree(void)
 	//bpWstring("Are you sure? ");
 	BPMSG1135;
 
-	while(!UART1RXRdy());
+	// JTR Not required  while(!UART1RXRdy());
 	c=UART1RX();
 	UART1TX(c);
 	bpBR;

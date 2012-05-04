@@ -16,11 +16,19 @@
 #ifndef BASE 
 #define BASE
 #include <p24Fxxxx.h>
+//#include <GenericTypeDefs.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-typedef unsigned char u8;
-typedef unsigned int u16;
-typedef unsigned long u32;
-typedef unsigned char BYTE;
+//typedef unsigned char u8;
+//typedef unsigned int u16;
+//typedef unsigned long u32;
+//typedef unsigned char BYTE;
+
+#define FALSE   0
+#define TRUE    (!FALSE)
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////// [ BUS PIRATE SETTINGS ] ////////////////////////////////////////////////////
@@ -93,15 +101,11 @@ typedef unsigned char BYTE;
 
 
 #ifdef BUSPIRATEV4
-	#define DOUBLE_BUFFER //use USB double buffer, else single buffer is used
-	#define USB_INTERRUPT //use USB interrupts, otherwise use timer 1
-	#include "cdc_config.h"
-	//#include "picusb.h"
-	#include "usb_stack.h"
-	#include "cdc.h"
-	#include "onboardEEPROM.h"
 	#include "hardwarev4a.h"
+#include "..\dp_usb\usb_stack_globals.h"
+	#include "onboardEEPROM.h"
 #endif
+
 #if defined(BUSPIRATEV1A)
 	#include "hardwarev1a.h"
 #elif defined(BUSPIRATEV3)

@@ -42,7 +42,7 @@ void bpInit(void){
 	BP_CLK_DIR=1; 
 	BP_MISO_DIR=1;
 	BP_CS_DIR=1; 
-	BP_AUX_DIR=1; 
+	BP_AUX0_DIR=1;
 	BP_LEDMODE=0; //mode LED OFF
 	BP_LEDMODE_DIR=0;
 	#ifdef BUSPIRATEV4

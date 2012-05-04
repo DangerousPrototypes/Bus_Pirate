@@ -826,7 +826,7 @@ void binI2C(void) {
 
     while (1) {
 
-        while (UART1RXRdy == 0); //wait for a byte
+        //JTR Not requiredwhile (UART1RXRdy == 0); //wait for a byte
         inByte = UART1RX();
         rawCommand = (inByte >> 4); //get command bits in seperate variable
 
@@ -861,20 +861,20 @@ void binI2C(void) {
                         break;
                     case 8: //write-then-read
                         //get the number of commands that will follow
-                        while (!UART1RXRdy()); //wait for a byte
+                        //JTR Not required while (!UART1RXRdy()); //wait for a byte
                         fw = UART1RX();
                         /* JTR usb port; */; //get byte
                         fw = fw << 8;
-                        while (!UART1RXRdy()); //wait for a byte
+                        //JTR Not required while (!UART1RXRdy()); //wait for a byte
                         fw |= UART1RX();
                         /* JTR usb port; */; //get byte
 
                         //get the number of reads to do
-                        while (!UART1RXRdy()); //wait for a byte
+                        //JTR Not required while (!UART1RXRdy()); //wait for a byte
                         fr = UART1RX();
                         /* JTR usb port; */; //get byte
                         fr = fr << 8;
-                        while (!UART1RXRdy()); //wait for a byte
+                        //JTR Not required while (!UART1RXRdy()); //wait for a byte
                         fr |= UART1RX();
                         /* JTR usb port; */; //get byte
 
@@ -888,7 +888,7 @@ I2C_write_read_error: //use this for the read error too
 
                         //get bytes
                         for (j = 0; j < fw; j++) {
-                            while (!UART1RXRdy()); //wait for a byte
+                            //JTR Not required while (!UART1RXRdy()); //wait for a byte
                             bpConfig.terminalInput[j] = UART1RX();
                             /* JTR usb port; */;
                         }
@@ -979,7 +979,7 @@ I2C_write_read_error: //use this for the read error too
                 UART1TX(1); //send 1/OK
 
                 for (i = 0; i < inByte; i++) {
-                    while (UART1RXRdy() == 0); //wait for a byte
+                    //JTR Not required while (UART1RXRdy() == 0); //wait for a byte
                     bbWriteByte(UART1RX()); // JTR usb port //send byte
                     UART1TX(bbReadBit()); //return ACK0 or NACK1
                 }
