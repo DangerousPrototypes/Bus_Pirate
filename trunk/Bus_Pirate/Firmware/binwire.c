@@ -74,7 +74,10 @@ enum {
 
 void binwire(void) {
     static unsigned char inByte, rawCommand, i, c, wires, picMode = PIC614;
-    static unsigned int cmds, cmdw, cmdr, j, V_out;
+    static unsigned int cmds, cmdw, cmdr, j;
+	#ifdef BUSPIRATEV4
+		static unsigned int V_out;
+	#endif
 
     modeConfig.HiZ = 1; //yes, always hiz (bbio uses this setting, should be changed to a setup variable because stringing the modeconfig struct everyhwere is getting ugly!)
     modeConfig.lsbEN = 0; //just in case!
@@ -422,7 +425,7 @@ void binwire(void) {
                 bbCS(1); //takes care of custom HiZ settings too
                 UART1TX(1); //send 1/OK
                 break;
-				
+#ifdef BUSPIRATEV4
 			case 0b1111: // SMPS commands
                 switch (inByte) {
 					case 0xf0:
@@ -441,6 +444,7 @@ void binwire(void) {
 						break;
 				}
 				break;
+#endif
             default:
                 UART1TX(0x00); //send 0/Error
                 break;

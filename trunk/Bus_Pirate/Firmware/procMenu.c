@@ -28,7 +28,11 @@ extern struct _bpConfig bpConfig;
 extern struct _modeConfig modeConfig;
 extern struct _command bpCommand;
 extern proto protos[MAXPROTO];
+
+#ifdef BUSPIRATEV4
 extern volatile BYTE cdc_Out_len;
+#endif
+
 void walkdungeon(void);
 
 void setMode(void); //change protocol/bus mode

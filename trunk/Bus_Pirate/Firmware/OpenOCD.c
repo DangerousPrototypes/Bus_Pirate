@@ -10,7 +10,7 @@ extern struct _bpConfig bpConfig;
 #define OOCD_TMS_TRIS   BP_CS_DIR
 #define OOCD_CLK_TRIS   BP_CLK_DIR
 #define OOCD_TDI_TRIS   BP_MOSI_DIR
-#define OOCD_SRST_TRIS  BP_AUX_DIR
+#define OOCD_SRST_TRIS  BP_AUX0_DIR
 #if defined (BUSPIRATEV3)
 #define OOCD_TRST_TRIS  BP_PGD_DIR
 #endif
@@ -20,7 +20,7 @@ extern struct _bpConfig bpConfig;
 #define OOCD_TMS        BP_CS 
 #define OOCD_CLK        BP_CLK 
 #define OOCD_TDI        BP_MOSI 
-#define OOCD_SRST       BP_AUX
+#define OOCD_SRST       BP_AUX0
 #if defined (BUSPIRATEV3)
 #define OOCD_TRST       BP_PGD
 #endif
@@ -30,7 +30,7 @@ extern struct _bpConfig bpConfig;
 #define OOCD_TMS_ODC    BP_CS 
 #define OOCD_CLK_ODC    BP_CLK 
 #define OOCD_TDI_ODC    BP_MOSI 
-#define OOCD_SRST_ODC   BP_AUX
+#define OOCD_SRST_ODC   BP_AUX0
 #if defined (BUSPIRATEV3)
 #define OOCD_TRST_ODC   BP_PGD
 #endif
