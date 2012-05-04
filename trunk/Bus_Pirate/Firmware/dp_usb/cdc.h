@@ -9,71 +9,33 @@ or send a letter to
         California,
         94105,
         USA.
+        
+// JTR V0.2a   // 26th Jan 2012        
  */
 #ifndef __CDC_H__
 #define __CDC_H__
 
-/* Initialize usb cdc acm subsystem */
-//void InitCDC( void );
-
-/* Configure the USART. */
-//void OpenCDC(unsigned char config, unsigned int spbrg);
-
-/* Disable the CDC. */
-//void CloseCDC( void );
-
-/* Is data available in the CDC read buffer? */
-//char DataRdyCDC( void );
-
-/* Read a byte from the CDC. */
-//char getcCDC( void );
-
-/* Read an array from the USBART. */
-//unsigned char getaCDC( char *buffer, unsigned char len );
-
-/* Read a string from the USART. */
-//void getsCDC( char *buffer, unsigned char len);
-
-/* Write a byte to the USART. */
-//void putcCDC( char c );
-
-/* Write a string from data memory to the USART. */
-//void putsCDC( const char *str );
-
-/* Write an array from data memory to the USBART */
-//void putaCDC( const char *array, unsigned int len );
-
-/* Write a string from program memory to the USART. */
-//void putrsCDC( ROM const char *str );
-
-/* Set the baud rate configuration bits for enhanced USART. */
-
-void baudCDC(unsigned char baudconfig);
 void cdc_setup(void);
 void cdc_set_line_coding_data(void);
 void cdc_set_line_coding_status(void);
 void cdc_get_line_coding(void);
 void cdc_set_control_line_state_status(void);
 void user_configured_init(void); // JTR added. Sets up CDC endpoints after device configured.
-void usb_ack_dat1(BDentry *rbdp, int bdcnt); // JTR added standard for both STD and CLASS
-unsigned char usbbufservice(void);
-unsigned char usbbufgetbyte(unsigned char *c);
-unsigned char PEEKusbbufgetbyte(unsigned char *c);
-void usbbufflush(void);
-BYTE getsUSBUSART(BYTE* buffer, BYTE len);
-BYTE putPARTARRAYUSBUSART(BYTE *data, BYTE length);
-BYTE putFULLARRAYUSBUSART(void);
-BYTE WaitInReady(void);
-BYTE WaitOutReady(void);
+void WaitInReady(void);
+void WaitOutReady(void);
 BYTE getInReady(void);
 BYTE getOutReady(void);
-BYTE getCDC_Out_ArmNext(void);
-BYTE SendCDC_In_ArmNext(BYTE count);
-void ArmCDCOutDB(void);
-void ArmCDCInDB(void);
-void DisArmCDCOutDB(void);
-void DisArmCDCInDB(void);
+BYTE getda_cdc(void);
+BYTE putda_cdc(BYTE count);
 void SendZLP(void);
+BYTE getc_cdc(void);
+void putc_cdc(BYTE c);
+void CDC_Flush_In_Now(void);
+void CDCFlushOnTimeout(void);
+BYTE poll_getc_cdc(BYTE * c);
+BYTE peek_getc_cdc(BYTE * c);
+void initCDC(void);
+
 
 struct _cdc_ControlLineState {
     int DTR : 1;
@@ -81,9 +43,6 @@ struct _cdc_ControlLineState {
     int unused1 : 6;
     BYTE unused2;
 };
-
-#define putUnsignedCharArrayUsbUsart(u8Array,Num)       putPARTARRAYUSBUSART((BYTE*)(u8Array),(Num))
-#define getUnsignedCharArrayUsbUart(u8Array,Num)        getsUSBUSART((BYTE*)(u8Array),(Num))
 
 // CDC Request Codes
 #define CDC_SEND_ENCAPSULATED_COMMAND                                           0x00

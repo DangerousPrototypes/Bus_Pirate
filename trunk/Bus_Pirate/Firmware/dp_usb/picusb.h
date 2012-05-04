@@ -10,9 +10,9 @@ or send a letter to
         94105,
         USA.
 
-Revision:
-1 15th March 2011 // Please track your changes!
-// JTR v0.1a
+
+// JTR v0.2a 26th Jan 2012 
+// JTR v0.2b 10th March 2012 
 Comments by JTR.
 
 This file is a combined header for all the PIC18F and PIC24F
@@ -105,8 +105,6 @@ entries common to both PIC families.
 #define MyProcessor     // JTR check that a PIC is defined
 #include <p18cxxx.h>
 
-#define UART_BAUD_setup(x)  SPBRG1 = x & 0xFFu; SPBRGH1 = (x >> 8) & 0xFFu
-
 #define USTAT_ODD_EVEN (2)      // JTR may be required for ping-pong BD* calculations and are different from PIC18 to PIC24
 #define USTAT_ODD_EVEN_SHIFT (1)
 
@@ -154,13 +152,13 @@ typedef unsigned char usb_uep_t;
 #define USB_STALL                       0x20
 #define USB_IDLE                        0x10
 #define USB_TRN                         0x08
-#define USB_ACTIV                       0x04
+#define USB_RESUM                       0x04
 #define USB_UERR                        0x02
 #define USB_URST                        0x01
 
 #define USB_RESET_FLAG                          UIRbits.URSTIF
 #define USB_ERROR_FLAG                          UIRbits.UERRIF
-#define USB_ACTIVITY_FLAG                       UIRbits.ACTVIF
+#define USB_RESUME_FLAG                         UIRbits.ACTVIF
 #define USB_IDLE_FLAG                           UIRbits.IDLEIF
 #define USB_STALL_FLAG                          UIRbits.STALLIF
 #define USB_SOF_FLAG                            UIRbits.SOFIF
@@ -168,26 +166,27 @@ typedef unsigned char usb_uep_t;
 
 #define UsbInterruptFlags()                     (UIR)
 #define UsbErrorInterruptFlags()                (UEIR)
-#define TestGlobalUsbInterruptFlag()            PIR2bits.USBIF
 #define ClearGlobalUsbInterruptFlag()           PIR2bits.USBIF = 0
 #define TestUsbTrfInterruptFlag()               UIR (x)
 #define ClearUsbInterruptFlag(x)                UIR &= ~(x)
 #define ClearAllUsbInterruptFlags()             UIR = 0
 #define ClearUsbErrorInterruptFlag(x)           UEIR &= ~(x)
 #define ClearAllUsbErrorInterruptFlags()        UEIR = 0
-#define DisableUsbInterrupts()                  PIE2bits.USBIE = 0
+#define DisableGlobalUsbInterrupt()             PIE2bits.USBIE = 0
 #define DisableUsbInterrupt(x)                  UIE &= ~(x)
 #define DisableAllUsbInterrupts()               UIE = 0
 #define DisableUsbErrorInterrupt(x)             UEIE &= ~(x)
 #define DisableAllUsbErrorInterrupts()          UEIE = 0
-#define EnableUsbInterrupts()                   PIE2bits.USBIE = 1
-#define EnableUsbInterrupt(x)                   UIE |= (x)
-#define TestUsbInterruptEnabled()               (PIE2bits.USBIE)
+#define EnableUsbGlobalInterrupt()              PIE2bits.USBIE = 1
+#define EnableUsbPerifInterrupts(x)             UIE |= (x)
+#define TestGlobalUsbInterruptEnable()          (PIE2bits.USBIE)
 #define EnableAllUsbInterrupts()                UIE = 0xFF
 #define EnableUsbErrorInterrupt(x)              UEIE |= (x)
 #define EnableAllUsbErrorInterrupts()           UEIE = 0xFF
-#define EnableUSBHighInterrupts()               do { RCONbits.IPEN = 1; IPR2bits.USBIP = 1; INTCONbits.GIEH = 1;} while(0) // JTR new
-#define EnableUSBLowInterrupts()                do { RCONbits.IPEN = 1; IPR2bits.USBIP = 0; INTCONbits.GIEL = 1;} while(0)  // JTR new
+
+// Depreciated and eliminated March 10 2012
+//#define EnableUsbHighPriInterrupt()             do { RCONbits.IPEN = 1; IPR2bits.USBIP = 1; INTCONbits.GIEH = 1;} while(0) // JTR new
+//#define EnableUsbLowPriInterrupt()              do { RCONbits.IPEN = 1; IPR2bits.USBIP = 0; INTCONbits.GIEL = 1;} while(0)  // JTR new
 // JTR TODO define for NO priority interrupt.
 
 /* UCON */
@@ -197,7 +196,7 @@ typedef unsigned char usb_uep_t;
 #define EnableUsb()                             UCONbits.USBEN = 1
 #define SignalResume()                          do {UCONbits.RESUME = 1; delay_ms(10); UCONbits.RESUME = 0;} while(0)
 #define SuspendUsb()                            UCONbits.SUSPND = 1
-#define WakeupUsb()                             do {UCONbits.SUSPND = 0; while(USB_ACTIVITY_FLAG){USB_ACTIVITY_FLAG = 0;}} while(0)
+#define WakeupUsb()                             do {UCONbits.SUSPND = 0; while(USB_RESUME_FLAG){USB_RESUME_FLAG = 0;}} while(0)
 
 /* UADDR */
 #define SetUsbAddress(x)                        (UADDR = (x))
@@ -262,7 +261,7 @@ typedef unsigned char usb_uep_t;
 //#define USB_PP_ODD      1
 
 /* PingPong buffer descriptor table index calculations */
-#if USB_PP_BUF_MODE == 0
+#if USB_PP_BUF_MODE == NO_PINGPONG
 #define USB_USTAT2BD(X)                         ( (X)/4 )
 #define USB_CALC_BD(ep, dir, sync)              ( 2*(ep)+(dir) )
 #elif USB_PP_BUF_MODE == 1
@@ -295,9 +294,9 @@ typedef unsigned char usb_uep_t;
 #define ROMPTR far rom
 #define ARCH_memcpy memcpypgm2ram
 
-/*typedef struct BDENTRY {
+typedef struct BDENTRY {
     unsigned char
-	     struct {
+    /*      struct {
                     unsigned BCH:2;
                     unsigned BSTALL:1;
                     unsigned DTSEN:1;
@@ -305,14 +304,8 @@ typedef unsigned char usb_uep_t;
                     unsigned KEN:1;
                     unsigned DTS:1;
                     unsigned UOWN:1;
-            }
+            }*/
     BDSTAT;
-    unsigned char BDCNT;
-    unsigned char *BDADDR;
-} BDentry;*/
-
-typedef struct BDENTRY {
-    unsigned char BDSTAT;
     unsigned char BDCNT;
     unsigned char *BDADDR;
 } BDentry;
@@ -325,8 +318,6 @@ typedef struct BDENTRY {
 
 #define MyProcessor
 #include <p24fxxxx.h>
-
-#define UART_BAUD_setup(x) U2BRG = x
 
 #define USTAT_ODD_EVEN (4)              // JTR PIC24 fixup potentially ?? Only required when ping-pong buffering is enabled. 
 #define USTAT_ODD_EVEN_SHIFT (2)        // JTR these are required for BD* calculations and are different for the PIC24
@@ -374,7 +365,7 @@ typedef unsigned int usb_uep_t; // JTR PIC24 fixup potentially ?? changed from c
 
 /* Interrupt */
 #define USB_STALL                               0x0080
-#define USB_ACTIV                               0x0020
+#define USB_RESUM                               0x0020
 #define USB_IDLE                                0x0010
 #define USB_TRN                                 0x0008
 #define USB_SOF                                 0x0004
@@ -383,7 +374,7 @@ typedef unsigned int usb_uep_t; // JTR PIC24 fixup potentially ?? changed from c
 
 #define USB_RESET_FLAG                          U1IRbits.URSTIF
 #define USB_ERROR_FLAG                          U1IRbits.UERRIF
-#define USB_ACTIVITY_FLAG                       U1IRbits.RESUMEIF
+#define USB_RESUME_FLAG                         U1IRbits.RESUMEIF
 #define USB_IDLE_FLAG                           U1IRbits.IDLEIF
 #define USB_STALL_FLAG                          U1IRbits.STALLIF
 #define USB_SOF_FLAG                            U1IRbits.SOFIF
@@ -396,20 +387,19 @@ typedef unsigned int usb_uep_t; // JTR PIC24 fixup potentially ?? changed from c
 #define ClearAllUsbInterruptFlags()             U1IR = 0xFF
 #define ClearUsbErrorInterruptFlag(x)           U1EIR = x
 #define ClearAllUsbErrorInterruptFlags()        U1EIR = 0xFF
-#define DisableUsbInterrupts()                  IEC5bits.USB1IE=0 //PIE2bits.USBIE = 0 /*FIX*/
+#define DisableGlobalUsbInterrupt()                  IEC5bits.USB1IE=0 //PIE2bits.USBIE = 0 /*FIX*/
 #define DisableUsbInterrupt(x)                  U1IE &= ~(x)
 #define DisableAllUsbInterrupts()               U1IE = 0
 #define DisableUsbErrorInterrupt(x)             U1EIE &= ~(x)
 #define DisableAllUsbErrorInterrupts()          U1EIE = 0       
-#define EnableUsbInterrupts()                   IEC5bits.USB1IE=1 //PIE2bits.USBIE = 1 /*FIX*/
-#define TestUsbInterruptEnabled()               1 //(IEC5bits.USB1IE)
-#define EnableUsbInterrupt(x)                   U1IE |= (x)
+#define EnableUsbGlobalInterrupt()              IEC5bits.USB1IE=1 //PIE2bits.USBIE = 1 /*FIX*/
+#define TestGlobalUsbInterruptEnable()          (IEC5bits.USB1IE)
+#define EnableUsbPerifInterrupts(x)             U1IE |= (x)
 #define EnableAllUsbInterrupts()                U1IE = 0x00FF
 #define EnableUsbErrorInterrupt(x)              U1EIE |= (x)
 #define EnableAllUsbErrorInterrupts()           U1EIE = 0x00FF
-#define EnableUSBHighInterrupts()
+#define EnableUsbHighPriInterrupt()
 #define ClearGlobalUsbInterruptFlag()           IFS5bits.USB1IF = 0
-#define TestGlobalUsbInterruptFlag()            IFS5bits.USB1IF
 
 /* UCON */
 #define ResetPPbuffers()                        do {U1CONbits.PPBRST = 1; U1CONbits.PPBRST=0;} while(0)
@@ -418,7 +408,7 @@ typedef unsigned int usb_uep_t; // JTR PIC24 fixup potentially ?? changed from c
 #define EnableUsb()                             while(!U1CONbits.USBEN){U1CONbits.USBEN = 1;} //                U1CONbits.USBEN = 1
 #define SignalResume()                          do {U1CONbits.RESUME = 1; delay_ms(10); U1CONbits.RESUME = 0;} while(0)
 #define SuspendUsb()                            U1PWRCbits.USUSPND = 1
-#define WakeupUsb()                             do {U1PWRCbits.USUSPND = 0; while(USB_ACTIVITY_FLAG){USB_ACTIVITY_FLAG = 0;}} while(0)
+#define WakeupUsb()                             do {U1PWRCbits.USUSPND = 0; while(USB_RESUME_FLAG){USB_RESUME_FLAG = 0;}} while(0)
 
 
 /* UADDR */
@@ -495,7 +485,7 @@ typedef unsigned int usb_uep_t; // JTR PIC24 fixup potentially ?? changed from c
 #endif
 
 /* PingPong buffer descriptor table index calculations */
-#if USB_PP_BUF_MODE == 0
+#if USB_PP_BUF_MODE == NO_PINGPONG
 #define USB_USTAT2BD(X)                         ( (X)/8 )  //JTR PIC24 fixups
 #define USB_CALC_BD(ep, dir, sync)              ( 2*(ep)+(dir) )
 
