@@ -48,7 +48,6 @@ extern volatile BYTE usb_device_state; // JTR added
 #if defined (BUSPIRATEV4)
 _CONFIG1(JTAGEN_OFF & GCP_OFF & GWRP_OFF & COE_OFF & FWDTEN_OFF & ICS_PGx2)
 _CONFIG2(IESO_OFF & FCKSM_CSDCMD & OSCIOFNC_ON & POSCMOD_HS & FNOSC_PRIPLL & PLLDIV_DIV3 & IOL1WAY_ON & PLL_96MHZ_ON & DISUVREG_OFF)
-
 #endif
 
 unsigned char irqFlag = 0;
@@ -75,10 +74,10 @@ int main(void) {
     BP_LEDUSB_DIR = 0;
     //BP_LEDUSB = 1;
     BP_USBLED_ON();
-    BP_VREGEN_DIR = 0;
-    BP_VREGEN = 1;
-    BP_LEDMODE_DIR = 0;
-    BP_LEDMODE = 1;
+    //BP_VREGEN_DIR = 0;
+   // BP_VREGEN = 1;
+    //BP_LEDMODE_DIR = 0;
+    //BP_LEDMODE = 1;
     EnableUsbPerifInterrupts(USB_TRN + USB_SOF + USB_UERR + USB_URST);
     EnableUsbGlobalInterrupt();
 

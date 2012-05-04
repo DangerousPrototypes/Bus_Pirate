@@ -8,7 +8,7 @@ dir_src=
 dir_bin=.\output
 dir_tmp=.\work
 dir_sin=
-dir_inc=.;.\dp_usb
+dir_inc=.\dp_usb
 dir_lib=C:\Program Files\Microchip\MPLAB C30\lib
 dir_lkr=
 [CAT_FILTERS]

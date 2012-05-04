@@ -263,7 +263,9 @@ void usb_handle_setup(void) {
             if (class_setup_handler) class_setup_handler();
             break;
         case USB_bmRequestType_Vendor:
-            if (vendor_setup_handler) class_setup_handler();
+			//ROBOTS FIX: http://dangerousprototypes.com/forum/viewtopic.php?f=39&t=3849&view=unread#unread
+			// did call class_setup_handler();
+            if (vendor_setup_handler) vendor_setup_handler();
             break;
         default:
             usb_RequestError();
