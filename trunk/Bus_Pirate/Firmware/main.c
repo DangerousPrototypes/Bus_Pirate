@@ -11,10 +11,10 @@
  *
  *    This program is distributed in the hope that it will be useful,
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
- 
- 
+
+#include "base.h"
     ///////////////////////////////////////////
    /////////////[ NOTE ]//////////////////////////////////////
   ///    The settings and configuration are on [base.h] please open that file if you are new to
@@ -26,47 +26,33 @@
  ///////////
  
  
-#include "globals.h"
 #include "busPirateCore.h"
 #include "procMenu.h"
-//#include "procSyntax.h"
 #include "selftest.h"
-//#include "binIO.h"
-//#include "SUMP.h"
 #include "basic.h"
 
 
 #if defined (BUSPIRATEV4)
-#include "configwords.h"	// JTR only included in main.c
-#include "descriptors.h"	// JTR Only included in main.c
+#include "descriptors.h"
 
-void user_configured_init(void);
-void init(void); //hardware init
-void usb_start(void); //JTR added prototype was missing or something else funny or altered that I cannot remember??
-/* Initialize usb cdc acm subsystem */
-void initCDC(void);
-void usb_init(ROMPTR const unsigned char*, ROMPTR const unsigned char*, ROMPTR const unsigned char*, int);
-
-extern BYTE cdc_In_buffer[64];
-extern BYTE CDC_In_count;
-extern BYTE *InPtr;
-extern BYTE *OutPtr;
-
-//void USBbufFlush(void);
-
-extern volatile unsigned char usb_device_state; // JTR added
-extern unsigned char CDC_trf_state;
-
+void USBSuspend(void);
+void _USB1Interrupt(void);
+extern volatile BYTE usb_device_state; // JTR added
 #endif
 
 #if defined (BUSPIRATEV2) || defined (BUSPIRATEV1A)
 //set custom configuration for PIC 24F (now always set in bootloader page, not needed here)
-_CONFIG2(FNOSC_FRCPLL & OSCIOFNC_ON &POSCMOD_NONE & I2C1SEL_PRI)		// Internal FRC OSC = 8MHz
-_CONFIG1(JTAGEN_OFF & GCP_OFF & GWRP_OFF & COE_OFF & FWDTEN_OFF & ICS_PGx1) //turn off junk we don't need
+//_CONFIG2(FNOSC_FRCPLL & OSCIOFNC_ON &POSCMOD_NONE & I2C1SEL_PRI)		// Internal FRC OSC = 8MHz
+//_CONFIG1(JTAGEN_OFF & GCP_OFF & GWRP_OFF & COE_OFF & FWDTEN_OFF & ICS_PGx1) //turn off junk we don't need
+#endif
+#if defined (BUSPIRATEV4)
+_CONFIG1(JTAGEN_OFF & GCP_OFF & GWRP_OFF & COE_OFF & FWDTEN_OFF & ICS_PGx2)
+_CONFIG2(IESO_OFF & FCKSM_CSDCMD & OSCIOFNC_ON & POSCMOD_HS & FNOSC_PRIPLL & PLLDIV_DIV3 & IOL1WAY_ON & PLL_96MHZ_ON & DISUVREG_OFF)
+
 #endif
 
 unsigned char irqFlag = 0;
-//void _T1Interrupt(void);
+
 void ISRTable(); //Pseudo function to hold ISR remap jump table
 void Initialize(void);
 
@@ -76,53 +62,37 @@ struct _modeConfig modeConfig; //holds mode info, cleared between modes
 struct _command bpCommand; //holds the current active command so we don't ahve to put so many variables on the stack
 
 unsigned char binmodecnt = 0; //, terminalInput[TERMINAL_BUFFER];
-#if defined (BUSPIRATEV4)
-void _USB1Interrupt(void);
-#endif
 
 #pragma code
 //this loop services user input and passes it to be processed on <enter>
 
 int main(void) {
+
     Initialize(); //setup bus pirate
 
     //wait for the USB connection to enumerate
 #if defined (BUSPIRATEV4)
+    BP_LEDUSB_DIR = 0;
+    //BP_LEDUSB = 1;
+    BP_USBLED_ON();
+    BP_VREGEN_DIR = 0;
+    BP_VREGEN = 1;
+    BP_LEDMODE_DIR = 0;
+    BP_LEDMODE = 1;
+    EnableUsbPerifInterrupts(USB_TRN + USB_SOF + USB_UERR + USB_URST);
+    EnableUsbGlobalInterrupt();
 
-	#ifdef USB_INTERRUPT
-	    EnableUsbInterrupt(USB_STALL + USB_IDLE + USB_TRN + USB_ACTIV + USB_SOF + USB_UERR + USB_URST);
-	    //EnableUsbInterrupt(USB_TRN + USB_SOF + USB_UERR + USB_URST);
-	    EnableUsbInterrupts();
-	#endif
-
-    usbbufflush(); //setup the USB byte buffer
-	BP_USBLED_ON();
     do {
-		#ifndef USB_INTERRUPT
-        //if (!TestUsbInterruptEnabled()) //JTR3 added
-        	usb_handler(); ////service USB tasks Guaranteed one pass in polling mode even when usb_device_state == CONFIGURED_STATE
-		#endif
+        if (!TestGlobalUsbInterruptEnable()) //JTR3 added
 
-        if ((usb_device_state < DEFAULT_STATE)) { // JTR2 no suspendControl available yet || (USBSuspendControl==1) ){
-
-        } else if (usb_device_state < CONFIGURED_STATE) {
-
-        }
-
+            usb_handler(); ////service USB tasks Guaranteed one pass in polling mode even when usb_device_state == CONFIGURED_STATE
+        //        if ((usb_device_state < DEFAULT_STATE)) { // JTR2 no suspendControl available yet || (USBSuspendControl==1) ){
+        //        } else if (usb_device_state < CONFIGURED_STATE) {
+        //        }
     } while (usb_device_state < CONFIGURED_STATE); // JTR addition. Do not proceed until device is configured.
+    BP_USBLED_OFF();
+    usb_register_sof_handler(CDCFlushOnTimeout); // For timeout value see: cdc_config.h -> BPv4 -> CDC_FLUSH_MS
 
-	BP_USBLED_OFF();
-
-	#ifdef DOUBLE_BUFFER
-   		ArmCDCInDB(); // Set up CDC IN double buffer
-	#endif
-
-    //enable timer 1 with interrupts,
-    //service with function in main.c.
-    IEC0bits.T1IE = 1;
-    IFS0bits.T1IF = 0;
-    PR1 = 0x0FFF;
-    T1CON = 0x8000; //8010
 #endif
     serviceuser();
     return 0;
@@ -135,20 +105,30 @@ void Initialize(void) {
 #if defined (BUSPIRATEV2)
 	unsigned char i;
 #endif
+
+    volatile unsigned long delay = 0xffff;
+
+    //   volatile unsigned long delay = 0xffff;
+    // TBLPAG = 0; // we need to be in page 0 (somehow this isn't set)
 #if defined (BUSPIRATEV2) || defined (BUSPIRATEV1A)
     CLKDIVbits.RCDIV0 = 0; //clock divider to 0
     AD1PCFG = 0xFFFF; // Default all pins to digital
 #elif defined (BUSPIRATEV4)
+    INTCON1bits.NSTDIS = 1;
     CLKDIV = 0x0000; // Set PLL prescaler (1:1)
-    //	BP_LEDUSB_DIR=0;	// output
+    BP_LEDUSB_DIR = 0; // output
     CORCONbits.PSV = 1; // JTR PIC24 fixup ?? PSV not being initialized. May have been done by c_init though.
     PSVPAG = 0; //
+    OSCCONbits.SOSCEN = 0;
     AD1PCFGL = 0x7FD8; //BUSPIRATEV4 has five analog pins b0, b1, b2, b5, b15
     AD1PCFGH = 0x2;
+    // usb_register_sof_handler(0);
 #endif
 
     OSCCONbits.SOSCEN = 0;
 
+
+    while (delay--);
     //set pin configuration using peripheral pin select
 #if defined (BUSPIRATEV2) || defined (BUSPIRATEV1A)
     BP_TERM_RX = BP_TERM_RX_RP; //Inputs UART1 RX RPINR18bits.U1RXR=4;
@@ -163,15 +143,12 @@ void Initialize(void) {
 
 #if defined (BUSPIRATEV2) || defined (BUSPIRATEV1A)
     InitializeUART1(); //init the PC side serial port
-#elif defined (BUSPIRATEV4)
-
-    //    USBDeviceInit();//setup usb
-    initCDC(); // JTR this function has been highly modified It no longer sets up CDC endpoints.
-    usb_init(cdc_device_descriptor, cdc_config_descriptor, cdc_str_descs, USB_NUM_STRINGS); // TODO: Remove magic with macro
-    usb_start();
-
 #endif
-
+#if defined (BUSPIRATEV4)
+    initCDC();
+    usb_init(cdc_device_descriptor, cdc_config_descriptor, cdc_str_descs, USB_NUM_STRINGS);
+    usb_start();
+#endif
 
 #if defined (BUSPIRATEV2)
     //find the Bus Pirate revision
@@ -235,7 +212,12 @@ void __attribute__ ((interrupt,no_auto_psv)) _T1Interrupt(){
  */
 
 #ifdef BUSPIRATEV4
+
+void USBSuspend(void) {
+
+}
 #pragma interrupt _USB1Interrupt
+
 void __attribute__((interrupt, no_auto_psv)) _USB1Interrupt() {
 
     //USB interrupt
@@ -243,7 +225,7 @@ void __attribute__((interrupt, no_auto_psv)) _USB1Interrupt() {
     //IRQ flag	IFS5bits.USB1IF
     //IRQ priority IPC21<10:8>
     //{
-	usb_handler();
+    usb_handler();
     IFS5bits.USB1IF = 0; //	PIR2bits.USBIF = 0;
     //}
 }

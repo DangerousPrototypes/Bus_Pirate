@@ -16,8 +16,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-#include "globals.h"
-
+#include "base.h"
 #ifdef BP_USE_1WIRE
 #include "1wire_lib.h"
 #include "1wire.h"

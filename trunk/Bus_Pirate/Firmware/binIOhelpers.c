@@ -26,11 +26,11 @@ void binIOperipheralset(unsigned char inByte){
 
 	//AUX pin, high/low only
 	if(inByte&0b10){
-		BP_AUX_DIR=0;//aux output
-		BP_AUX=1;//aux high
+		BP_AUX0_DIR=0;//aux output
+		BP_AUX0=1;//aux high
 	}else{
-		BP_AUX_DIR=0;//aux output
-		BP_AUX=0;//aux low
+		BP_AUX0_DIR=0;//aux output
+		BP_AUX0=0;//aux low
 	}
 
 	//CS pin, follows HiZ setting

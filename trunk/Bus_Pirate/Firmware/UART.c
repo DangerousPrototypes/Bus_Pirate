@@ -304,7 +304,7 @@ void UARTmacro(unsigned int macro)
 						U1TXREG = U2RXREG; //URXDA doesn't get cleared untill this happens
 				}
 				if((UART1RXRdy()==1)&& (U2STAbits.UTXBF == 0)){
-						U2TXREG = UART1RX(); /* JTR usb port; */; //URXDA doesn't get cleared untill this happens
+						U2TXREG = UART1RX(); /* JTR usb port; */ // URXDA doesn't get cleared untill this happens
 				}
 				if(U2STAbits.OERR || U1STAbits.OERR){
    					U2STA &= (~0b10); //clear overrun error if exists
@@ -645,7 +645,7 @@ void binUART(void){
 
 		//process commands
 		if(UART1RXRdy() == 1){//wait for a byte
-			inByte=UART1RX(); /* JTR usb port; */; //grab it
+			inByte=UART1RX(); /* JTR usb port; */ //grab it
 			rawCommand=(inByte>>4);//get command bits in seperate variable
 			
 			switch(rawCommand){

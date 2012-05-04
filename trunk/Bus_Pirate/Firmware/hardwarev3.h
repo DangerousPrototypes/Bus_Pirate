@@ -17,6 +17,8 @@
 #define BP_VERSION_STRING "Bus Pirate v3"// (Seeed Studio)"
 #define BP_VERSION "v3"
 
+#define NUM_OF_SUMP_CHANNELS 5
+
 //set the pin to use for POST detection
 #define BP_POST 	PORTBbits.RB0
 #define BP_POST_DIR TRISBbits.TRISB0

@@ -31,7 +31,7 @@ extern proto protos[MAXPROTO];
 #ifdef BP_USE_BASIC
 
 int vars[26];					// var a-z
-int stack[GOSUBMAX];				// max 5 gosubs
+int stack_[GOSUBMAX];				// max 5 gosubs
 struct forloop forloops[FORMAX];			// max 2 nested forloop
 int pc;							//programcounter
 int fors;						// current for
@@ -703,7 +703,7 @@ void interpreter(void)
 							pc+=4;
 	
 							if(gosubs<GOSUBMAX)
-							{	stack[gosubs]=pc+len-1;
+							{	stack_[gosubs]=pc+len-1;
 								gosubs++;
 								temp=searchlineno(assign());
 								//bpSP; bpWinthex(temp); bpSP;
@@ -724,7 +724,7 @@ void interpreter(void)
 						
 							pcupdated=1;
 							if(gosubs)
-							{	pc=stack[--gosubs];
+							{	pc=stack_[--gosubs];
 							}
 							else
 							{	stop=RETURNERROR; 
