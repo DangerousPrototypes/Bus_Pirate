@@ -102,7 +102,7 @@
 
 #ifdef BUSPIRATEV4
 	#include "hardwarev4a.h"
-#include "..\dp_usb\usb_stack_globals.h"
+#include "dp_usb\usb_stack_globals.h"
 	#include "onboardEEPROM.h"
 #endif
 

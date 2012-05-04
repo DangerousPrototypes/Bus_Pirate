@@ -5,6 +5,7 @@
 #include "base.h"
 #include "UART.h"
 #include "busPirateCore.h"
+#include "SUMP.h"
 
 //commandset
 //http://www.sump.org/projects/analyzer/protocol/
