@@ -254,7 +254,7 @@ unsigned int bpReadFlash(unsigned int page, unsigned int addr) {
 
     tblold = TBLPAG;
     TBLPAG = page;
-    //flash = (__builtin_tblrdh(addr) << 8) | __builtin_tblrdl(addr);
+    flash = (__builtin_tblrdh(addr) << 8) | __builtin_tblrdl(addr);
     TBLPAG = tblold;
 
     return flash;
