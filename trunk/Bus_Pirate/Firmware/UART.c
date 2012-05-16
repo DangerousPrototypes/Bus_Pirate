@@ -291,8 +291,13 @@ void UARTmacro(unsigned int macro)
 			
 			//bpWline("UART bridge");
 			BPMSG1204;
+			#if defined(BUSPIRATEV4)
+			//bpWline("Normal to exit")
+			BPMSG1278;
+			#else			
 			//bpWline("Reset to exit");
-			BPMSG1205; 
+			BPMSG1205;
+			#endif 
 			if(!agree()) break;
 			// could use a lot of improvement
 			//buffers for baud rate differences
@@ -300,9 +305,20 @@ void UARTmacro(unsigned int macro)
 			//it will fail silently
 			U2STA &= (~0b10); //clear overrun error if exists
 			while(1){//never ending loop, reset Bus Pirate to get out
+				#if defined(BUSPIRATEV4)
+				// Why is there no other real reference to the BP_BUTTON or RC14??
+				if BP_BUTTON_ISDOWN() { 
+					break; // get out if NORMAL button is pressed on BP v4 hardware
+				}
+				// This fix suggested by TES on http://dangerousprototypes.com/forum/viewtopic.php?f=28&t=3441 
+				if((U2STAbits.URXDA==1)){
+						UART1TX(U2RXREG);
+				}
+				#else
 				if((U2STAbits.URXDA==1)&& (U1STAbits.UTXBF == 0)){
 						U1TXREG = U2RXREG; //URXDA doesn't get cleared untill this happens
 				}
+				#endif
 				if((UART1RXRdy()==1)&& (U2STAbits.UTXBF == 0)){
 						U2TXREG = UART1RX(); /* JTR usb port; */ // URXDA doesn't get cleared untill this happens
 				}
@@ -681,9 +697,17 @@ void binUART(void){
 							UART1TX(1);
 							U2STA &= (~0b10); //clear overrun error if exists
 							while(1){//never ending loop, reset Bus Pirate to get out
+
+								#if defined(BUSPIRATEV4)
+								// This fix suggested by TES on http://dangerousprototypes.com/forum/viewtopic.php?f=28&t=3441 
+								if((U2STAbits.URXDA==1)){
+										UART1TX(U2RXREG);
+								}
+								#else
 								if((U2STAbits.URXDA==1)&& (U1STAbits.UTXBF == 0)){
 										U1TXREG = U2RXREG; //URXDA doesn't get cleared untill this happens
 								}
+								#endif
 								if((UART1RXRdy()==1)&& (U2STAbits.UTXBF == 0)){
 										U2TXREG = UART1RX(); /* JTR usb port; */; //URXDA doesn't get cleared untill this happens
 								}
