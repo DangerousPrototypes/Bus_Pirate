@@ -263,6 +263,7 @@ _bpmessages:
 	.pascii	" on-board pullup voltage "
 	.pascii	"enabled"
 	.pascii	"disabled"
+	.pascii	"Normal to exit"
 	.pascii	"Waiting activity..."
 	.pascii	"** Early Exit!"
 	.pascii	"** Baud>16m: The BP cannot measure above 16000000, Done."
