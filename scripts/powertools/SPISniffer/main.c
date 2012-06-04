@@ -194,7 +194,7 @@ while ((opt = getopt(argc, argv, "ms:p:e:d:r:")) != -1) {
  	// Enter binary mode, then enter a protocol mode
 	//
 
- 	serial_setup(fd,(speed_t) param_speed);
+ 	serial_setup(fd,(speed_t) atoi(param_speed));
 
  	printf(" Starting SPI sniffer...\n");
 
