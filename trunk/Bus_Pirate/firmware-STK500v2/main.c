@@ -103,12 +103,12 @@ void programcmd(unsigned char seqnum)
                 msg_buf[1] = STATUS_CMD_OK; // 0x00
                 msg_buf[2] = 8; //len
                 //strcpy((char *)&(msg_buf[3]),"AVRISP_2"); // note: this copied also the null termination
-                msg_buf[3] = 'A'; 
-                msg_buf[4] = 'V'; 
-                msg_buf[5] = 'R'; 
-                msg_buf[6] = 'I'; 
-                msg_buf[7] = 'S'; 
-                msg_buf[8] = 'P'; 
+                msg_buf[3] = 'S'; 
+                msg_buf[4] = 'T'; 
+                msg_buf[5] = 'K'; 
+                msg_buf[6] = '5'; 
+                msg_buf[7] = '0'; 
+                msg_buf[8] = '0'; 
                 msg_buf[9] = '_'; 
                 msg_buf[10] = '2';             
 				answerlen=11;
