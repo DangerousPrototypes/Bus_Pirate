@@ -281,7 +281,9 @@ void InitializeUART1(void) { // if termspeed==9 it is custom
     U1STAbits.UTXEN = 1;
     IFS0bits.U1RXIF = 0;
 }
-#define UART1TXRdy() U1STAbits.UTXBF
+unsigned char UART1TXRdy(void) {
+      return  U1STAbits.UTXBF; 
+}
 
 unsigned char UART1RXRdy(void) {
     return U1STAbits.URXDA;
