@@ -222,7 +222,7 @@ asm (".equ BLJUMPADDRESS, 0xABF8");
 // the buspurate v3 uses the other one...
 #if defined(BUSPIRATEV4)
 	#if defined(LANGUAGE_EN_US)
-		#include "translations/en_US.h"
+		#include "translations/BPv4_en_US.h"
 	#elif defined(LANGUAGE_DE_DE)
 		#include "translations/de_DE.h"
 	#else
@@ -230,7 +230,7 @@ asm (".equ BLJUMPADDRESS, 0xABF8");
 	#endif
 #else
 	#if defined(LANGUAGE_EN_US)
-		#include "translations/v3_en_US.h"
+		#include "translations/BPv3_en_US.h"
 	#elif defined(LANGUAGE_DE_DE)
 		#include "translations/v3_de_DE.h"
 	#else
