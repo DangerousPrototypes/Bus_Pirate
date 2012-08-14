@@ -41,7 +41,6 @@
 // HARDWARE VERSION
 #if defined(__PIC24FJ256GB106__)        //v4 chip
         #define BUSPIRATEV4
-        #define USB_INTERRUPTS
 #elif defined(__PIC24FJ64GA002__)       //v3/v2go/v1a chip
         // Uncomment the hardware version you are building for
         #define BUSPIRATEV3                             // V3 is also V2G0
@@ -52,7 +51,7 @@
 // FIRMWARE VERSION STRING
 // Build Firmware Version String
 // used in 'i' and startup
-#define BP_FIRMWARE_STRING "Firmware v6.2-test r1862 "
+#define BP_FIRMWARE_STRING "Firmware v6.2-beta1 r1981 "
 
 
 ////////////////////////////////////////
@@ -178,9 +177,11 @@
 #error "No Bus Pirate configuration defined."
 #endif
 
-
-//#define BP_USE_BASIC   // basic subsystem
-//#define BP_USE_BASICI2C  // use an i2ceeprom for storing
+//ENABLE BASIC SCRIPTING
+#if defined(BUSPIRATEV4)
+	#define BP_USE_BASIC   // basic subsystem
+	//#define BP_USE_BASICI2C  // use an i2ceeprom for storing
+#endif
 
 
 // only 1 should be uncommented
