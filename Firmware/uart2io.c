@@ -51,7 +51,9 @@ void UART2Setup(unsigned int brg, unsigned char ODCoutput, unsigned char rxp, un
 
 	//U2MODEbits.PDSEL1=1;//dbp; //databits and parity
 	U2MODEbits.STSEL=sb; //stop bits
+
     U2STA = 0;
+	U2STAbits.UTXINV = rxp; // Change TX polarity to match RX polarity
 
 }
 
