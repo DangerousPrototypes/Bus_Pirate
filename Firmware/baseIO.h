@@ -113,6 +113,7 @@ unsigned char CheckCommsError(void);
 void UART1Speed(unsigned char brg);
 //Initialize the terminal UART for the speed currently set in bpConfig.termSpeed
 void InitializeUART1(void);
+unsigned char UART1TXRdy(void);
 //
 //
 // Ring buffer for UART

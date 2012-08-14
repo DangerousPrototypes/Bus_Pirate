@@ -16,7 +16,6 @@
 #ifndef BASE 
 #define BASE
 #include <p24Fxxxx.h>
-//#include <GenericTypeDefs.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -40,12 +39,13 @@
 
 ///////////////////////////////////////
 // HARDWARE VERSION
-#if defined(__PIC24FJ256GB106__)  	//v4 chip
-	#define BUSPIRATEV4
-#elif defined(__PIC24FJ64GA002__)	//v3/v2go/v1a chip
-	// Uncomment the hardware version you are building for
-	#define BUSPIRATEV3				// V3 is also V2G0
-	//#define BUSPIRATEV1A 			//probably no longer supported...
+#if defined(__PIC24FJ256GB106__)        //v4 chip
+        #define BUSPIRATEV4
+        #define USB_INTERRUPTS
+#elif defined(__PIC24FJ64GA002__)       //v3/v2go/v1a chip
+        // Uncomment the hardware version you are building for
+        #define BUSPIRATEV3                             // V3 is also V2G0
+        //#define BUSPIRATEV1A                  //probably no longer supported...
 #endif
 
 ////////////////////////////////////////
@@ -96,21 +96,21 @@
 // Buspirate version 3 and v2go use the same everything; so this just
 // fixs if the user selected v2go.
 #if defined(BUSPIRATEV2GO)
-	#define BUSPIRATEV3
+        #define BUSPIRATEV3
 #endif
 
 
 #ifdef BUSPIRATEV4
-	#include "hardwarev4a.h"
-#include "dp_usb\usb_stack_globals.h"
-	#include "onboardEEPROM.h"
+        #include "hardwarev4a.h"
+#include "dp_usb/usb_stack_globals.h"
+        #include "onboardEEPROM.h"
 #endif
 
 #if defined(BUSPIRATEV1A)
-	#include "hardwarev1a.h"
+        #include "hardwarev1a.h"
 #elif defined(BUSPIRATEV3)
-	#define BUSPIRATEV2 //v25 (2go) and v3 are about the same, enable the same featue set for both
-	#include "hardwarev3.h"
+        #define BUSPIRATEV2 //v25 (2go) and v3 are about the same, enable the same featue set for both
+        #include "hardwarev3.h"
 #elif defined(BUSPIRATEV4)
 
 #else
@@ -127,52 +127,52 @@
 
 #if defined(BP_MAIN)
 
-	#define BP_USE_1WIRE
-	//#ifndef BUSPIRATEV4
-	#define BP_USE_HWUART //hardware uart (now also MIDI)
-	//#endif
-	#define BP_USE_I2C
-	//#define BP_USE_I2C_HW
-	#define BP_USE_HWSPI //hardware spi
-	#define BP_USE_RAW2WIRE
-	#define BP_USE_RAW3WIRE
-	#define BP_USE_LCD // include HD44780 LCD library	
+        #define BP_USE_1WIRE
+        //#ifndef BUSPIRATEV4
+        #define BP_USE_HWUART //hardware uart (now also MIDI)
+        //#endif
+        #define BP_USE_I2C
+        //#define BP_USE_I2C_HW
+        #define BP_USE_HWSPI //hardware spi
+        #define BP_USE_RAW2WIRE
+        #define BP_USE_RAW3WIRE
+        #define BP_USE_LCD // include HD44780 LCD library       
 
-	
-	#if defined(BUSPIRATEV4)
-		#define BP_USE_DIO //binary mode
-		#define BP_USE_PCATKB
-		#define BP_USE_PIC
-		#define BP_USE_BASIC 
-	#endif
-	
+        
+        #if defined(BUSPIRATEV4)
+                #define BP_USE_DIO //binary mode
+                #define BP_USE_PCATKB
+                #define BP_USE_PIC
+                #define BP_USE_BASIC 
+        #endif
+        
 #elif defined(BP_ADDONS)
-	// most used protos
-	//#define BP_USE_1WIRE
-	//#define BP_USE_HWUART //hardware uart (now also MIDI)
-	//#define BP_USE_I2C
-	//#define BP_USE_I2C_HW
-	//#define BP_USE_HWSPI //hardware spi
-	#define BP_USE_RAW2WIRE
-	#define BP_USE_RAW3WIRE
-	#define BP_USE_PCATKB
-	#define BP_USE_LCD // include HD44780 LCD library
-	#define BP_USE_PIC
-	#define BP_USE_DIO //binary mode
-	
+        // most used protos
+        //#define BP_USE_1WIRE
+        //#define BP_USE_HWUART //hardware uart (now also MIDI)
+        //#define BP_USE_I2C
+        //#define BP_USE_I2C_HW
+        //#define BP_USE_HWSPI //hardware spi
+        #define BP_USE_RAW2WIRE
+        #define BP_USE_RAW3WIRE
+        #define BP_USE_PCATKB
+        #define BP_USE_LCD // include HD44780 LCD library
+        #define BP_USE_PIC
+        #define BP_USE_DIO //binary mode
+        
 #elif defined(BP_CUSTOM)
-	// most used protos
-	//#define BP_USE_1WIRE
-	#define BP_USE_HWUART //hardware uart (now also MIDI)
-	//#define BP_USE_I2C
-	//#define BP_USE_I2C_HW
-	//#define BP_USE_HWSPI //hardware spi
-	//#define BP_USE_RAW2WIRE
-	//#define BP_USE_RAW3WIRE
-	//#define BP_USE_PCATKB
-	//#define BP_USE_LCD // include HD44780 LCD library
-	//#define BP_USE_PIC
-	//#define BP_USE_DIO //binary mode
+        // most used protos
+        //#define BP_USE_1WIRE
+        #define BP_USE_HWUART //hardware uart (now also MIDI)
+        //#define BP_USE_I2C
+        //#define BP_USE_I2C_HW
+        //#define BP_USE_HWSPI //hardware spi
+        //#define BP_USE_RAW2WIRE
+        //#define BP_USE_RAW3WIRE
+        //#define BP_USE_PCATKB
+        //#define BP_USE_LCD // include HD44780 LCD library
+        //#define BP_USE_PIC
+        //#define BP_USE_DIO //binary mode
 
 #else
 #error "No Bus Pirate configuration defined."
@@ -188,8 +188,8 @@
 //#define BASICTEST_I2C
 //#define BASICTEST_UART
 //#define BASICTEST_R3W
-//#define BASICTEST_PIC10			// program blink a led
-//#define BASICTEST_PIC10_2			// read whole pic
+//#define BASICTEST_PIC10                       // program blink a led
+//#define BASICTEST_PIC10_2                     // read whole pic
 
 //sets the address in the bootloader to jump to on the bootloader command
 //must be defined in asm
@@ -204,10 +204,10 @@ asm (".equ BLJUMPADDRESS, 0xABF8");
 //
 
 //// left out for now
-/*	my italian and spanish aint that good ;)
+/*      my italian and spanish aint that good ;)
 #elif defined(LANGUAGE_IT_IT)
         #include "translations/it-IT.h"
-//	#include "translations/en-US.h"
+//      #include "translations/en-US.h"
 #elif defined(LANGUAGE_ES_ES)
         #include "translations/es-ES.h"
  */
@@ -221,21 +221,21 @@ asm (".equ BLJUMPADDRESS, 0xABF8");
 // Also note; the BPV4 project file uses the en_US.s file
 // the buspurate v3 uses the other one...
 #if defined(BUSPIRATEV4)
-	#if defined(LANGUAGE_EN_US)
-		#include "translations/BPv4_en_US.h"
-	#elif defined(LANGUAGE_DE_DE)
-		#include "translations/de_DE.h"
-	#else
-		#error "No language defined in base.h."
-	#endif
+        #if defined(LANGUAGE_EN_US)
+                #include "translations/BPv4_en_US.h"
+        #elif defined(LANGUAGE_DE_DE)
+                #include "translations/BPv4_de_DE.h"
+        #else
+                #error "No language defined in base.h."
+        #endif
 #else
-	#if defined(LANGUAGE_EN_US)
-		#include "translations/BPv3_en_US.h"
-	#elif defined(LANGUAGE_DE_DE)
-		#include "translations/v3_de_DE.h"
-	#else
-		#error "No language defined in base.h."
-	#endif
+        #if defined(LANGUAGE_EN_US)
+                #include "translations/BPv3_en_US.h"
+        #elif defined(LANGUAGE_DE_DE)
+                #include "translations/BPv3_de_DE.h"
+        #else
+                #error "No language defined in base.h."
+        #endif
 #endif
 
 

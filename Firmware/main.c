@@ -78,13 +78,16 @@ int main(void) {
    // BP_VREGEN = 1;
     //BP_LEDMODE_DIR = 0;
     //BP_LEDMODE = 1;
+#ifdef USB_INTERRUPTS
     EnableUsbPerifInterrupts(USB_TRN + USB_SOF + USB_UERR + USB_URST);
     EnableUsbGlobalInterrupt();
+#endif    
 
     do {
+#ifndef USB_INTERRUPTS
         if (!TestGlobalUsbInterruptEnable()) //JTR3 added
-
             usb_handler(); ////service USB tasks Guaranteed one pass in polling mode even when usb_device_state == CONFIGURED_STATE
+#endif 
         //        if ((usb_device_state < DEFAULT_STATE)) { // JTR2 no suspendControl available yet || (USBSuspendControl==1) ){
         //        } else if (usb_device_state < CONFIGURED_STATE) {
         //        }
