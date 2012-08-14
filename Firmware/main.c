@@ -85,7 +85,7 @@ int main(void) {
 
     do {
 #ifndef USB_INTERRUPTS
-        if (!TestGlobalUsbInterruptEnable()) //JTR3 added
+//        if (!TestGlobalUsbInterruptEnable()) //JTR3 added
             usb_handler(); ////service USB tasks Guaranteed one pass in polling mode even when usb_device_state == CONFIGURED_STATE
 #endif 
         //        if ((usb_device_state < DEFAULT_STATE)) { // JTR2 no suspendControl available yet || (USBSuspendControl==1) ){
