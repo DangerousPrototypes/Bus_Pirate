@@ -13,7 +13,7 @@
  ********************************************************************************/
 
 #include "base.h"
-#include "sump.h"
+#include "SUMP.h"
 
 //commandset
 //http://www.sump.org/projects/analyzer/protocol/
@@ -74,7 +74,9 @@ void SUMP(void) {
     bpWstring("1ALS");
 
     do { // Remains in this loop until a SUMP RESET (0x00) is received.
+#ifndef USB_INTERRUPTS
         usb_handler();
+#endif
         if (poll_getc_cdc(&RECVedByte) == 1) {//process any command bytes, otherwise it does nothing but loop
 
             switch (RECVedByte) {//switch on the current byte
@@ -110,11 +112,13 @@ void SUMP(void) {
 
 #ifndef BUSPIRATEV4
                     do {
-                        usb_handler();
+
                     } while ((0 == IFS1bits.CNIF) && CNEN2);
 #else
                     do {
+#ifndef USB_INTERRUPTS
                         usb_handler();
+#endif
                     } while (0 == IFS1bits.CNIF);
 
 #endif
@@ -139,7 +143,7 @@ void SUMP(void) {
                         * InPtr++ = sump_port;
                         // * InPtr++ = i;
 #else
-                        * InPtr++ = sump_port; //change to pointer for faster use...
+                        * InPtr++ = (BYTE)(PORTD & 0xff);  //sump_port; //change to pointer for faster use...
 #endif
 
 #endif                        
@@ -161,7 +165,9 @@ void SUMP(void) {
                     CNEN2 = 0; //change notice off
 #endif
                     T4CON = 0; //stop count
+#ifndef USB_INTERRUPTS
                     usb_handler();
+#endif
                     WaitInReady();
 
                     // JTR debug only
@@ -178,7 +184,11 @@ void SUMP(void) {
                 case SUMP_DESC:
                     // device name string
                     UART1TX(0x01);
+#ifdef BUSPIRATEV4
+                    bpWstring("BPv4");
+#else                    
                     bpWstring("BPv3");
+#endif
                     UART1TX(0x00);
                     //sample memory (4096) meaningless in JTR_SUMP mode
                     UART1TX(0x21);
@@ -218,7 +228,11 @@ void SUMP(void) {
                         case SUMP_TRIG: //set CN on these pins
 #ifdef BUSPIRATEV4                    
                             if (sumpRX.command[1] & 0b1000000) CNEN4 |= 0b10; //AUX2
-                            if (sumpRX.command[1] & 0b100000) CNEN4 |= 0b100000; //AUX1
+#ifdef BPv4_SUMP_SOFT_WIRE // See hardwarev4a.h                            
+                            if (sumpRX.command[1] & 0b100000) CNEN4 |= 0b100000; //AUX1 on PORTD:8 will be moved in firmware to B7 of SUMP byte
+#else // possible GREEN WIRE mode PORTD8 to PORTD7
+                            if (sumpRX.command[1] & 0b100000) CNEN2 |= 0b1; //AUX1 on PORTD:7
+#endif                            
                             if (sumpRX.command[1] & 0b10000) CNEN1 |= 0b100000000000000; //AUX0
                             if (sumpRX.command[1] & 0b1000) CNEN4 |= 0b100; // MOSI
                             if (sumpRX.command[1] & 0b100) CNEN4 |= 0b1000; // CLK
