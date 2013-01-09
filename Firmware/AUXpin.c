@@ -35,6 +35,7 @@ static enum _auxmode
         } AUXmode=AUX_IO;
 
 unsigned long bpFreq_count(void);
+unsigned long bpPeriod_count(unsigned int n);
 
 int PWMfreq;
 int PWMduty;
@@ -203,8 +204,10 @@ void bpPWM(void){
 
 //frequency measurement
 void bpFreq(void){
-        //static unsigned int j,k;
-        unsigned long l;
+        // frequency accuracy optimized by selecting measurement method, either
+        //   counting frequency or measuring period, to maximize resolution.
+	// Note: long long int division routine used by C30 is not open-coded  */
+	unsigned long long f, p;
 
         if(AUXmode==AUX_PWM){
                 //bpWline(OUMSG_AUX_FREQ_PWM);
@@ -224,22 +227,140 @@ void bpFreq(void){
         RPINR3bits.T2CKR=AUXPIN_RPIN; //assign T2 clock input to aux input
         // should be good on bpv4
 
-        T2CON=0b111010; //(TCKPS1|TCKPS0|T32|TCS);
+        T2CON=0b111010; //(TCKPS1|TCKPS0|T32|TCS); // prescale to 256
 
-        l=bpFreq_count();
-        if(l>0xff){//got count
-                l*=256;//adjust for prescaler...
-        }else{//no count, maybe it's less than prescaler (256hz)
+        f=bpFreq_count(); // all measurements within 26bits (<67MHz)
+
+        // counter only seems to be good til around 6.7MHz,
+        // use 4.2MHz (nearest power of 2 without exceeding 6.7MHz) for reliable reading
+        if(f>0x3fff){ // if >4.2MHz prescaler required
+                f*=256; // adjust for prescaler
+        }else { // get a more accurate reading without prescaler
                 //bpWline("Autorange");
                 BPMSG1245;
                 T2CON=0b001010; //(TCKPS1|TCKPS0|T32|TCS); prescale to 0
-                l=bpFreq_count();
+                f=bpFreq_count();
         }
-
-        bpWlongdecf(l);         // this function uses comma's to seperate thousands.
-        bpWstring(" Hz");                               
-
-        bpWBR;
+        // at 4000Hz 1 bit resolution of frequency measurement = 1 bit resolution of period measurement
+        if(f>3999){ // when < 4 KHz  counting edges is inferior to measuring period(s)
+                bpWlongdecf(f); // this function uses comma's to seperate thousands.
+                bpWline(" Hz");
+        }else if (f>0) {
+                BPMSG1245;
+                p=bpPeriod_count(f);
+                // don't output fractions of frequency that are less then the frequency
+                //   resolution provided by an increment of the period timer count.
+// commented out due to oscillator accuracy
+/* 		// at p=12,649,110, frequency resolution is 1e-7 */
+/* 		if (p>12649110) { */
+/* 			// 12,649,110 < p <= 16e6 (625us tics) */
+/* 			// 1 < f <= 1.2619110 Hz */
+/* 			// output resolution of 1e-8 */
+/* 			f=16e14/p; */
+/* 			bpWlongdecf(f/100000000); */
+/* 			UART1TX('.'); */
+/* 			f = f % 100000000; */
+/* 			if (f < 10000000) UART1TX('0'); */
+/* 			if (f < 1000000) UART1TX('0'); */
+/* 			if (f < 100000) UART1TX('0'); */
+/* 			if (f < 10000) UART1TX('0'); */
+/* 			if (f < 1000) UART1TX('0'); */
+/* 			if (f < 100) UART1TX('0'); */
+/* 			if (f < 10) UART1TX('0'); */
+/* 			bpWlongdec(f); */
+/* 		// at p=4e6, frequency resolution is 1e-6 */
+/* 		} else if (p>4e6) { // f <= 4 */
+/* 			// 4e6 < p <= 12,649,110 (625us tics) */
+/* 			// 1.2619110 < f <= 4 Hz */
+/* 			// output resolution of 1e-7 */
+/* 			f=16e13/p; */
+/* 			bpWlongdecf(f/10000000); */
+/* 			UART1TX('.'); */
+/* 			f = f % 10000000; */
+/* 			if (f < 1000000) UART1TX('0'); */
+/* 			if (f < 100000) UART1TX('0'); */
+/* 			if (f < 10000) UART1TX('0'); */
+/* 			if (f < 1000) UART1TX('0'); */
+/* 			if (f < 100) UART1TX('0'); */
+/* 			if (f < 10) UART1TX('0'); */
+/* 			bpWlongdec(f); */
+/* 		// at p=1,264,911, frequency resolution is 1e-5 */
+/* 		} else if (p>1264911) { // f <= 12.61911 */
+/* 			// 1,264,911 < p <= 4e6  (625us tics) */
+/* 			// 4 < f <= 12.61911 Hz */
+/* 			// output resolution of 1e-6 */
+/* 			f=16e12/p; */
+/* 			bpWlongdecf(f/1000000); */
+/* 			UART1TX('.'); */
+/* 			f = f % 1000000; */
+/* 			if (f < 100000) UART1TX('0'); */
+/* 			if (f < 10000) UART1TX('0'); */
+/* 			if (f < 1000) UART1TX('0'); */
+/* 			if (f < 100) UART1TX('0'); */
+/* 			if (f < 10) UART1TX('0'); */
+/* 			bpWlongdec(f); */
+/* 		// at p=400,000 frequency resolution is .0001 */
+/* 		} else */ if (p>400000) { // f <= 40 Hz
+			// 4e5 < p <= 1,264,911 (625us tics)
+			// 12.61911 < f <= 40 Hz
+			// output resolution of 1e-5
+			f=16e11/p;
+			bpWlongdecf(f/100000);
+			UART1TX('.');
+			f = f % 100000;
+			if (f < 10000) UART1TX('0');
+			if (f < 1000) UART1TX('0');
+			if (f < 100) UART1TX('0');
+			if (f < 10) UART1TX('0');
+			bpWlongdec(f);
+		// at p=126,491.1 frequency resolution is .001
+		} else if (p>126491) { // f <= 126.4911
+			// 126,491 < p <= 4e5  (625us tics)
+			// 40 < f <= 126.4911 Hz
+			// output resolution of .0001
+			f=16e10/p;
+			bpWlongdecf(f/10000);
+			UART1TX('.');
+			f = f % 10000;
+			if (f < 1000) UART1TX('0');
+			if (f < 100) UART1TX('0');
+			if (f < 10) UART1TX('0');
+			bpWintdec(f);
+                // at p=40,000 frequency resolution is .01
+		} else if (p>40000) { // f <= 400 Hz
+			// 4e4 < p <= 126,491 (625us tics)
+			// 126.4911 < f <= 400 Hz
+			// output resolution of .001
+			f=16e9/p;
+			bpWlongdecf(f/1000);
+			UART1TX('.');
+			f = f % 1000; // frequency resolution < 1e-2
+			if (f < 100) UART1TX('0');
+			if (f < 10) UART1TX('0');
+			bpWintdec(f);
+		// at p=12,649.11 frequency resolution is .1
+		}else if (p>12649) { // f <= 1264.911
+			// 12,649 < p <= 4e4  (625us tics)
+			// 400 < f < 1,264.911 Hz
+			// output resolution of .01
+			f=16e8/p;
+			bpWlongdecf(f/100);
+			UART1TX('.');
+			f = f % 100; // frequency resolution < 1e-1
+			if (f < 10) UART1TX('0');
+			bpWdec(f);
+                // at p=4,000 frequency resolution is 1
+                }else { // 4,000 < p <= 12,649 (625us tics)
+			// 1,264.911 < f < 4,000 Hz
+			// output resolution of .1
+                        f=16e7/p;
+                        bpWlongdecf(f/10);
+                        UART1TX('.');
+                        f = f % 10; // frequency resolution < 1
+                        bpWdec(f);
+                }
+                bpWline(" Hz");
+        }else   bpWline("Frequencies < 1Hz are not supported.");
 
         //return clock input to other pin
         RPINR3bits.T2CKR=0b11111; //assign T2 clock input to nothing
@@ -279,7 +400,7 @@ unsigned long bpBinFreq(void){
 
 
 unsigned long bpFreq_count(void){
-        static unsigned int j,k;
+        static unsigned int j;
         static unsigned long l;
 
         PR3=0xffff;//most significant word
@@ -313,12 +434,144 @@ unsigned long bpFreq_count(void){
 
         //spit out 32bit value
         j=TMR2;
-        k=TMR3HLD;
-        l=k;
-        l<<=16;
-        l+=j;
+        l=TMR3HLD;
+        l=(l<<16)+j;
         return l;
 }
+
+//bpPeriod_count function for frequency measurment uses input compare periphers
+//because BP v4 and v3 have different IC peripherals the function is implemented through #if defs
+#if defined (BUSPIRATEV4)
+// BPv4 implementation of the bpPeriod_count function
+unsigned long bpPeriod_count(unsigned int n){
+        static unsigned int i;
+        static unsigned long j, k, l, m, d, s;
+
+        IFS0bits.IC2IF=0; // clear input capture interrupt flag
+        IFS0bits.IC1IF=0; // clear input capture interrupt flag
+
+        // configure IC1 to RP20 (AUX)
+        RPINR7bits.IC2R=AUXPIN_RPIN;
+        RPINR7bits.IC1R=AUXPIN_RPIN;
+
+        //timer 4 internal, measures interval
+        TMR5HLD=0x00;
+        TMR4=0x00;
+        T4CON=0b1000; //.T32=1, bit 3
+        //start timer4
+        T4CONbits.TON=1;
+
+        // unimplemented: [15:14]=0b00,
+        // ICSIDL:        [13]=0b0, input capture module continues to operate in CPU idle mode
+        // ICTSEL[2:0]:   [12:10]=0b010=TMR4, 0b011=TMR5 (unimplemented for 16-bit capture)
+        // unimplemented: [9:8]=0b00
+        // ICTMR:         [7]=0b0=TMR3, 0b1=TMR2 (unimplemented for 32-bit capture)
+        // ICI[1:0]:      [6:5]=0b00, 1 capture per interrupt
+        // ICOV,ICBNE:    [4:3]=0b00, read-only buffer overflow and not empty
+        // ICM[2:0]:      [2:0]=0b011, capture every rising edge
+        IC2CON1=0x0C03; // fails with ICM 0 or 3 (0 always read from IC2BUF)
+
+        IC1CON1=0x0803;
+
+        // unimplemented: [15:9]=0b0000000
+        // IC32:          [8]=0b0
+        // ICTRIG:        [7]=0b0, synchronize with SYNCSEL specified source
+        // TRIGSTAT:      [6]=0b0, cleared by SW, holds timer in reset when low, trigger chosen by syncsel sets bit and releases timer from reset.
+        // unimplemented: [5]=0b0
+        // SYNCSEL[4:0]:  [4:0]=0b10100, selects trigger/synchronization source to be IC1.
+        
+
+		  IC2CON2=0x0014;
+
+        IC1CON2=0x0014;  
+
+        // read input capture bits n times
+        while(IC1CON1bits.ICBNE) // clear buffer
+                j = IC1BUF;
+
+        while(IC2CON1bits.ICBNE) // clear buffer
+                k = IC2BUF;
+
+        while(!IC1CON1bits.ICBNE); // wait for ICBNE
+
+        k = IC1BUF;
+        m = IC2BUF;
+        for(i=s=0; i<n; i++) {
+                while(!IC1CON1bits.ICBNE); // wait for ICBNE
+                j = IC1BUF;
+                l = IC2BUF;
+                d = ((l-m)<<16) + (j-k);
+                s = s + d;
+                m = l;
+                k = j;
+        }
+
+        // turn off input capture modules, reset control to POR state
+        IC1CON1=0;
+        IC1CON2=0;
+        T4CONbits.TON=0;
+
+        return s/n;
+}
+#elif defined (BUSPIRATEV3)
+// BPv3(v2) implementation of the bpPeriod_count function
+unsigned long bpPeriod_count(unsigned int n){
+        static unsigned int i;
+        static unsigned long j, k, l, m, d, s;
+
+        IFS0bits.IC2IF=0; // clear input capture interrupt flag
+        IFS0bits.IC1IF=0; // clear input capture interrupt flag
+
+        // configure IC1 to RP20 (AUX)
+        RPINR7bits.IC2R=AUXPIN_RPIN;
+        RPINR7bits.IC1R=AUXPIN_RPIN;
+
+        //timer 4 internal, measures interval
+        TMR3HLD=0x00;
+        TMR2=0x00;
+        T2CON=0b1000; //.T32=1, bit 3
+        //start timer4
+        T2CONbits.TON=1;
+
+        //bit7 determins tmr2/3,
+		  //bits 0:2 determine IC mode, 3 is Simple capture mode, capture on every rising edge
+		  IC2CON=0x0003;	 //bit7 i 0 - connected to tmr3
+
+        IC1CON=0x0083;	//bit7 is 1 - connected to tmr2, 
+
+        // read input capture bits n times
+        while(IC1CONbits.ICBNE) // clear buffer
+                j = IC1BUF;
+
+        while(IC2CONbits.ICBNE) // clear buffer
+                k = IC2BUF;
+
+        while(!IC1CONbits.ICBNE); // wait for ICBNE
+
+        k = IC1BUF;
+        m = IC2BUF;
+        for(i=s=0; i<n; i++) {
+                while(!IC1CONbits.ICBNE); // wait for ICBNE
+                j = IC1BUF;
+                l = IC2BUF;
+                d = ((l-m)<<16) + (j-k);
+                s = s + d;
+                m = l;
+                k = j;
+        }
+
+        // turn off input capture modules, reset control to POR state
+        IC1CON=0;
+        IC1CON=0;
+        T2CONbits.TON=0;
+
+        return s/n;
+}
+#else
+//place holder for posible future chip upgrades, is ignored by compiler if compiled for BPv4 or BPv3
+unsigned long bpPeriod_count(unsigned int n){return 1;}
+#endif
+
 
 //\leaves AUX in high impedance
 void bpAuxHiZ(void)
