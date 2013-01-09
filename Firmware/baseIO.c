@@ -112,10 +112,10 @@ void bpWlongdecf(unsigned long l) {
     }
     if (l >= 1000) {
         temp = l / 1000;
-        if (temp > 100) {
+        if (temp >= 100) {
             bpWintdec(temp);
         } else if (mld) {
-            if (temp > 10) {
+            if (temp >= 10) {
                 UART1TX('0'); // 1 leading zero
             } else {
                 bpWstring("00");
@@ -126,10 +126,10 @@ void bpWlongdecf(unsigned long l) {
         l %= 1000;
         mil = 1;
     }
-    if (l > 100) {
+    if (l >= 100) {
         bpWintdec(l);
     } else if (mil) {
-        if (l > 10) {
+        if (l >= 10) {
             UART1TX('0'); // 1 leading zero
         } else {
             bpWstring("00");
