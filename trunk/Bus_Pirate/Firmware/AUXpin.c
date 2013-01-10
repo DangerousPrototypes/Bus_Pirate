@@ -250,117 +250,68 @@ void bpFreq(void){
                 p=bpPeriod_count(f);
                 // don't output fractions of frequency that are less then the frequency
                 //   resolution provided by an increment of the period timer count.
-// commented out due to oscillator accuracy
-/* 		// at p=12,649,110, frequency resolution is 1e-7 */
-/* 		if (p>12649110) { */
-/* 			// 12,649,110 < p <= 16e6 (625us tics) */
-/* 			// 1 < f <= 1.2619110 Hz */
-/* 			// output resolution of 1e-8 */
-/* 			f=16e14/p; */
-/* 			bpWlongdecf(f/100000000); */
-/* 			UART1TX('.'); */
-/* 			f = f % 100000000; */
-/* 			if (f < 10000000) UART1TX('0'); */
-/* 			if (f < 1000000) UART1TX('0'); */
-/* 			if (f < 100000) UART1TX('0'); */
-/* 			if (f < 10000) UART1TX('0'); */
-/* 			if (f < 1000) UART1TX('0'); */
-/* 			if (f < 100) UART1TX('0'); */
-/* 			if (f < 10) UART1TX('0'); */
-/* 			bpWlongdec(f); */
-/* 		// at p=4e6, frequency resolution is 1e-6 */
-/* 		} else if (p>4e6) { // f <= 4 */
-/* 			// 4e6 < p <= 12,649,110 (625us tics) */
-/* 			// 1.2619110 < f <= 4 Hz */
-/* 			// output resolution of 1e-7 */
-/* 			f=16e13/p; */
-/* 			bpWlongdecf(f/10000000); */
-/* 			UART1TX('.'); */
-/* 			f = f % 10000000; */
-/* 			if (f < 1000000) UART1TX('0'); */
-/* 			if (f < 100000) UART1TX('0'); */
-/* 			if (f < 10000) UART1TX('0'); */
-/* 			if (f < 1000) UART1TX('0'); */
-/* 			if (f < 100) UART1TX('0'); */
-/* 			if (f < 10) UART1TX('0'); */
-/* 			bpWlongdec(f); */
-/* 		// at p=1,264,911, frequency resolution is 1e-5 */
-/* 		} else if (p>1264911) { // f <= 12.61911 */
-/* 			// 1,264,911 < p <= 4e6  (625us tics) */
-/* 			// 4 < f <= 12.61911 Hz */
-/* 			// output resolution of 1e-6 */
-/* 			f=16e12/p; */
-/* 			bpWlongdecf(f/1000000); */
-/* 			UART1TX('.'); */
-/* 			f = f % 1000000; */
-/* 			if (f < 100000) UART1TX('0'); */
-/* 			if (f < 10000) UART1TX('0'); */
-/* 			if (f < 1000) UART1TX('0'); */
-/* 			if (f < 100) UART1TX('0'); */
-/* 			if (f < 10) UART1TX('0'); */
-/* 			bpWlongdec(f); */
-/* 		// at p=400,000 frequency resolution is .0001 */
-/* 		} else */ if (p>400000) { // f <= 40 Hz
-			// 4e5 < p <= 1,264,911 (625us tics)
-			// 12.61911 < f <= 40 Hz
-			// output resolution of 1e-5
-			f=16e11/p;
-			bpWlongdecf(f/100000);
-			UART1TX('.');
-			f = f % 100000;
-			if (f < 10000) UART1TX('0');
-			if (f < 1000) UART1TX('0');
-			if (f < 100) UART1TX('0');
-			if (f < 10) UART1TX('0');
-			bpWlongdec(f);
-		// at p=126,491.1 frequency resolution is .001
-		} else if (p>126491) { // f <= 126.4911
-			// 126,491 < p <= 4e5  (625us tics)
-			// 40 < f <= 126.4911 Hz
-			// output resolution of .0001
-			f=16e10/p;
-			bpWlongdecf(f/10000);
-			UART1TX('.');
-			f = f % 10000;
-			if (f < 1000) UART1TX('0');
-			if (f < 100) UART1TX('0');
-			if (f < 10) UART1TX('0');
-			bpWintdec(f);
+					if (p>400000) { // f <= 40 Hz
+							// 4e5 < p <= 1,264,911 (625us tics)
+							// 12.61911 < f <= 40 Hz
+							// output resolution of 1e-5
+							f=16e11/p;
+							bpWlongdecf(f/100000);
+							UART1TX('.');
+							f = f % 100000;
+							if (f < 10000) UART1TX('0');
+							if (f < 1000) UART1TX('0');
+							if (f < 100) UART1TX('0');
+							if (f < 10) UART1TX('0');
+							bpWlongdec(f);
+					// at p=126,491.1 frequency resolution is .001
+					} else if (p>126491) { // f <= 126.4911
+							// 126,491 < p <= 4e5  (625us tics)
+							// 40 < f <= 126.4911 Hz
+							// output resolution of .0001
+							f=16e10/p;
+							bpWlongdecf(f/10000);
+							UART1TX('.');
+							f = f % 10000;
+							if (f < 1000) UART1TX('0');
+							if (f < 100) UART1TX('0');
+							if (f < 10) UART1TX('0');
+							bpWintdec(f);
                 // at p=40,000 frequency resolution is .01
-		} else if (p>40000) { // f <= 400 Hz
-			// 4e4 < p <= 126,491 (625us tics)
-			// 126.4911 < f <= 400 Hz
-			// output resolution of .001
-			f=16e9/p;
-			bpWlongdecf(f/1000);
-			UART1TX('.');
-			f = f % 1000; // frequency resolution < 1e-2
-			if (f < 100) UART1TX('0');
-			if (f < 10) UART1TX('0');
-			bpWintdec(f);
-		// at p=12,649.11 frequency resolution is .1
-		}else if (p>12649) { // f <= 1264.911
-			// 12,649 < p <= 4e4  (625us tics)
-			// 400 < f < 1,264.911 Hz
-			// output resolution of .01
-			f=16e8/p;
-			bpWlongdecf(f/100);
-			UART1TX('.');
-			f = f % 100; // frequency resolution < 1e-1
-			if (f < 10) UART1TX('0');
-			bpWdec(f);
-                // at p=4,000 frequency resolution is 1
+					} else if (p>40000) { // f <= 400 Hz
+							// 4e4 < p <= 126,491 (625us tics)
+							// 126.4911 < f <= 400 Hz
+							// output resolution of .001
+							f=16e9/p;
+							bpWlongdecf(f/1000);
+							UART1TX('.');
+							f = f % 1000; // frequency resolution < 1e-2
+							if (f < 100) UART1TX('0');
+							if (f < 10) UART1TX('0');
+							bpWintdec(f);
+					// at p=12,649.11 frequency resolution is .1
+					}else if (p>12649) { // f <= 1264.911
+							// 12,649 < p <= 4e4  (625us tics)
+							// 400 < f < 1,264.911 Hz
+							// output resolution of .01
+							f=16e8/p;
+							bpWlongdecf(f/100);
+							UART1TX('.');
+							f = f % 100; // frequency resolution < 1e-1
+							if (f < 10) UART1TX('0');
+							bpWdec(f);
+                		// at p=4,000 frequency resolution is 1
                 }else { // 4,000 < p <= 12,649 (625us tics)
-			// 1,264.911 < f < 4,000 Hz
-			// output resolution of .1
-                        f=16e7/p;
-                        bpWlongdecf(f/10);
-                        UART1TX('.');
-                        f = f % 10; // frequency resolution < 1
-                        bpWdec(f);
+							// 1,264.911 < f < 4,000 Hz
+							// output resolution of .1
+							f=16e7/p;
+                     bpWlongdecf(f/10);
+                     UART1TX('.');
+                     f = f % 10; // frequency resolution < 1
+                     bpWdec(f);
                 }
                 bpWline(" Hz");
-        }else   bpWline("Frequencies < 1Hz are not supported.");
+			//END of IF(f>0)
+			}else   bpWline("Frequencies < 1Hz are not supported.");
 
         //return clock input to other pin
         RPINR3bits.T2CKR=0b11111; //assign T2 clock input to nothing
@@ -479,7 +430,6 @@ unsigned long bpPeriod_count(unsigned int n){
         // TRIGSTAT:      [6]=0b0, cleared by SW, holds timer in reset when low, trigger chosen by syncsel sets bit and releases timer from reset.
         // unimplemented: [5]=0b0
         // SYNCSEL[4:0]:  [4:0]=0b10100, selects trigger/synchronization source to be IC1.
-        
 
 		  IC2CON2=0x0014;
 
@@ -694,17 +644,17 @@ unsigned int bpAuxRead(void){
                                 asm("nop");
                                 c=BP_AUX0;
                                 break;
-                case 1: BP_AUX0_DIR=1;
+                case 1: BP_CS_DIR=1;
                                 asm("nop");
                                 asm("nop");
                                 c=BP_CS;
                                 break;
-                case 2: BP_AUX0_DIR=1;
+                case 2: BP_AUX1_DIR=1;
                                 asm("nop");
                                 asm("nop");
                                 c=BP_AUX1;
                                 break;
-                case 3: BP_AUX0_DIR=1;
+                case 3: BP_AUX2_DIR=1;
                                 asm("nop");
                                 asm("nop");
                                 c=BP_AUX2;
