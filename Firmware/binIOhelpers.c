@@ -1,6 +1,7 @@
 #include "base.h"
 extern struct _modeConfig modeConfig; //holds persistant bus pirate settings (see base.h)
 
+
 void binIOperipheralset(unsigned char inByte){
 
 	if(inByte&0b1000){
@@ -49,3 +50,32 @@ void binIOperipheralset(unsigned char inByte){
 	//UART1TX(1);//send 1/OK		
 }
 
+#ifdef BUSPIRATEV4
+//checks if voltage is present on VUEXTERN
+unsigned char binBBpullVoltage(unsigned char ctrlB)
+{
+	unsigned char temp=1;
+	if(modeConfig.HiZ == 0)
+	{
+		temp = 0;
+	}
+	else
+	{
+   	BP_3V3PU_OFF(); //disable any existing pullup
+   	bpDelayMS(2);
+   	ADCON();
+   	if (bpADC(BP_ADC_VPU) > 0x100)
+		{ //is there already an external voltage?
+			temp =0;
+   	}
+   	ADCOFF();
+	}
+	if(temp)
+	{
+		if(ctrlB == 0x51){BP_3V3PU_ON();}	//turns on Pull up voltage 3.3v
+		else if(ctrlB == 0x52){BP_5VPU_ON();}	//turns on Pull up voltage 5v
+		else {BP_3V3PU_OFF();}
+	}
+	return temp;
+}
+#endif

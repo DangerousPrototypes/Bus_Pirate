@@ -742,6 +742,12 @@ void binUART(void){
 					binIOperipheralset(inByte);	
 					UART1TX(1);//send 1/OK		
 					break;
+
+#ifdef BUSPIRATEV4
+				case 0b0101:
+					UART1TX(binBBpullVoltage(inByte));
+					break;
+#endif
 				case 0b0110://set speed 
 					//0110xxxx - Set speed,0000=300,0001=1200,10=2400,4800,9600,19200,31250, 38400,57600,1010=115200,
 					inByte&=(~0b11110000);//clear command portion

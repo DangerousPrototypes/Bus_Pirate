@@ -400,6 +400,12 @@ void binwire(void) {
                 UART1TX(1); //send 1/OK
                 break;
 
+#ifdef BUSPIRATEV4
+				case 0b0101:
+					UART1TX(binBBpullVoltage(inByte));
+					break;
+#endif
+
             case 0b0110://set speed
                 inByte &= (~0b11111100); //clear command portion
                 modeConfig.speed = inByte;
