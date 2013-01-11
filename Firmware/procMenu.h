@@ -36,6 +36,7 @@ void serviceuser(void);
 int getint(void);
 int getrepeat(void);
 int getnumbits(void);
+unsigned char changeReadDisplay(void);
 void consumewhitechars(void);
 void changemode(void);
 #if defined(BP_ENABLE_HISTORY)
