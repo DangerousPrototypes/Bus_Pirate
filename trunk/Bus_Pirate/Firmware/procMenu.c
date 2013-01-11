@@ -476,6 +476,8 @@ end:
 
         while (!stop) {
             c = cmdbuf[cmdstart];
+				unsigned char oldDmode;//temperarly holds the defaout display mode, while a differend display read is preformed
+				unsigned char newDmode;
             switch (c) { // generic commands (not bus specific)
                 case 'h': //bpWline("-command history");
 #if defined(BP_ENABLE_HISTORY)
@@ -909,6 +911,8 @@ bpv4reset:
                 case 'r': //bpWline("-Read");
                     //bpWmessage(MSG_READ);
                     BPMSG1102;
+						  //newDmode = 0;
+						  newDmode = changeReadDisplay();
                     repeat = getrepeat() + 1;
                     numbits = getnumbits();
                     if (numbits) {
@@ -916,6 +920,11 @@ bpv4reset:
                         if (numbits > 8) modeConfig.int16 = 1;
                         else modeConfig.int16 = 0;
                     }
+						  if(newDmode)
+						  {
+						  		oldDmode = bpConfig.displayMode;
+								bpConfig.displayMode = newDmode-1;
+						  }
                     while (--repeat) {
                         received = protos[bpConfig.busMode].protocol_read();
                         if (modeConfig.lsbEN == 1) {//adjust bitorder
@@ -928,6 +937,11 @@ bpv4reset:
                         }
                         bpSP;
                     }
+						  if(newDmode)
+						  {
+								bpConfig.displayMode = oldDmode;
+								newDmode=0;
+						  }
                     bpBR;
                     break;
                 case '/': //bpWline("-CLK hi");
@@ -1119,6 +1133,26 @@ int getnumbits(void) {
     }
     return 0; // no numbits=0;
 } //
+
+unsigned char changeReadDisplay(void)
+{
+	if(cmdbuf[(cmdstart + 1) & CMDLENMSK] == 'x')
+	{
+		cmdstart = (cmdstart + 1) & CMDLENMSK;
+		return 1;
+	}
+	if(cmdbuf[(cmdstart + 1) & CMDLENMSK] == 'd')
+	{
+		cmdstart = (cmdstart + 1) & CMDLENMSK;
+		return 2;
+	}
+	if(cmdbuf[(cmdstart + 1) & CMDLENMSK] == 'b')
+	{
+		cmdstart = (cmdstart + 1) & CMDLENMSK;
+		return 3;
+	}
+return 0;
+}
 
 void consumewhitechars(void) {
     while (cmdbuf[cmdstart] == 0x20) {
