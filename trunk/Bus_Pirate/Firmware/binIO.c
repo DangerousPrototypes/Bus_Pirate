@@ -255,6 +255,9 @@ unsigned char getRXbyte(void) {
 }
 
 void binReset(void) {
+#if defined(BUSPIRATEV4) //Shut down the pull up voltages
+    BP_3V3PU_OFF();
+#endif
     binBBpindirectionset(0xff); //pins to input on start
     binBBpinset(0); //startup everything off, pins at ground
 #if defined(BUSPIRATEV1A) //aux2 pin to input on v1a
