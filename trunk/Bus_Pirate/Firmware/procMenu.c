@@ -472,12 +472,11 @@ end:
         //		bpWstring(" cmdend = ");
         //		bpWinthex(cmdend);
         //		bpWline("");
-
-
+        unsigned char oldDmode=0;//temperarly holds the defaout display mode, while a differend display read is preformed
+        unsigned char newDmode=0;
         while (!stop) {
             c = cmdbuf[cmdstart];
-				unsigned char oldDmode;//temperarly holds the defaout display mode, while a differend display read is preformed
-				unsigned char newDmode;
+
             switch (c) { // generic commands (not bus specific)
                 case 'h': //bpWline("-command history");
 #if defined(BP_ENABLE_HISTORY)
