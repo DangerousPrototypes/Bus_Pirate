@@ -998,9 +998,9 @@ I2C_write_read_error: //use this for the read error too
                 UART1TX(1); //send 1/OK
                 break;
 #ifdef BUSPIRATEV4
-				case 0b0101:
-					UART1TX(binBBpullVoltage(inByte));
-					break;
+            case 0b0101:
+                UART1TX(binBBpullVoltage(inByte));
+                break;
 #endif
             default:
                 UART1TX(0x00); //send 0/Error
