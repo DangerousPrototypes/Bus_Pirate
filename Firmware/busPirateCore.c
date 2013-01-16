@@ -194,7 +194,7 @@ proto protos[MAXPROTO] = {
 {	I2Cstart,				// start
 	I2Cstart,				// startR
 	I2Cstop,				// stop
-	nullfunc1,				// stopR
+	I2Cstop,				// stopR
 	I2Cwrite,				// send
 	I2Cread,				// read
 	nullfunc1,				// clkh
