@@ -32,7 +32,7 @@
 // should this come from an .h?
 extern struct _modeConfig modeConfig;
 extern struct _command bpCommand;
-
+void R3Wsetup_exc(void);
 /*
 // move into a .h or other .c??? 
 int getnumber(int def, int max); // everything to make the compiler happy *dubbelzucht*
@@ -178,9 +178,11 @@ void R3Wsetup(void)
 
 	//reset the write with read variable
 	modeConfig.wwr=0;
-	modeConfig.int16=0; //8 bit 
-	
-	bbSetup(3, modeConfig.speed); //setup the bitbang library, must be done before calling bbCS below
+	modeConfig.int16=0; //8 bit
+}
+void R3Wsetup_exc(void)
+{
+    bbSetup(3, modeConfig.speed); //setup the bitbang library, must be done before calling bbCS below
 	//setup pins (pins are input/low when we start)
 	//MOSI output, low
 	//clock output, low
@@ -192,7 +194,7 @@ void R3Wsetup(void)
 
 	// set cs the way the user wants
 	bbCS(r3wSettings.csl);//takes care of custom HiZ settings too
-}
+}    
 
 void R3Wpins(void) {
 	#if defined(BUSPIRATEV4)

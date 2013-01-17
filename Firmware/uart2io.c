@@ -54,13 +54,15 @@ void UART2Setup(unsigned int brg, unsigned char ODCoutput, unsigned char rxp, un
 
     U2STA = 0;
 	U2STAbits.UTXINV = rxp; // Change TX polarity to match RX polarity
-
 }
 
 void UART2Enable(void){
     U2MODEbits.UARTEN = 1;
     U2STAbits.UTXEN = 1;
     IFS1bits.U2RXIF = 0;
+    //Tris bits are ignored by the PPS peripheral
+    //implemented here so the 'v' command returns the right direction.
+    BP_MOSI_DIR =0; //sets MOISI (TX) to output
 }
 
 void UART2Disable(void){
@@ -76,6 +78,9 @@ void UART2Disable(void){
 //	        RPOR12bits.RP24R=0;      
 //		#endif
 	UARTTX_ODC=0;
+	//Tris bits are ignored by the PPS peripheral
+    //implemented here so the 'v' command returns the right direction.
+    BP_MOSI_DIR =1; //sets MOISI (TX) to input
 }
 
 void UART2TX(unsigned int c){

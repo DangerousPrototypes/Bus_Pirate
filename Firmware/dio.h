@@ -15,5 +15,6 @@
  */
 
 void DIOsetup(void);
+void DIOsetup_exc(void);
 unsigned int DIOread(void);
 unsigned int DIOwrite(unsigned int c);

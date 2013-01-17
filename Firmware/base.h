@@ -51,7 +51,7 @@
 // FIRMWARE VERSION STRING
 // Build Firmware Version String
 // used in 'i' and startup
-#define BP_FIRMWARE_STRING "Firmware v6.2-beta1 r1981 "
+#define BP_FIRMWARE_STRING "Firmware v6.3-beta1 r2088 "
 
 
 ////////////////////////////////////////

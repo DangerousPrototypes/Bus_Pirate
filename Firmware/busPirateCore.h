@@ -90,6 +90,7 @@ typedef struct _proto {
 	unsigned int (*protocol_periodic)(void);
 	void (*protocol_macro)(unsigned int);
 	void (*protocol_setup)(void);
+	void (*protocol_setup_exc)(void);
 	void (*protocol_cleanup)(void);
 	void (*protocol_pins)(void);
 	void (*protocol_settings)(void);

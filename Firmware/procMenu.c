@@ -702,6 +702,11 @@ bpv4reset:
                             BPMSG1096;
                             bpBR;
                             //modeConfig.vregEN=1;
+                            
+                            //Engaging Clutch
+                            //finishes the settup and conects the pins...
+                            protos[bpConfig.busMode].protocol_setup_exc();
+                            bpWline("Clutch engaged!!!");
                         } else {
                             BP_VREG_OFF();
                             bpWline("VREG too low, is there a short?");
@@ -715,6 +720,11 @@ bpv4reset:
                     if (bpConfig.busMode == HIZ) { //bpWmessage(MSG_ERROR_MODE);
                         BPMSG1088;
                     } else {
+                        //disengaging Clutch
+                        //cleansup the protocol and HiZs the pins
+                        protos[bpConfig.busMode].protocol_cleanup();
+                        bpWline("Clutch disengaged!!!");
+                        
                         BP_VREG_OFF();
                         //bpWmessage(MSG_VREG_OFF);
                         BPMSG1097;
@@ -1198,10 +1208,13 @@ void changemode(void) {
             bpInit();
             bpConfig.busMode = busmode;
             protos[bpConfig.busMode].protocol_setup();
-            if (busmode) BP_LEDMODE = 1; // mode led is on when proto >0
+            bpWline("Clutch disengaged!!!");
+            if (busmode) {
+               BP_LEDMODE = 1; // mode led is on when proto >0
+               bpWline("To finish setup, start up the power supplies with command 'W'\r\n");
+            }
             //bpWmessage(MSG_READY);
             BPMSG1085;
-            ;
         }
     } else // number entered
     {
