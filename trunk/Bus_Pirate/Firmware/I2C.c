@@ -37,6 +37,7 @@ unsigned char i2cinternal = 0;
 extern struct _bpConfig bpConfig; //holds persistant bus pirate settings (see base.h) need hardware version info
 extern struct _modeConfig modeConfig;
 extern struct _command bpCommand;
+
 /*
 static struct _i2csniff {
         unsigned char bits;
@@ -63,6 +64,7 @@ static unsigned char I2Cspeed[] = {157, 37, 13}; //100,400,1000khz; datasheet pg
 
 //software functions
 void I2C_Setup(void);
+void I2Csetup_exc(void);
 void I2C_SnifferSetup(void);
 void I2C_Sniffer(unsigned char termMode);
 
@@ -286,21 +288,25 @@ void I2Csetup(void) {
 
     //set the options avaiable here....
     modeConfig.HiZ = 1; //yes, always hiz
-
-    if (i2cmode == SOFT) {
-        SDA_TRIS = 1;
-        SCL_TRIS = 1;
-        SCL = 0; //B8 scl
-        SDA = 0; //B9 sda
-        bbSetup(2, modeConfig.speed); //configure the bitbang library for 2-wire, set the speed
-    }
-#ifdef BP_USE_I2C_HW
-    else {
-        hwi2cSetup();
-    }
-#endif
 }
 
+void I2Csetup_exc(void) //Executes the setup.. controlled with 'P' command
+{
+   if (i2cmode == SOFT) {
+       SDA_TRIS = 1;
+       SCL_TRIS = 1;
+       SCL = 0; //B8 scl
+       SDA = 0; //B9 sda
+       bbSetup(2, modeConfig.speed); //configure the bitbang library for 2-wire, set the speed
+   }
+#ifdef BP_USE_I2C_HW
+   else {
+       hwi2cSetup();
+   }
+#endif   
+}
+
+   
 void I2Ccleanup(void) {
     ackPending = 0; //clear any pending ACK from previous use
     if (i2cmode == HARD) {
@@ -392,7 +398,7 @@ void I2Cmacro(unsigned int c) {
 #endif
             break;
 #if defined (BUSPIRATEV4)
-        case 3: //in hardware mode (or software, I guess) we can edit the on-board EEPROM
+        case 3: //in hardware mode (or software, I guess) we can edit the on-board EEPROM -software mode unimplemented...
             bpWline("Now using on-board EEPROM I2C interface");
             i2cinternal = 1;
             I2C1CONbits.A10M = 0;

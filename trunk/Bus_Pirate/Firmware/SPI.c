@@ -247,12 +247,16 @@ void SPIsetup(void) {
         SPIsettings();
     }
     modeConfig.wwr = 0;
+}
+
+void SPIsetup_exc(void)
+{
     //do SPI peripheral setup
     spiSetup(SPIspeed[modeConfig.speed]);
 
     // set cs the way the user wants
-    SPICS = spiSettings.csl;
-}
+    SPICS = spiSettings.csl; 
+} 
 
 void SPIcleanup(void) {
     spiDisable();

@@ -34,6 +34,7 @@ void R2Wclk(void);
 unsigned int R2Wbitr(void);
 void R2Wmacro(unsigned int c);
 void R2Wsetup(void);
+void R2Wsetup_exc(void);
 void R2Wpins(void);
 void R2Wsettings(void);
 

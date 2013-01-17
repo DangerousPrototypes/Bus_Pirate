@@ -29,6 +29,7 @@ extern struct _command bpCommand;
 #ifdef BP_USE_PCATKB
 
 void kbSetup(void);
+void KEYBsetup_exc(void);
 unsigned char kbReadBit(void);
 unsigned char kbReadCode(void);
 unsigned char kbReadByte(void);
@@ -48,8 +49,12 @@ struct _kbframe{
 
 void KEYBsetup(void)
 {	modeConfig.HiZ=1;//yes, always HiZ
-	kbSetup();
 }
+
+void KEYBsetup_exc(void)
+{
+    kbSetup();
+}    
 
 unsigned int KEYBread(void)
 {	kbScancodeResults(kbReadByte());

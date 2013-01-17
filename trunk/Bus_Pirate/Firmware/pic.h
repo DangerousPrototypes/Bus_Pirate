@@ -36,6 +36,7 @@ supported platforms (should) are pic10, pic12, pic14, pic16 and pic18
 #define PICCMDMSK	0x01
 
 void picinit(void);
+void picinit_exc(void);
 void picstart(void);
 void picstop(void);
 unsigned int picread(void);

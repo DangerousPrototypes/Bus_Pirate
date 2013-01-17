@@ -99,6 +99,9 @@ void picinit(void)
 	bbL(MOSI|CLK, PICSPEED);		// pull both pins to 0 before applying Vcc and Vpp
 }
 
+//Doesn't do much as the protocol defines that the pins need to be connected bedro power is applied.
+void picinit_exc(void){modeConfig.int16=1;}
+
 void piccleanup(void)
 {	modeConfig.int16=0;				// other things are cleared except this one :D (we introduced it :D)
 }

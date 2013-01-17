@@ -19,6 +19,7 @@ void binUART(void);
 unsigned UARTwrite(unsigned int c);
 unsigned int UARTread(void);
 void UARTsetup(void);
+void UARTsetup_exc(void);
 void UARTcleanup(void);
 void UARTmacro(unsigned int c);
 void UARTstart(void);

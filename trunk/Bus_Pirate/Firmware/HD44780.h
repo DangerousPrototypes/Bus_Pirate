@@ -20,6 +20,7 @@ unsigned int LCDwrite(unsigned int c);
 void LCDstart(void);
 void LCDstop(void);
 void LCDsetup(void);
+void LCDsetup_exc(void);
 void LCDmacro(unsigned int c);
 void LCDpins(void);
 

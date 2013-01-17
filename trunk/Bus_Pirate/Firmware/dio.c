@@ -27,6 +27,8 @@ void DIOsetup(void)
 	//kbSetup();
 }
 
+void DIOsetup_exc(void){}//add something when DIOsetup is filled up
+
 unsigned int DIOread(void)
 {	//kbScancodeResults(kbReadByte());
 	//return kbScancode.code;

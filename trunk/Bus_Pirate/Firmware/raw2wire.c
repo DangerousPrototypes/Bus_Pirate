@@ -146,16 +146,16 @@ void R2Wsetup(void)
 	else
 	{	R2Wsettings();
 	}
-
-	//writes to the PORTs write to the LATCH
+}
+void R2Wsetup_exc(void)
+{
+    //writes to the PORTs write to the LATCH
 	R2WCLK=0;			//B8 scl 
 	R2WDIO=0;			//B9 sda
 	R2WDIO_TRIS=1;//data input
 	R2WCLK_TRIS=0;//clock output
-	bbSetup(2, modeConfig.speed);
-	
-}
-
+	bbSetup(2, modeConfig.speed);    
+}    
 
 void R2Wmacro(unsigned int c)
 {

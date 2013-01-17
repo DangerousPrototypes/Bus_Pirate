@@ -15,6 +15,7 @@
  */
 
 void KEYBsetup(void);
+void KEYBsetup_exc(void);
 unsigned int KEYBread(void);
 unsigned int KEYBwrite(unsigned int c);
 void KEYBmacro(unsigned int c);

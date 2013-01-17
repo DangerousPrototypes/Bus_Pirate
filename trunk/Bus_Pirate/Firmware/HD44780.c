@@ -107,6 +107,7 @@ void HD44780_WriteString(char *s); //write a string to the LCD
 void HD44780_WriteByte(unsigned char reg, unsigned char dat); //write a byte to LCD to register REG
 void HD44780_WriteNibble(unsigned char reg, unsigned char dat);//write 4 bits to LCD to register REG
 void HD44780_SPIwrite(unsigned char datout); //abstracts data output to PCF8574 IO expander over I2C bus
+void LCDsetup_exc(void);
 
 unsigned int LCDwrite(unsigned int c)
 {       
@@ -129,7 +130,10 @@ void LCDstop(void)
 void LCDsetup(void)
 {       
         modeConfig.HiZ=1;//yes, always HiZ
+}
 
+void LCDsetup_exc(void)
+{
         HD44780.RS=HD44780_DATA;
 /*
         consumewhitechars();

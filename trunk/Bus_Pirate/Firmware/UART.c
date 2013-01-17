@@ -34,6 +34,7 @@ int getrepeat(void);
 void consumewhitechars(void);
 extern int cmderror;
 */
+
 void UARTgetbaud_InitTimer(void);
 void UARTgetbaud_clrTimer(void);
 unsigned long UARTgetbaud_EstimatedBaud(unsigned long _abr_);
@@ -45,8 +46,12 @@ struct _UART{
 	unsigned char sb:1;//stop bits
 	unsigned char rxp:1;//receive polarity
 	unsigned char eu:1;//echo uart
+#if defined(BUSPIRATEV4)
+	unsigned char autoBaudF : 1; //autoBaud on or off, only on BPv4
+#endif
 } uartSettings;
 
+void UARTsetup_exc(void);
 
 static unsigned int UART2speed[]={13332,3332,1666,832,416,207,103,68,34,127};//BRG:300,1200,2400,4800,9600,19200,38400,57600,115200, 31250,
 
@@ -99,17 +104,18 @@ void UARTsettings(void)
 
 void UARTsetup(void)
 {	int speed, dbp, sb, rxp, output, brg=0;
+    //autobaud detection; multi uses
+	unsigned long abd=0;
 	
 	#if defined(BUSPIRATEV4)
-	//autobaud detection; multi uses
-	unsigned long abd=0;
+	uartSettings.autoBaudF = 0; //start with autobaud off.
 	//#define DetectedBaud abd
 	//#define CalculatedBRG abd
 	#endif
 
 	consumewhitechars();
 	speed=getint();
-	if(speed==10)
+	if(speed==10)   //weird this is totaly ignored later as the Speed == 0 check later skips the calculation I added it below..
 	{	consumewhitechars();
 		brg=getint();
 	}
@@ -128,24 +134,28 @@ void UARTsetup(void)
 	else	
 	{	speed=0;					// when speed is 0 we ask the user
 	}
+	
 	if((dbp>0)&&(dbp<=4))
 	{	uartSettings.dbp=dbp-1;
 	}
 	else	
 	{	speed=0;					// when speed is 0 we ask the user
 	}
+	
 	if((sb>0)&&(sb<=2))
 	{	uartSettings.sb=sb-1;
 	}
 	else	
 	{	speed=0;					// when speed is 0 we ask the user
 	}
+	
 	if((rxp>0)&&(rxp<=2))
 	{	uartSettings.rxp=rxp-1;
 	}
 	else	
 	{	speed=0;					// when speed is 0 we ask the user
 	}
+	
 	if((output>0)&&(output<=2))
 	{	modeConfig.HiZ=(~(output-1));
 	}
@@ -168,6 +178,7 @@ void UARTsetup(void)
 		{
 			modeConfig.speed=8; //Set to 115200 for now
 			abd=1;				//trigger to run baud detection
+			uartSettings.autoBaudF = 1;
 			bpWline("Baud detection selected..");
 		}
 		
@@ -178,6 +189,8 @@ void UARTsetup(void)
 			abd=(((32000000/abd)/8)-1);		//calculate BRG
 			brg=abd;						//set BRG
 			abd=0;							//set abd to 0; so 'Auto Baud Detection' routine isnt ran below
+			//hack hack hakc
+			U2BRG = brg;    //passing the brg variable to U2BRG so the UARTsetup_exc can use it to start UART2setup..
 		} 
 		
 		#else
@@ -187,6 +200,8 @@ void UARTsetup(void)
 		if(modeConfig.speed==9)
 		{	BPMSG1248;
 			brg=getnumber(34,1,32767,0);
+			//hack hack hack 
+			U2BRG = brg; //passing the brg variable to U2BRG so the UARTsetup_exc can use it to start UART2setup..
 		} 
 		#endif
 
@@ -213,11 +228,26 @@ void UARTsetup(void)
 
 	}
 	else
-	{	UARTsettings();
-	}
+	{
+    	if(modeConfig.speed==9)
+		{
+    	    abd = brg;
+    	    abd=(((32000000/abd)/8)-1);		//calculate BRG
+		    brg=abd;						//set BRG
+		    abd=0;							//set abd to 0; so 'Auto Baud Detection' routine isnt ran below
+		    //hack hack hakc
+		    U2BRG = brg;    //passing the brg variable to U2BRG so the UARTsetup_exc can use it to start UART2setup..
+        }  	
+    	UARTsettings();
+    }
+}
 
-	if(modeConfig.speed==9)
-	{	UART2Setup(brg,modeConfig.HiZ, uartSettings.rxp, uartSettings.dbp, uartSettings.sb );
+void UARTsetup_exc(void)
+{
+    if(modeConfig.speed==9)
+	{	
+    	//hack hack hack
+    	UART2Setup(U2BRG,modeConfig.HiZ, uartSettings.rxp, uartSettings.dbp, uartSettings.sb ); //U2BRG passed insted of brg, collected in UARTsetup
 	}
 	else
 	{	UART2Setup(UART2speed[modeConfig.speed],modeConfig.HiZ, uartSettings.rxp, uartSettings.dbp, uartSettings.sb );
@@ -226,14 +256,16 @@ void UARTsetup(void)
 	if(uartSettings.dbp==3)		// 9 bits
 	{	modeConfig.numbits=9;
 	}
-
-	UART2Enable();
+	
+    UART2Enable();
 
 	if(U2BRG<U1BRG) BPMSG1249;
 	
 	
 	#if defined(BUSPIRATEV4)
-	if(abd)
+	unsigned long abd;
+    int brg;
+	if(uartSettings.autoBaudF == 1)
 	{
 		UART2Disable();
 		bpWline(" ");
@@ -256,8 +288,8 @@ void UARTsetup(void)
 		if(U2BRG<U1BRG) BPMSG1249;
 	}
 	#endif
-
-}
+    
+}    
 
 
 void UARTcleanup(void)
