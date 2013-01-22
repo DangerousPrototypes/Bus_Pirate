@@ -920,8 +920,8 @@ bpv4reset:
                 case 'r': //bpWline("-Read");
                     //bpWmessage(MSG_READ);
                     BPMSG1102;
-						  //newDmode = 0;
-						  newDmode = changeReadDisplay();
+				    //newDmode = 0;
+				    newDmode = changeReadDisplay();
                     repeat = getrepeat() + 1;
                     numbits = getnumbits();
                     if (numbits) {
@@ -1159,6 +1159,11 @@ unsigned char changeReadDisplay(void)
 	{
 		cmdstart = (cmdstart + 1) & CMDLENMSK;
 		return 3;
+	}
+	if(cmdbuf[(cmdstart + 1) & CMDLENMSK] == 'w')
+	{
+		cmdstart = (cmdstart + 1) & CMDLENMSK;
+		return 4;
 	}
 return 0;
 }
