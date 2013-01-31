@@ -24,6 +24,15 @@
 #define BPv4_SUMP_SOFT_WIRE
 #define NUM_OF_SUMP_CHANNELS 8
 
+//this configures the placement of the serial port for 
+//the PC side terminal interface
+//the other modules should be similarly abstracted, but since v0A and v1a share pins, it doesn't mater
+#define BP_TERM_TX		U1TX_IO;
+#define BP_TERM_TX_RP  	RPOR1bits.RP2R
+#define BP_TERM_RX		RPINR18bits.U1RXR
+#define BP_TERM_RX_RP	11
+
+
 //this is a different type of pin identifier used by the bitbang library
 #define AUX2                    0b1 //B0
 #define MOSI                    0b10 //B1
