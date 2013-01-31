@@ -70,7 +70,7 @@ int main(void) {
     Initialize(); //setup bus pirate
 
     //wait for the USB connection to enumerate
-#if defined (BUSPIRATEV4)
+#if defined (BUSPIRATEV4) && !defined (BPV4_DEBUG)
     BP_LEDUSB_DIR = 0;
     //BP_LEDUSB = 1;
     BP_USBLED_ON();
@@ -135,6 +135,9 @@ void Initialize(void) {
 #if defined (BUSPIRATEV2) || defined (BUSPIRATEV1A)
     BP_TERM_RX = BP_TERM_RX_RP; //Inputs UART1 RX RPINR18bits.U1RXR=4;
     BP_TERM_TX_RP = BP_TERM_TX; // Outputs UART1 TX RPOR1bits.RP3R=U1TX_IO;
+#elif defined (BUSPIRATEV4) && defined (BPV4_DEBUG)
+    BP_TERM_RX = BP_TERM_RX_RP; //Inputs UART1 RX RPINR18bits.U1RXR=11;//AUX2
+    BP_TERM_TX_RP = BP_TERM_TX; // Outputs UART1 TX RPOR1bits.RP2R=U1TX_IO;//AUX1
 #endif
 
     //put startup values in config (do first)
@@ -146,10 +149,15 @@ void Initialize(void) {
 #if defined (BUSPIRATEV2) || defined (BUSPIRATEV1A)
     InitializeUART1(); //init the PC side serial port
 #endif
-#if defined (BUSPIRATEV4)
+
+#if defined (BUSPIRATEV4) && !defined (BPV4_DEBUG)
     initCDC();
     usb_init(cdc_device_descriptor, cdc_config_descriptor, cdc_str_descs, USB_NUM_STRINGS);
     usb_start();
+#endif
+
+#if defined (BUSPIRATEV4) && defined (BPV4_DEBUG)
+    InitializeUART1(); //init the PC side serial port
 #endif
 
 #if defined (BUSPIRATEV2)
