@@ -126,7 +126,7 @@
 
 //Debugging mode for BPv4, comment out for normal compiling
 //Adds alternative communicaton to UART1 over AUX1 and AUX2 instead of USB.
-#define BPV4_DEBUG  
+//#define BPV4_DEBUG  
 
 
 #if defined(BP_MAIN)
