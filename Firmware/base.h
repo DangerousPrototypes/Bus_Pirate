@@ -51,7 +51,7 @@
 // FIRMWARE VERSION STRING
 // Build Firmware Version String
 // used in 'i' and startup
-#define BP_FIRMWARE_STRING "Firmware v6.2-beta1 r1981 "
+#define BP_FIRMWARE_STRING "Firmware v6.3-beta1 r2151 "
 
 
 ////////////////////////////////////////
@@ -124,6 +124,11 @@
 //#define BP_USE_RAW2WIRE
 //#define BP_USE_RAW3WIRE
 
+//Debugging mode for BPv4, comment out for normal compiling
+//Adds alternative communicaton to UART1 over AUX1 and AUX2 instead of USB.
+//#define BPV4_DEBUG  
+
+
 #if defined(BP_MAIN)
 
         #define BP_USE_1WIRE
@@ -136,13 +141,12 @@
         #define BP_USE_RAW2WIRE
         #define BP_USE_RAW3WIRE
         #define BP_USE_LCD // include HD44780 LCD library       
-
+        #define BP_USE_BASIC
         
         #if defined(BUSPIRATEV4)
                 #define BP_USE_DIO //binary mode
                 #define BP_USE_PCATKB
                 #define BP_USE_PIC
-                #define BP_USE_BASIC 
         #endif
         
 #elif defined(BP_ADDONS)
