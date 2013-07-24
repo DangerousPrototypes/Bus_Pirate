@@ -317,7 +317,7 @@ typedef struct BDENTRY {
 #if defined(PIC_24F)
 
 #define MyProcessor
-#include <p24fxxxx.h>
+#include <p24Fxxxx.h>
 
 #define USTAT_ODD_EVEN (4)              // JTR PIC24 fixup potentially ?? Only required when ping-pong buffering is enabled. 
 #define USTAT_ODD_EVEN_SHIFT (2)        // JTR these are required for BD* calculations and are different for the PIC24
