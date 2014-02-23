@@ -222,7 +222,7 @@ proto protos[MAXPROTO] = {
 {	SPIstart,				// start
 	SPIstartr,				// startR
 	SPIstop,				// stop
-	nullfunc1,				// stopR
+	SPIstop,				// stopR
 	SPIwrite,				// send
 	SPIread,				// read
 	nullfunc1,				// clkh
