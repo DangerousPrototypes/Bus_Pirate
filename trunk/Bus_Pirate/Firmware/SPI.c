@@ -40,7 +40,7 @@
 #define SPICS 			BP_CS	
 
 //open drain control registers for OUTPUT pins
-#define SPIMOSI_ODC 		BP_MISO_ODC	
+#define SPIMOSI_ODC 		BP_MOSI_ODC	
 #define SPICLK_ODC 			BP_CLK_ODC	
 #define SPICS_ODC 			BP_CS_ODC	
 
