@@ -259,7 +259,10 @@ void UARTsetup_exc(void)
 	
     UART2Enable();
 
+#if !defined (BUSPIRATEV4) || defined(BPV4_DEBUG)
+	//BPv4 does not use U2BRG to communicate with PC unless it is in debug mode
 	if(U2BRG<U1BRG) BPMSG1249;
+#endif
 	
 	
 	#if defined(BUSPIRATEV4)
@@ -285,7 +288,10 @@ void UARTsetup_exc(void)
 			
 		}
 		UART2Enable();
+#if !defined (BUSPIRATEV4) || defined(BPV4_DEBUG)
+		//BPv4 does not use U2BRG to communicate with PC unless it is in debug mode
 		if(U2BRG<U1BRG) BPMSG1249;
+#endif
 	}
 	#endif
     
@@ -409,7 +415,10 @@ void UARTmacro(unsigned int macro)
 			UART2Disable();
 			UARTgetbaud(0);
 			UART2Enable();
+#if !defined (BUSPIRATEV4) || defined(BPV4_DEBUG)
+			//BPv4 does not use U2BRG to communicate with PC unless it is in debug mode
 			if(U2BRG<U1BRG) BPMSG1249;
+#endif
 			break;			
 		default:
 			//bpWmessage(MSG_ERROR_MACRO);
