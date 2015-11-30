@@ -1,5 +1,5 @@
 /*
- * This file is part of the Bus Pirate project (http://code.google.com/p/the-bus-pirate/).
+ * This file is part of the Bus Pirate project (https://github.com/DangerousPrototypes/Bus_Pirate).
  *
  * Written and maintained by the Bus Pirate project.
  *
