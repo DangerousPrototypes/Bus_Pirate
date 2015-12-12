@@ -10,6 +10,8 @@ CONFIG += debug_and_release
 CONFIG += staticlib
 CONFIG += static
 
+QT += widgets
+
 CONFIG(debug, debug|release) {
     LIBS += -L../qextserialport/build -lqextserialportd
 } else {

@@ -1,7 +1,7 @@
 #ifndef __BPSETTINGS_H
 #define __BPSETTINGS_H
 
-#include <QtGui>
+#include <QtWidgets>
 
 class BinMode;
 class MainWidgetFrame;
