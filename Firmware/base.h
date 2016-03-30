@@ -147,6 +147,7 @@
                 #define BP_USE_DIO //binary mode
                 #define BP_USE_PCATKB
                 #define BP_USE_PIC
+                #define BP_USE_JTAG
         #endif
         
 #elif defined(BP_ADDONS)
