@@ -132,6 +132,7 @@ void bpADCCprobe(void)
 
 //print byte c to the user terminal in the format 
 //  specified by the bpConfig.displayMode setting
+//use pesudo function to resuse this for read and write with auto mode?
 void bpWbyte(unsigned int c)
 {	if(modeConfig.numbits<16)
 	{	c&=(0x7FFF>>((16-modeConfig.numbits)-1));
@@ -154,6 +155,14 @@ void bpWbyte(unsigned int c)
 			{	UART1TX(c>>8);
 			}
 			UART1TX(c&0x0FF);
+			break;
+		case ASCII:
+			//show printable ascii characters, else show HEX
+			if(c>31 && c<127){
+				UART1TX(c&0x0FF);
+			}else{
+				if(modeConfig.int16) bpWinthex(c); else bpWhex(c);
+			}
 			break;
 	}
 }

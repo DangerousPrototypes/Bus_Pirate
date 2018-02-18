@@ -3,9 +3,9 @@
   <Debugmode>false</Debugmode>
   <CheckVerStart>false</CheckVerStart>
   <WindowOnTop>false</WindowOnTop>
-  <WindowWidth>346</WindowWidth>
+  <WindowWidth>622</WindowWidth>
   <WindowHeight>538</WindowHeight>
-  <Filename>BPv3-Firmware-v4.hex</Filename>
+  <Filename>C:\Users\ian\Desktop\bpv52.hex</Filename>
   <DefaultStartSettings>
     <AdvancedMode>true</AdvancedMode>
     <AdvancedModeAllow>false</AdvancedModeAllow>
@@ -19,15 +19,15 @@
     <Devicename>64GA002</Devicename>
     <DevicenameAllow>false</DevicenameAllow>
     <WriteProgram>true</WriteProgram>
-    <WriteProgramAllow>false</WriteProgramAllow>
+    <WriteProgramAllow>true</WriteProgramAllow>
     <WriteEEPROM>false</WriteEEPROM>
     <WriteEEPROMAllow>false</WriteEEPROMAllow>
     <WriteConfigs>false</WriteConfigs>
     <WriteConfigsAllow>false</WriteConfigsAllow>
     <NoGoto>false</NoGoto>
     <NoGotoAllow>false</NoGotoAllow>
-    <IgnoreBLOverwrite>false</IgnoreBLOverwrite>
-    <IgnoreBLOverwriteAllow>false</IgnoreBLOverwriteAllow>
+    <IgnoreBLOverwrite>true</IgnoreBLOverwrite>
+    <IgnoreBLOverwriteAllow>true</IgnoreBLOverwriteAllow>
     <CustomBl>true</CustomBl>
     <CustomBlAllow>false</CustomBlAllow>
     <CustomBlPlacementP>1</CustomBlPlacementP>
