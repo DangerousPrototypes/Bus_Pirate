@@ -135,8 +135,8 @@
         //#ifndef BUSPIRATEV4
         #define BP_USE_HWUART //hardware uart (now also MIDI)
         //#endif
-        #define BP_USE_I2C
-        //#define BP_USE_I2C_HW
+        //#define BP_USE_I2C
+        #define BP_USE_I2C_HW
         #define BP_USE_HWSPI //hardware spi
         #define BP_USE_RAW2WIRE
         #define BP_USE_RAW3WIRE

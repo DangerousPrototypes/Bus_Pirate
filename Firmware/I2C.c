@@ -520,7 +520,10 @@ unsigned char hwi2cread(void) {
     return c;
 }
 
+
 void hwi2cSetup(void) {
+
+#if defined (BUSPIRATEV4)
     I2C3CONbits.A10M = 0;
     I2C3CONbits.SCLREL = 0;
 
@@ -536,6 +539,22 @@ void hwi2cSetup(void) {
 
     // Enable I2C module
     I2C3CONbits.I2CEN = 1;
+#else
+    I2C1CONbits.A10M = 0;
+    I2C1CONbits.SCLREL = 0;
+
+    I2C1ADD = 0;
+    I2C1MSK = 0;
+
+    // Enable SMBus
+    I2C1CONbits.SMEN = 0;
+
+
+    // Baud rate setting
+    I2C1BRG = I2Cspeed[modeConfig.speed];
+
+    // Enable I2C module
+    I2C1CONbits.I2CEN = 1;
 
     //
     // This work around didn't work for me...
@@ -552,6 +571,7 @@ void hwi2cSetup(void) {
             TRISBbits.TRISB11=1;//SDA Pullup
             LATBbits.LATB11=1;//release
      */
+#endif
 
 }
 
