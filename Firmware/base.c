@@ -155,6 +155,15 @@ void bpWbyte(unsigned int c)
 			}
 			UART1TX(c&0x0FF);
 			break;
+        case ASCII:
+            //show printable ascii characters, else show HEX
+            if(c>31 && c<127){
+                UART1TX(c&0x0FF);
+            }else{
+                if(modeConfig.int16) bpWinthex(c); else bpWhex(c);
+            }
+            break;
+
 	}
 }
 

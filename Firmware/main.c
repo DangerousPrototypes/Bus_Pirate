@@ -170,21 +170,31 @@ void Initialize(void) {
 	//2go, 3a | 1   |  1
 	//v3b     | 1   |  0
 	//v3.5    | 0   |  0
+    //v5.0      | 0    |  1
+
 	i=PORTB; //get settings
 	i=i>>2; //remove unused
 	i&=(~0b11111100); //clear others
+
+    bpConfig.HWversion_major='3';
+
     if (i==0b11) {
-        bpConfig.HWversion = 'a';
+        bpConfig.HWversion_minor = 'a';
     } else if(i==0b10){
-        bpConfig.HWversion = 'b';
+        bpConfig.HWversion_minor = 'b';
     }else if(i==0){
-        bpConfig.HWversion = '5';
-	}
+        bpConfig.HWversion_minor = '6';
+    }else if(i==0b01){
+        bpConfig.HWversion_major='5';
+        bpConfig.HWversion_minor ='0';
+    }
+
     //pullup off
     CNPU1bits.CN6PUE = 0;
     CNPU1bits.CN7PUE = 0;
 #else
-    bpConfig.HWversion = 0;
+    bpConfig.HWversion_major = '4';
+    bpConfig.HWversion_minor = '0';
 #endif
 
     bpConfig.quiet = 0; // turn output on (default)

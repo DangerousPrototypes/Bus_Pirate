@@ -48,9 +48,7 @@ void pinDirection(unsigned int pin);
 void pinState(unsigned int pin);
 void pinStates(void);
 
-#ifdef BUSPIRATEV4
 void setPullupVoltage(void); // onboard Vpu selection
-#endif
 
 //global vars    move to bpconfig structure?
 char cmdbuf[CMDBUFLEN];
@@ -592,11 +590,18 @@ end:
                         if (modeConfig.HiZ == 0) { //bpWmessage(MSG_ERROR_NOTHIZPIN);
                             BPMSG1209;
                         }
-                        BP_PULLUP_ON(); //pseudofunction in hardwarevx.h
-                        //								modeConfig.pullupEN=1;
-                        //bpWmessage(MSG_OPT_PULLUP_ON);
-                        BPMSG1091;
-                        bpBR;
+                        BP_PULLUP_OFF();
+
+                        if(bpConfig.HWversion_major<'5'){
+                            BP_PULLUP_ON(); //pseudofunction in hardwarevx.h
+                            //modeConfig.pullupEN=1;
+                            //bpWmessage(MSG_OPT_PULLUP_ON);
+                            BPMSG1091;
+                            bpBR;
+                        }else{
+                            //v5 has selectable pullup voltage and menu
+                            setPullupVoltage();
+                        }
 
                         ADCON();
                         if (bpADC(BP_ADC_VPU) < 0x50) { //no pullup voltage detected
@@ -1458,8 +1463,9 @@ void versionInfo(void) {
 
 #if defined (BUSPIRATEV2) //we can tell if it's v3a or v3b, show it here
     bpWstring(BP_VERSION_STRING);
+	UART1TX(bpConfig.HWversion_major);
     UART1TX('.');
-    UART1TX(bpConfig.HWversion);
+    UART1TX(bpConfig.HWversion_minor);
     if (bpConfig.dev_type == 0x44F) {//sandbox electronics clone with 44pin PIC24FJ64GA004
         bpWstring(" clone w/different PIC");
     }
@@ -1762,14 +1768,14 @@ void setDisplayMode(void) {
     consumewhitechars();
     mode = getint();
 
-    if ((mode > 0) && (mode <= 4)) {
+    if ((mode > 0) && (mode <= 5)) {
         bpConfig.displayMode = mode - 1;
     } else {
         cmderror = 0;
         //bpWmessage(MSG_OPT_DISPLAYMODE); //show the display mode options message
         BPMSG1127;
         //	bpConfig.displayMode=(bpUserNumberPrompt(1, 4, 1)-1); //get, store user reply
-        bpConfig.displayMode = getnumber(1, 1, 4, 0) - 1; //get, store user reply
+        bpConfig.displayMode = getnumber(1, 1, 5, 0) - 1; //get, store user reply
     }
     //bpWmessage(MSG_OPT_DISPLAYMODESET);//show display mode update text
     BPMSG1128;
@@ -1822,9 +1828,70 @@ void setBaudRate(void) {
     }
 } //
 
-#ifdef BUSPIRATEV4
+
+
 
 void setPullupVoltage(void) {
+//this is only available to the v5 hardware!
+//use of this function should be blocked for bpConfig major versions <5!
+#ifdef BUSPIRATEV2
+    int temp;
+
+    cmdstart = (cmdstart + 1) & CMDLENMSK;
+    consumewhitechars();
+
+    temp = getint();
+
+    //verify that we are not on v3 hardware with pullup on the 4066 just to be safe!
+    BP_PULLUP_DIR=1; //input
+    if(BP_PULLUP==1){
+        //if this is v5 hardware PU pin is pulled low externally, 
+        //if it is v3.x will be high, we shouldn't be here!
+        bpWline("Hardware mismatch!");
+        return;
+    }
+
+    if (cmderror) // I think the user wants a menu
+    {
+        cmderror = 0;
+
+        bpWline("Select Vpu source");
+        bpWline(" 1) External");
+        bpWline(" 2) Onboard 3.3V");
+        bpWline(" 3) Onboard 5V");
+        //BPMSG1271;
+
+        temp = getnumber(1, 1, 3, 0);
+    }
+    switch (temp) {
+        case 1: 
+            BP5_EXTPU_ON();
+            bpWline("External");
+            //BPMSG1272; //;0;" external pullup voltage "
+            //BPMSG1273; //1;"enabled"
+
+            break;
+        case 2: 
+            BP5_3V3PU_ON();
+            bpWline("3.3V");
+            //BPMSG1173; //3.3v
+            //BPMSG1272; //;0;" on-board pullup voltage "
+            //BPMSG1273; //1;"enabled"
+            break;
+        case 3: 
+            BP5_5VPU_ON();
+            bpWline("5V");
+            //BPMSG1171; //5v
+            //BPMSG1272; //;0;" on-board pullup voltage "
+            //BPMSG1273; //1;"enabled"
+            break;
+    }
+
+#endif
+
+
+
+#ifdef BUSPIRATEV4
     int temp;
 
 
@@ -1889,9 +1956,11 @@ void setPullupVoltage(void) {
             BPMSG1274; //1;"disabled"
             //bpWline("on-board pullup voltage disabled");
     }
-}
 
 #endif
+}
+
+
 
 
 
