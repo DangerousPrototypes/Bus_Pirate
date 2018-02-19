@@ -1850,6 +1850,7 @@ void setPullupVoltage(void) {
         bpWline("Hardware mismatch!");
         return;
     }
+	BP_PULLUP_DIR=0; //input
 
     if (cmderror) // I think the user wants a menu
     {

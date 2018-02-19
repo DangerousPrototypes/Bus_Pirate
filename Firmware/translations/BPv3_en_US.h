@@ -251,8 +251,5 @@
 #define	HLP1020	bpMsgBR(5430, 37)
 #define	HLP1021	bpMsgBR(5467, 54)
 #define	HLP1022	bpMsgBR(5521, 62)
-
-
-
-
-#endif
+
+#endif
