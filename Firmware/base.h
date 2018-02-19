@@ -41,10 +41,10 @@
 // HARDWARE VERSION
 #if defined(__PIC24FJ256GB106__)        //v4 chip
         #define BUSPIRATEV4
-#elif defined(__PIC24FJ64GA002__)       //v3/v2go/v1a chip
+#elif defined(__PIC24FJ64GA002__)       //v5/v3/v2go/v1a chip
         // Uncomment the hardware version you are building for
-        #define BUSPIRATEV3                             // V3 is also V2G0
-        //#define BUSPIRATEV1A                  //probably no longer supported...
+        //#define BUSPIRATEV3    // V3 is also V2G0
+        #define BUSPIRATEV5    // V5 is v3.9 with hardware updates that need own firmware build
 #endif
 
 ////////////////////////////////////////
@@ -90,30 +90,18 @@
 ///////////////////////////// [ END OF CONFIGURATION ]//////////////////
 ////////////////////////////////////////////////////////////
 /////////////////////////////////////
-
-
-// Buspirate version 3 and v2go use the same everything; so this just
-// fixs if the user selected v2go.
-#if defined(BUSPIRATEV2GO)
-        #define BUSPIRATEV3
-#endif
-
-
 #ifdef BUSPIRATEV4
         #include "hardwarev4a.h"
-#include "dp_usb/usb_stack_globals.h"
+		#include "dp_usb/usb_stack_globals.h"
         #include "onboardEEPROM.h"
-#endif
-
-#if defined(BUSPIRATEV1A)
-        #include "hardwarev1a.h"
 #elif defined(BUSPIRATEV3)
         #define BUSPIRATEV2 //v25 (2go) and v3 are about the same, enable the same featue set for both
         #include "hardwarev3.h"
-#elif defined(BUSPIRATEV4)
-
+#elif defined(BUSPIRATEV5)
+        #define BUSPIRATEV2 //v25 (2go) and v5 are about the same, enable the same featue set for both
+        #include "hardwarev5.h"
 #else
-#error "No hardware defined in base.h."
+		#error "No hardware defined in base.h."
 #endif
 
 #include "baseIO.h"

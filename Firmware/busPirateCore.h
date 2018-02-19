@@ -67,7 +67,7 @@ struct _bpConfig {
 	// Device IDs from the chip
 	unsigned int dev_type;
 	unsigned int dev_rev;
-    unsigned char HWversion_major;                //holds major hardware version 3/4/5 etc
+    //unsigned char HWversion_major;                //holds major hardware version 3/4/5 etc
     unsigned char HWversion_minor;                //holds hardware revision 0/a/b/6 etc
 	unsigned char quiet:1;					// no output 
 	unsigned char basic:1;					// basic commandline

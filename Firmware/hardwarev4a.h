@@ -14,7 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 //This profile is for the Bus Pirate v4 hardware only.
-#define BP_VERSION_STRING "Bus Pirate (beta) v"// (Seeed Studio)"
+#define BP_VERSION_STRING "Bus Pirate (beta) v4."// (Seeed Studio)"
 #define BP_VERSION "v4"
 
 // If you want to route AUX1 to channel 7 of the JTR SUMP mode in firmware
@@ -135,11 +135,10 @@
 
 //pullup voltage enable/disable
 //always disables the other pullup
-#define BP_3V3PU_ON()           BP_PUVSEL50_DIR=1; BP_PUVSEL33=0; BP_PUVSEL33_DIR=0
-#define BP_3V3PU_OFF()          BP_PUVSEL50_DIR=1; BP_PUVSEL33_DIR=1
-
-#define BP_5VPU_ON()            BP_PUVSEL33_DIR=1; BP_PUVSEL50=0; BP_PUVSEL50_DIR=0
-#define BP_5VPU_OFF()           BP_PUVSEL33_DIR=1; BP_PUVSEL50_DIR=1
+#define BP_PULLUP_OFF()          BP_PUVSEL50_DIR=1; BP_PUVSEL33_DIR=1; BP_PULLUP_DIR=1
+#define BP_3V3PU_ON()           BP_PUVSEL50_DIR=1; BP_PULLUP_DIR=1; BP_PUVSEL33=0; BP_PUVSEL33_DIR=0
+#define BP_5VPU_ON()            BP_PUVSEL33_DIR=1; BP_PULLUP_DIR=1; BP_PUVSEL50=0; BP_PUVSEL50_DIR=0
+#define BP_EXTPU_ON()            BP_PUVSEL50_DIR=1; BP_PUVSEL33_DIR=1; BP_PULLUP=0; BP_PULLUP_DIR=0   
 
 //Open drain/high impedance pin setup
 #define BP_MOSI_ODC             ODCDbits.ODD1
@@ -230,11 +229,6 @@
 // PPS Compatability 
 #define BP_AUX_RPIN             BP_AUX0_RPIN
 #define BP_AUX_RPOUT            BP_AUX0_RPOUT
-
-//pseudofunctions for pullup resistors
-//for V2/3 we need B5/pullup to be output and gnd to turn OFF the pullups...
-#define BP_PULLUP_ON()          BP_PULLUP_DIR=1;BP_PULLUP=0
-#define BP_PULLUP_OFF()         BP_PULLUP=0;BP_PULLUP_DIR=0
 
 //pseudofunctions for voltage regulator switch
 #define BP_VREG_ON()            BP_VREGEN_DIR=0; BP_VREGEN=1

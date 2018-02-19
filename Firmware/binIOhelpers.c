@@ -9,21 +9,12 @@ void binIOperipheralset(unsigned char inByte){
 	}else{
 		BP_VREG_OFF();//power off
 	}
-	
-	#ifndef BUSPIRATEV1A
+
 	if(inByte&0b100){
-		BP_PULLUP_ON();//pullups on
+		BP_EXTPU_ON();//pullups on
 	}else{
 		BP_PULLUP_OFF();
 	}
-	#endif
-	#if defined(BUSPIRATEV1A)
-	if(inByte&0b100){
-		BP_AUX2_HI();//AUX2 control
-	}else{
-		BP_AUX2_LOW();
-	}
-	#endif
 
 	//AUX pin, high/low only
 	if(inByte&0b10){
@@ -61,7 +52,7 @@ unsigned char binBBpullVoltage(unsigned char ctrlB)
 	}
 	else
 	{
-   	BP_3V3PU_OFF(); //disable any existing pullup
+   	BP_PULLUP_OFF(); //disable any existing pullup
    	bpDelayMS(2);
    	ADCON();
    	if (bpADC(BP_ADC_VPU) > 0x100)
@@ -74,7 +65,7 @@ unsigned char binBBpullVoltage(unsigned char ctrlB)
 	{
 		if(ctrlB == 0x51){BP_3V3PU_ON();}	//turns on Pull up voltage 3.3v
 		else if(ctrlB == 0x52){BP_5VPU_ON();}	//turns on Pull up voltage 5v
-		else {BP_3V3PU_OFF();}
+		else {BP_PULLUP_OFF();}
 	}
 	return temp;
 }

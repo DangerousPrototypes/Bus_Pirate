@@ -274,7 +274,7 @@ void UARTmacro(unsigned int macro)
 			BPMSG1203;
 			break;
 		case 3://UART bridge with flow control
-			#if defined(BUSPIRATEV25) || defined(BUSPIRATEV3)
+			#if defined(BUSPIRATEV2)
 			//setup RTS CTS on FTDI chip side
 			FTDI_CTS_DIR=0; //CTS (PIC output to FTDI)
 			FTDI_RTS_DIR=1; //RTS (PIC input from FTDI)
@@ -322,18 +322,18 @@ void UARTmacro(unsigned int macro)
 				if((UART1RXRdy()==1)&& (U2STAbits.UTXBF == 0)){
 						U2TXREG = UART1RX(); /* JTR usb port; */ // URXDA doesn't get cleared untill this happens
 				}
-				#if defined(BUSPIRATEV25) || defined(BUSPIRATEV3)
+				#if defined(BUSPIRATEV2)
 				if(U2STAbits.OERR || U1STAbits.OERR){
    					U2STA &= (~0b10); //clear overrun error if exists
    					U1STA &= (~0b10); //clear overrun error if exists
 					BP_LEDMODE=0;//MODE LED off to signify overrun error
-				#else  //JTR July 2012 meaning BPv4
+				#elif defined(BUSPIRATEV4)
 				if(U2STAbits.OERR){
    					U2STA &= (~0b10); //clear overrun error if exists
   					BP_LEDMODE=0;//MODE LED off to signify overrun error				
 				#endif	
 				}
-				#if defined(BUSPIRATEV25) || defined(BUSPIRATEV3)
+				#if defined(BUSPIRATEV2)
 				if(macro==3){
 					//pass RTS/CTS
 					BP_CLK=FTDI_RTS;

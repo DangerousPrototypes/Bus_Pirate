@@ -20,15 +20,6 @@
 #define UARTRX_PIN BP_MISO_RPIN
 #define UARTTX_PIN BP_MOSI_RPOUT
 
-// Old settings remain intact
-//	#if defined (BUSPIRATEV3)
-//		#define UARTRX_PIN 7
-//		#define UARTTX_PIN RPOR4bits.RP9R
-//	#elif defined (BUSPIRATEV4)
-//		#define UARTRX_PIN 22
-//		#define UARTTX_PIN RPOR12bits.RP24R
-//	#endif
-
 #define UARTTX_ODC BP_MOSI_ODC
 
 void UART2Setup(unsigned int brg, unsigned char ODCoutput, unsigned char rxp, unsigned char dbp, unsigned char sb ){
@@ -70,11 +61,6 @@ void UART2Disable(void){
 	
 	//PPS
 	UARTTX_PIN=0;
-//		#if defined(BUSPIRATEV3)
-//			RPOR3bits.RP6R=0; 			//B6 U2TX
-//		#elif defined(BUSPIRATEV4)
-//	        RPOR12bits.RP24R=0;      
-//		#endif
 	UARTTX_ODC=0;
 }
 

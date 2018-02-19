@@ -18,7 +18,6 @@
 #include "selftest.h"
 #include "busPirateCore.h"
 
-#ifndef BUSPIRATEV1A
 void bpTest(unsigned char p, unsigned char d);
 void bpBusPinsTest(unsigned char d);
 void bpADCPinTest(unsigned char a, unsigned int lval, unsigned int hval);
@@ -62,7 +61,7 @@ unsigned char selfTest(unsigned char showProgress, unsigned char jumperTest){
 	bpTest(BP_LEDMODE,1);
 	BP_LEDMODE=0;
 	
-	BP_PULLUP_ON();
+	BP_EXTPU_ON();
 	//bpPOSTWstring("PULLUP H");
 	BPMSG1167;
 	bpTest(BP_PULLUP,1);
@@ -134,7 +133,7 @@ unsigned char selfTest(unsigned char showProgress, unsigned char jumperTest){
 	bpADCPinTest(BP_ADC_VPU,V33L, V33H);
 	BP_3V3PU_OFF();
 
-#elif defined (BUSPIRATEV3)
+#elif defined (BUSPIRATEV2)
 	 //v3 test
 	//0x030F is 5volts
 	//bpPOSTWstring("5V");
@@ -183,10 +182,11 @@ unsigned char selfTest(unsigned char showProgress, unsigned char jumperTest){
 	BPMSG1176;
 	IOLAT&= ~(ALLIO); //low
 	if(jumperTest){
-		#if defined	(BUSPIRATEV4)	
+		#if defined	(BUSPIRATEV4) || defined(BUSPIRATEV5)	
 		BP_3V3PU_ON();
+		#elif defined(BUSPIRATEV3)
+		BP_EXTPU_ON();
 		#endif
-		BP_PULLUP_ON();
 	}
 	bpDelayMS(100);
 	bpBusPinsTest(0);
@@ -198,8 +198,8 @@ unsigned char selfTest(unsigned char showProgress, unsigned char jumperTest){
 		IODIR|=ALLIO;//output
 		bpDelayMS(100);
 		bpBusPinsTest(1);
-		#if defined	(BUSPIRATEV4)	
-		BP_3V3PU_OFF();
+		#if defined	(BUSPIRATEV4) || defined(BUSPIRATEV5)	
+		BP_PULLUP_OFF();
 		#endif
 	}
 
@@ -270,5 +270,3 @@ void bpTest(unsigned char p, unsigned char d){
 		errors++;
 	}
 }
-
-#endif

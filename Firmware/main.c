@@ -40,7 +40,7 @@ void _USB1Interrupt(void);
 extern volatile BYTE usb_device_state; // JTR added
 #endif
 
-#if defined (BUSPIRATEV2) || defined (BUSPIRATEV1A)
+#if defined (BUSPIRATEV2)
 //set custom configuration for PIC 24F (now always set in bootloader page, not needed here)
 //_CONFIG2(FNOSC_FRCPLL & OSCIOFNC_ON &POSCMOD_NONE & I2C1SEL_PRI)		// Internal FRC OSC = 8MHz
 //_CONFIG1(JTAGEN_OFF & GCP_OFF & GWRP_OFF & COE_OFF & FWDTEN_OFF & ICS_PGx1) //turn off junk we don't need
@@ -104,7 +104,7 @@ int main(void) {
 //setup clock, terminal UART, pins, LEDs, and display version info
 
 void Initialize(void) {
-#if defined (BUSPIRATEV2)
+#if defined (BUSPIRATEV3)
 	unsigned char i;
 #endif
 
@@ -112,7 +112,7 @@ void Initialize(void) {
 
     //   volatile unsigned long delay = 0xffff;
     // TBLPAG = 0; // we need to be in page 0 (somehow this isn't set)
-#if defined (BUSPIRATEV2) || defined (BUSPIRATEV1A)
+#if defined (BUSPIRATEV2)
     CLKDIVbits.RCDIV0 = 0; //clock divider to 0
     AD1PCFG = 0xFFFF; // Default all pins to digital
 #elif defined (BUSPIRATEV4)
@@ -132,7 +132,7 @@ void Initialize(void) {
 
     while (delay--);
     //set pin configuration using peripheral pin select
-#if defined (BUSPIRATEV2) || defined (BUSPIRATEV1A)
+#if defined (BUSPIRATEV2)
     BP_TERM_RX = BP_TERM_RX_RP; //Inputs UART1 RX RPINR18bits.U1RXR=4;
     BP_TERM_TX_RP = BP_TERM_TX; // Outputs UART1 TX RPOR1bits.RP3R=U1TX_IO;
 #endif
@@ -143,7 +143,7 @@ void Initialize(void) {
 
     bpInit(); //put startup values in config (do first)clean up, exit in HI-Z
 
-#if defined (BUSPIRATEV2) || defined (BUSPIRATEV1A)
+#if defined (BUSPIRATEV2)
     InitializeUART1(); //init the PC side serial port
 #endif
 #if defined (BUSPIRATEV4)
@@ -152,49 +152,65 @@ void Initialize(void) {
     usb_start();
 #endif
 
-#if defined (BUSPIRATEV2)
+#if defined (BUSPIRATEV3)
     //find the Bus Pirate revision
     //pullup on, do it now so it can settle during the next operations
     CNPU1bits.CN6PUE = 1;
     CNPU1bits.CN7PUE = 1;
 #endif
-    //#ifndef BUSPIRATEV4
+
     // Get the chip type and revision
     bpConfig.dev_type = bpReadFlash(DEV_ADDR_UPPER, DEV_ADDR_TYPE);
     bpConfig.dev_rev = bpReadFlash(DEV_ADDR_UPPER, DEV_ADDR_REV);
-    //#endif
 
-#if defined (BUSPIRATEV2)
+#if defined (BUSPIRATEV3)
+
+    //verify that we are not on v5 hardware with pullup on the 4066 just to be safe!
+    BP_PULLUP_DIR=1; //input
+    if(BP_PULLUP==0){
+        //if this is v5 hardware PU pin is pulled low externally, 
+        //if it is v3.x will be high
+        while(1){
+			bpWline("Hardware mismatch!");
+			bpDelayUS(250);
+		}
+    }
+	
     //now check the revision
 	//Version | RB3 | RB2
 	//2go, 3a | 1   |  1
 	//v3b     | 1   |  0
-	//v3.5    | 0   |  0
-    //v5.0      | 0    |  1
-
+	//v3.6    | 0   |  0
 	i=PORTB; //get settings
 	i=i>>2; //remove unused
 	i&=(~0b11111100); //clear others
-
-    bpConfig.HWversion_major='3';
 
     if (i==0b11) {
         bpConfig.HWversion_minor = 'a';
     } else if(i==0b10){
         bpConfig.HWversion_minor = 'b';
-    }else if(i==0){
+    }else{ // if(i==0){
         bpConfig.HWversion_minor = '6';
-    }else if(i==0b01){
-        bpConfig.HWversion_major='5';
-        bpConfig.HWversion_minor ='0';
     }
 
     //pullup off
     CNPU1bits.CN6PUE = 0;
     CNPU1bits.CN7PUE = 0;
-#else
-    bpConfig.HWversion_major = '4';
+#elif defined (BUSPIRATEV4)
     bpConfig.HWversion_minor = '0';
+#elif defined (BUSPIRATEV5)
+    //verify that we are not on v3 hardware with pullup on the 4066 just to be safe!
+    BP_PULLUP_DIR=1; //input
+    if(BP_PULLUP==1){
+        //if this is v5 hardware PU pin is pulled low externally, 
+        //if it is v3.x will be high
+		BP_PULLUP_DIR=0; //output to disable pullups
+        while(1){
+			bpWline("Hardware mismatch!");
+			bpDelayUS(250);
+		}
+    }
+	bpConfig.HWversion_minor = '0';
 #endif
 
     bpConfig.quiet = 0; // turn output on (default)

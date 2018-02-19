@@ -17,9 +17,7 @@
 #include "AUXpin.h"
 #include "busPirateCore.h"
 #include "procMenu.h" //need our public versionInfo() function
-#ifndef BUSPIRATEV1A
 #include "selftest.h"
-#endif
 #include "binIO.h"
 #include "SUMP.h"
 #include "basic.h"
@@ -48,7 +46,9 @@ void pinDirection(unsigned int pin);
 void pinState(unsigned int pin);
 void pinStates(void);
 
-void setPullupVoltage(void); // onboard Vpu selection
+#if defined(BUSIRATEV4) || defined(BUSPIRATEV5)
+	void setPullupVoltage(void); // onboard Vpu selection
+#endif
 
 //global vars    move to bpconfig structure?
 char cmdbuf[CMDBUFLEN];
@@ -544,40 +544,21 @@ end:
                     break;
 #endif
                 case 'L': //bpWline("-bit order set (MSB)");
-                    //if(bpConfig.busMode==HIZ)
-                    //{	//bpWmessage(MSG_ERROR_MODE);
-                    //	BPMSG1088;
-                    //}
-                    //else
-                    //{
                     modeConfig.lsbEN = 1;
                     BPMSG1124;
                     bpBR;
-                    //}
                     break;
                 case 'l': //bpWline("-bit order set (LSB)");
-                    //if(bpConfig.busMode==HIZ)
-                    //{	//bpWmessage(MSG_ERROR_MODE);`
-                    //	BPMSG1088;
-                    //}
-                    //else
-                    //{
                     modeConfig.lsbEN = 0;
                     BPMSG1123;
                     bpBR;
-                    //}
                     break;
-#ifndef BUSPIRATEV1A
                 case 'p': //bpWline("-pullup resistors off");
-
-
                     //don't allow pullups on some modules. also: V0a limitation of 2 resistors
                     if (bpConfig.busMode == HIZ) { //bpWmessage(MSG_ERROR_MODE);
                         BPMSG1088;
                     } else {
                         BP_PULLUP_OFF(); //pseudofunction in hardwarevx.h
-                        //								modeConfig.pullupEN=0;
-                        //bpWmessage(MSG_OPT_PULLUP_OFF);
                         BPMSG1089;
                         bpBR;
                     }
@@ -592,29 +573,28 @@ end:
                         }
                         BP_PULLUP_OFF();
 
-                        if(bpConfig.HWversion_major<'5'){
+                        #ifdef BUSPIRATEV3 //only has Vext pullup source
                             BP_PULLUP_ON(); //pseudofunction in hardwarevx.h
-                            //modeConfig.pullupEN=1;
-                            //bpWmessage(MSG_OPT_PULLUP_ON);
                             BPMSG1091;
                             bpBR;
-                        }else{
-                            //v5 has selectable pullup voltage and menu
+	                        ADCON();
+	                        if (bpADC(BP_ADC_VPU) < 0x50) { //no pullup voltage detected
+	                            bpWline("Warning: no voltage on Vpullup pin");
+	                        }
+	                        ADCOFF();
+						#elif defined(BUSPIRATEV4) || defined(BUSPIRATEV5) //selectable pullup voltage and menu                         
                             setPullupVoltage();
-                        }
+                        #endif
 
-                        ADCON();
-                        if (bpADC(BP_ADC_VPU) < 0x50) { //no pullup voltage detected
-                            bpWline("Warning: no voltage on Vpullup pin");
-                        }
-                        ADCOFF();
                     }
                     break;
-#endif
+
+/*
+TODO: remove v4 'e' command
 #ifdef BUSPIRATEV4
                 case 'e': setPullupVoltage();
                     break;
-#endif
+#endif*/
                 case '=': //bpWline("-HEX/BIN/DEC convertor");
                     cmdstart = (cmdstart + 1) & CMDLENMSK;
                     consumewhitechars();
@@ -638,7 +618,6 @@ end:
                     bpWbin(temp);
                     bpBR;
                     break;
-#ifndef BUSPIRATEV1A 
                 case '~': //bpWline("-selftest");
                     if (bpConfig.busMode == HIZ) {
                         selfTest(1, 1); //self test, showprogress in terminal
@@ -647,24 +626,17 @@ end:
                         BPMSG1092;
                     }
                     break;
-#endif
                 case '#': //bpWline("-reset BP");
                     //removed confirmation in v5.9
                     //ruined AVRdude compatibility
-                    //if(agree())
-                    //{	//bpWline(OUMSG_PM_RESET);
 #if defined(BUSPIRATEV4)
-                    //bpWline("* No Software Reset on v4, Use the reset button."); //TRANSLATE-NEEDED
-                    //BPMSG1113;
                     bpWstring("RESET\r\n");
 bpv4reset:
                     versionInfo();
-                    //bpWstring("\r\nHiZ>"); //was printed twice
 #else
                     BPMSG1093;
                     while (0 == UART1TXRdy()); //wait untill TX finishes
                     asm("RESET");
-                    //}
 #endif
                     break;
                 case '$': //bpWline("-bootloader jump");
@@ -702,7 +674,6 @@ bpv4reset:
                         bpDelayMS(2); //wait for VREG to come up
 
                         if ((bpADC(BP_ADC_3V3) > V33L) && (bpADC(BP_ADC_5V0) > V5L)) { //voltages are correct
-                            //bpWmessage(MSG_VREG_ON);
                             BPMSG1096;
                             bpBR;
                             //modeConfig.vregEN=1;
@@ -720,17 +691,14 @@ bpv4reset:
                         BPMSG1088;
                     } else {
                         BP_VREG_OFF();
-                        //bpWmessage(MSG_VREG_OFF);
                         BPMSG1097;
                         bpBR;
                         //modeConfig.vregEN=0;
                     }
                     break;
                 case 'd': //bpWline("-read ADC");	//do an adc reading
-                    //bpWstring(OUMSG_PS_ADC_VOLT_PROBE);
                     BPMSG1044;
                     bpADCprobe();
-                    //bpWline(OUMSG_PS_ADC_VOLTS);`
                     BPMSG1045;
                     bpBR;
                     break;
@@ -739,10 +707,8 @@ bpv4reset:
                     break;
                 case '&': //bpWline("-delay 1ms");
                     repeat = getrepeat();
-                    //bpWstring(OUMSG_PS_DELAY);
                     BPMSG1099;
                     bpWintdec(repeat);
-                    //bpWline(OUMSG_PS_DELAY_US);
                     BPMSG1100;
                     bpDelayUS(repeat);
                     break;
@@ -912,6 +878,7 @@ bpv4reset:
                     bpBR;
                     break;
                 case 'r': //bpWline("-Read");
+				case 'R': //bpWline("-Read");
                     //bpWmessage(MSG_READ);
                     BPMSG1102;
                     repeat = getrepeat() + 1;
@@ -926,7 +893,7 @@ bpv4reset:
                         if (modeConfig.lsbEN == 1) {//adjust bitorder
                             received = bpRevByte(received);
                         }
-                        bpWbyte(received);
+                        bpWbyte(received); //TODO: adjust to seperate write mode!
                         if (((modeConfig.int16 == 0) && (modeConfig.numbits != 8)) || ((modeConfig.int16 == 1) && (modeConfig.numbits != 16))) {
                             UART1TX(';');
                             bpWdec(modeConfig.numbits);
@@ -1463,12 +1430,10 @@ void versionInfo(void) {
 
 #if defined (BUSPIRATEV2) //we can tell if it's v3a or v3b, show it here
     bpWstring(BP_VERSION_STRING);
-	UART1TX(bpConfig.HWversion_major);
-    UART1TX('.');
     UART1TX(bpConfig.HWversion_minor);
-    if (bpConfig.dev_type == 0x44F) {//sandbox electronics clone with 44pin PIC24FJ64GA004
+    /*if (bpConfig.dev_type == 0x44F) {//sandbox electronics clone with 44pin PIC24FJ64GA004
         bpWstring(" clone w/different PIC");
-    }
+    }*/
     bpBR;
 #else
     bpWline(BP_VERSION_STRING);
@@ -1577,14 +1542,13 @@ void statusInfo(void) {
     UART1TX(',');
     bpSP;
 
-#ifndef BUSPIRATEV1A
+	//TODO: type of pullup selected for v4 and v5
     //pullups available, enabled?
     //was modeConfig.pullupEN
     if (BP_PULLUP == 1) BPMSG1091;
     else BPMSG1089; //bpWmessage(MSG_OPT_PULLUP_ON); else bpWmessage(MSG_OPT_PULLUP_OFF);
     UART1TX(',');
     bpSP;
-#endif
 
 #ifdef BUSPIRATEV4
     if (BP_PUVSEL50_DIR == 0) bpWstring("Vpu=5V, ");
@@ -1830,11 +1794,9 @@ void setBaudRate(void) {
 
 
 
+#if defined(BUSIRATEV4) || defined(BUSPIRATEV5)
 
 void setPullupVoltage(void) {
-//this is only available to the v5 hardware!
-//use of this function should be blocked for bpConfig major versions <5!
-#ifdef BUSPIRATEV2
     int temp;
 
     cmdstart = (cmdstart + 1) & CMDLENMSK;
@@ -1842,45 +1804,41 @@ void setPullupVoltage(void) {
 
     temp = getint();
 
-    //verify that we are not on v3 hardware with pullup on the 4066 just to be safe!
-    BP_PULLUP_DIR=1; //input
-    if(BP_PULLUP==1){
-        //if this is v5 hardware PU pin is pulled low externally, 
-        //if it is v3.x will be high, we shouldn't be here!
-        bpWline("Hardware mismatch!");
-        return;
-    }
-	BP_PULLUP_DIR=0; //input
-
     if (cmderror) // I think the user wants a menu
     {
         cmderror = 0;
 
         bpWline("Select Vpu source");
-        bpWline(" 1) External");
-        bpWline(" 2) Onboard 3.3V");
-        bpWline(" 3) Onboard 5V");
+        bpWline(" 1) None");
+        bpWline(" 2) External");
+        bpWline(" 3) Onboard 3.3V");
+        bpWline(" 4) Onboard 5V");
         //BPMSG1271;
 
-        temp = getnumber(1, 1, 3, 0);
+        temp = getnumber(1, 1, 4, 0);
     }
+//TODO: v4 and v5 strings update or remove!!!
     switch (temp) {
-        case 1: 
-            BP5_EXTPU_ON();
+        case 2: 
+            BP_EXTPU_ON();
             bpWline("External");
             //BPMSG1272; //;0;" external pullup voltage "
             //BPMSG1273; //1;"enabled"
-
+             ADCON();
+             if (bpADC(BP_ADC_VPU) < 0x50) { //no pullup voltage detected
+                 bpWline("Warning: no voltage on Vpullup pin");
+             }
+             ADCOFF();
             break;
-        case 2: 
-            BP5_3V3PU_ON();
+        case 3: 
+            BP_3V3PU_ON();
             bpWline("3.3V");
             //BPMSG1173; //3.3v
             //BPMSG1272; //;0;" on-board pullup voltage "
             //BPMSG1273; //1;"enabled"
             break;
-        case 3: 
-            BP5_5VPU_ON();
+        case 4: 
+            BP_5VPU_ON();
             bpWline("5V");
             //BPMSG1171; //5v
             //BPMSG1272; //;0;" on-board pullup voltage "
@@ -1888,78 +1846,8 @@ void setPullupVoltage(void) {
             break;
     }
 
-#endif
-
-
-
-#ifdef BUSPIRATEV4
-    int temp;
-
-
-    //don't allow pullups on some modules. also: V0a limitation of 2 resistors
-    if (bpConfig.busMode == HIZ) { //bpWmessage(MSG_ERROR_MODE);
-        BPMSG1088;
-        cmderror = 1; // raise error
-        return;
-    }
-    if (modeConfig.HiZ == 0) { //bpWmessage(MSG_ERROR_NOTHIZPIN);
-        BPMSG1209;
-        cmderror = 1; // raise error
-        return;
-    }
-
-    BP_3V3PU_OFF(); //disable any existing pullup
-    bpDelayMS(2);
-    ADCON();
-    if (bpADC(BP_ADC_VPU) > 0x100) { //is there already an external voltage?
-        bpWline("Warning: already a voltage on Vpullup pin"); // shouldn;t this be an error?
-    }
-    ADCOFF();
-
-    cmdstart = (cmdstart + 1) & CMDLENMSK;
-    consumewhitechars();
-
-    temp = getint();
-    if (cmderror) // I think the user wants a menu
-    {
-        cmderror = 0;
-
-        //bpWline("Select Vpu source");
-        //bpWline(" 1) None or external");
-        //bpWline(" 2) Onboard 3V3 Vreg");
-        //bpWline(" 3) Onboard 5V Vreg");
-        BPMSG1271;
-
-        temp = getnumber(1, 1, 3, 0);
-    }
-    switch (temp) {
-        case 1: BP_3V3PU_OFF();
-
-            BPMSG1272; //;0;" on-board pullup voltage "
-            BPMSG1274; //1;"disabled"
-
-            //bpWline("on-board pullup voltage disabled");
-            break;
-        case 2: BP_3V3PU_ON();
-            BPMSG1173; //3.3v
-            BPMSG1272; //;0;" on-board pullup voltage "
-            BPMSG1273; //1;"enabled"
-            //bpWline("3V3 on-board pullup voltage enabled");
-            break;
-        case 3: BP_5VPU_ON();
-            BPMSG1171; //5v
-            BPMSG1272; //;0;" on-board pullup voltage "
-            BPMSG1273; //1;"enabled"
-            //bpWline("5V on-board pullup voltage enabled");
-            break;
-        default:BP_3V3PU_OFF();
-            BPMSG1272; //;0;" on-board pullup voltage "
-            BPMSG1274; //1;"disabled"
-            //bpWline("on-board pullup voltage disabled");
-    }
-
-#endif
 }
+#endif
 
 
 

@@ -260,7 +260,7 @@ unsigned int bpReadFlash(unsigned int page, unsigned int addr) {
     return flash;
 }
 
-#if defined (BUSPIRATEV2) || defined (BUSPIRATEV1A)
+#if defined (BUSPIRATEV2)
 //
 //
 // Base user terminal UART functions

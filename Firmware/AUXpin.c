@@ -463,7 +463,7 @@ unsigned long bpPeriod_count(unsigned int n){
 
         return s/n;
 }
-#elif defined (BUSPIRATEV3)
+#elif defined (BUSPIRATEV2)
 // BPv3(v2) implementation of the bpPeriod_count function
 unsigned long bpPeriod_count(unsigned int n){
         static unsigned int i;

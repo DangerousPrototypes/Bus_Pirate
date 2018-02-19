@@ -53,11 +53,6 @@ void bpInit(void){
 		//BP_5VPU_OFF();
 		BP_EEPROM_SETUP();
 	#endif
-	#ifdef BUSPIRATEV1A
-		BP_PIN6_DIR=1; //AUX2... unused
-		BP_LEDPWR=1; //light power led
-		BP_LEDPWR_DIR=0;
-	#endif
 
 	BP_AUX_RPOUT = 0;    //remove output from AUX pin (PWM/servo modes)
 
@@ -65,9 +60,7 @@ void bpInit(void){
 
 	clearModeConfig(); //reset the mode settings structure
 	
-	#ifndef BUSPIRATEV1A
-		BP_PULLUP_OFF();
-	#endif
+	BP_PULLUP_OFF(); //pullups off on all hardware revisions
 
 	BP_VREG_OFF();//disable the VREG
 

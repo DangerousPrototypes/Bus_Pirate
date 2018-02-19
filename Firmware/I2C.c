@@ -263,7 +263,7 @@ void I2Csetup(void) {
             BPMSG1065;
             modeConfig.speed = (getnumber(1, 1, 4, 0) - 1);
         } else {
-#if defined (BUSPIRATEV1A)||defined (BUSPIRATEV2)
+#if defined (BUSPIRATEV2)
             // There is a hardware incompatibility with <B4
             // See http://forum.microchip.com/tm.aspx?m=271183&mpage=1
             if (bpConfig.dev_rev <= PIC_REV_A3) BPMSG1066; //bpWline(OUMSG_I2C_REV3_WARN);
@@ -273,7 +273,7 @@ void I2Csetup(void) {
             modeConfig.speed = (getnumber(1, 1, 3, 0) - 1);
         }
     } else {
-#if defined (BUSPIRATEV1A)||defined (BUSPIRATEV2)
+#if defined (BUSPIRATEV2)
         // There is a hardware incompatibility with <B4
         // See http://forum.microchip.com/tm.aspx?m=271183&mpage=1
         if (bpConfig.dev_rev <= PIC_REV_A3) BPMSG1066; //bpWline(OUMSG_I2C_REV3_WARN);

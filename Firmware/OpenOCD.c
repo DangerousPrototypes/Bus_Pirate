@@ -11,7 +11,7 @@ extern struct _bpConfig bpConfig;
 #define OOCD_CLK_TRIS   BP_CLK_DIR
 #define OOCD_TDI_TRIS   BP_MOSI_DIR
 #define OOCD_SRST_TRIS  BP_AUX0_DIR
-#if defined (BUSPIRATEV3)
+#if defined (BUSPIRATEV2)
 #define OOCD_TRST_TRIS  BP_PGD_DIR
 #endif
 
@@ -21,7 +21,7 @@ extern struct _bpConfig bpConfig;
 #define OOCD_CLK        BP_CLK 
 #define OOCD_TDI        BP_MOSI 
 #define OOCD_SRST       BP_AUX0
-#if defined (BUSPIRATEV3)
+#if defined (BUSPIRATEV2)
 #define OOCD_TRST       BP_PGD
 #endif
 
@@ -31,7 +31,7 @@ extern struct _bpConfig bpConfig;
 #define OOCD_CLK_ODC    BP_CLK 
 #define OOCD_TDI_ODC    BP_MOSI 
 #define OOCD_SRST_ODC   BP_AUX0
-#if defined (BUSPIRATEV3)
+#if defined (BUSPIRATEV2)
 #define OOCD_TRST_ODC   BP_PGD
 #endif
 
@@ -227,7 +227,7 @@ static void binOpenOCDPinMode(unsigned char mode) {
 	OOCD_TDI=0;
 	OOCD_CLK=0;
 	OOCD_SRST=0;
-#if defined (BUSPIRATEV3)
+#if defined (BUSPIRATEV2)
 	OOCD_TRST=0;
 #endif
 	// setup open-drain if necessary
@@ -236,7 +236,7 @@ static void binOpenOCDPinMode(unsigned char mode) {
 		OOCD_CLK_ODC=1;
 		OOCD_TDI_ODC=1;
 		OOCD_SRST_ODC=1;
-#if defined (BUSPIRATEV3)
+#if defined (BUSPIRATEV2)
 		OOCD_TRST_ODC=1;
 #endif
 	} else {
@@ -244,7 +244,7 @@ static void binOpenOCDPinMode(unsigned char mode) {
 		OOCD_CLK_ODC=0;
 		OOCD_TDI_ODC=0;
 		OOCD_SRST_ODC=0;
-#if defined (BUSPIRATEV3)
+#if defined (BUSPIRATEV2)
 		OOCD_TRST_ODC=0;
 #endif
 	}
@@ -254,18 +254,18 @@ static void binOpenOCDPinMode(unsigned char mode) {
 		OOCD_TDI_TRIS=0;
 		OOCD_CLK_TRIS=0;
 		OOCD_SRST_TRIS=0;
-#if defined (BUSPIRATEV3)
+//#if defined (BUSPIRATEV2)
 		OOCD_TRST_TRIS=0;
-#endif
+//#endif
 		OOCD_TDO_TRIS=1;
 	} else {
 		OOCD_TMS_TRIS=1;
 		OOCD_TDI_TRIS=1;
 		OOCD_CLK_TRIS=1;
 		OOCD_SRST_TRIS=1;
-#if defined (BUSPIRATEV3)
+//#if defined (BUSPIRATEV2)
 		OOCD_TRST_TRIS=1;
-#endif
+//#endif
 		OOCD_TDO_TRIS=1;
 	}
 }
@@ -291,15 +291,13 @@ static void binOpenOCDHandleFeature(unsigned char feat, unsigned char action) {
 			}
 			break;
 		case FEATURE_PULLUP:
-#if defined (BUSPIRATEV3)
 			if (action) {
-				BP_PULLUP_ON();
+				BP_EXTPU_ON();
 			} else {
 				BP_PULLUP_OFF();
 			}
-#endif
 			break;
-#if defined (BUSPIRATEV3)
+#if defined (BUSPIRATEV2)
 		case FEATURE_TRST:
 			OOCD_TRST=action;
 			break;
