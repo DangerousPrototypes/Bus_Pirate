@@ -50,7 +50,7 @@
 #define BP_AUX0 			PORTBbits.RB10 //moved pin5 (AUX) to RB10
 #define BP_LEDMODE		PORTAbits.RA1 //single MODE led on v2a
 #define BP_VREGEN		PORTAbits.RA0 //single vreg enable pin on v2a
-#define BP_PULLUP		PORTBbits.RB11 //Pull-up pin on V2a
+#define BP_PUVSELEXT	PORTBbits.RB11 //Pull-up pin on V2a
 #define BP_PGD			PORTBbits.RB0 //PGD pin on programming header
 //v5 addition
 #define BP_PUVSEL33             PORTBbits.RB3
@@ -61,10 +61,10 @@
 #define BP_CLK_DIR 		TRISBbits.TRISB8
 #define BP_MISO_DIR 	TRISBbits.TRISB7
 #define BP_CS_DIR 		TRISBbits.TRISB6
-#define BP_AUX0_DIR 		TRISBbits.TRISB10
+#define BP_AUX0_DIR 	TRISBbits.TRISB10
 #define BP_LEDMODE_DIR	TRISAbits.TRISA1
 #define BP_VREGEN_DIR	TRISAbits.TRISA0
-#define BP_PULLUP_DIR	TRISBbits.TRISB11
+#define BP_PUVSELEXT_DIR TRISBbits.TRISB11
 #define BP_PGD_DIR		TRISBbits.TRISB0
 //v5 addition
 #define BP_PUVSEL33_DIR         TRISBbits.TRISB3
@@ -138,10 +138,10 @@
 //we drive it directly with the bus pirate pin. 
 //pullup voltage enable/disable
 //always disables the other pullup
-#define BP_PULLUP_OFF() BP_PULLUP=0;BP_PULLUP_DIR=0; BP_PUVSEL33=0; BP_PUVSEL33_DIR=0; BP_PUVSEL50=0; BP_PUVSEL50_DIR=0
-#define BP_3V3PU_ON()          BP_PULLUP=0; BP_PUVSEL50=0; BP_PUVSEL33=1
-#define BP_5VPU_ON()           BP_PULLUP=0; BP_PUVSEL33=0; BP_PUVSEL50=1
-#define BP_EXTPU_ON()            BP_PUVSEL50=0; BP_PUVSEL33=0; BP_PULLUP=1
+#define BP_PULLUP_OFF() BP_PUVSELEXT=0;BP_PUVSELEXT_DIR=0; BP_PUVSEL33=0; BP_PUVSEL33_DIR=0; BP_PUVSEL50=0; BP_PUVSEL50_DIR=0
+#define BP_3V3PU_ON()          BP_PUVSELEXT=0; BP_PUVSEL50=0; BP_PUVSEL33=1
+#define BP_5VPU_ON()           BP_PUVSELEXT=0; BP_PUVSEL33=0; BP_PUVSEL50=1
+#define BP_EXTPU_ON()            BP_PUVSEL50=0; BP_PUVSEL33=0; BP_PUVSELEXT=1
 
 
 //pseudofunctions for voltage regulator switch

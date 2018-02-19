@@ -49,7 +49,7 @@
 #define BP_AUX0                 PORTDbits.RD5 //moved pin5 (AUX) to RB10
 #define BP_LEDMODE              PORTBbits.RB8 //single MODE led on v2a
 #define BP_VREGEN               PORTBbits.RB9 //single vreg enable pin on v2a
-#define BP_PULLUP               PORTEbits.RE4 //Pull-up pin on V2a
+#define BP_PUVSELEXT            PORTEbits.RE4 //Pull-up pin on V2a
 #define BP_PGD                  PORTBbits.RB7 //PGD pin on programming header
 
 //new in v4
@@ -93,7 +93,7 @@
 #define BP_AUX0_DIR             TRISDbits.TRISD5
 #define BP_LEDMODE_DIR          TRISBbits.TRISB8
 #define BP_VREGEN_DIR           TRISBbits.TRISB9
-#define BP_PULLUP_DIR           TRISEbits.TRISE4
+#define BP_PUVSELEXT_DIR        TRISEbits.TRISE4
 #define BP_PGD_DIR              TRISBbits.TRISB7
 
 //new in v4
@@ -135,10 +135,10 @@
 
 //pullup voltage enable/disable
 //always disables the other pullup
-#define BP_PULLUP_OFF()          BP_PUVSEL50_DIR=1; BP_PUVSEL33_DIR=1; BP_PULLUP_DIR=1
-#define BP_3V3PU_ON()           BP_PUVSEL50_DIR=1; BP_PULLUP_DIR=1; BP_PUVSEL33=0; BP_PUVSEL33_DIR=0
-#define BP_5VPU_ON()            BP_PUVSEL33_DIR=1; BP_PULLUP_DIR=1; BP_PUVSEL50=0; BP_PUVSEL50_DIR=0
-#define BP_EXTPU_ON()            BP_PUVSEL50_DIR=1; BP_PUVSEL33_DIR=1; BP_PULLUP=0; BP_PULLUP_DIR=0   
+#define BP_PULLUP_OFF()          BP_PUVSEL50_DIR=1; BP_PUVSEL33_DIR=1; BP_PUVSELEXT_DIR=1
+#define BP_3V3PU_ON()           BP_PUVSEL50_DIR=1; BP_PUVSELEXT_DIR=1; BP_PUVSEL33=0; BP_PUVSEL33_DIR=0
+#define BP_5VPU_ON()            BP_PUVSEL33_DIR=1; BP_PUVSELEXT_DIR=1; BP_PUVSEL50=0; BP_PUVSEL50_DIR=0
+#define BP_EXTPU_ON()            BP_PUVSEL50_DIR=1; BP_PUVSEL33_DIR=1; BP_PUVSELEXT=0; BP_PUVSELEXT_DIR=0   
 
 //Open drain/high impedance pin setup
 #define BP_MOSI_ODC             ODCDbits.ODD1

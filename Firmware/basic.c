@@ -399,7 +399,7 @@ int getnumvar(void)
 							break;
 			case TOK_PSU:	temp=BP_VREGEN; //modeConfig.vregEN;
 							break;
-			case TOK_PULLUP:	temp=(~BP_PULLUP); //modeConfig.pullupEN;
+			case TOK_PULLUP:	temp=(~BP_PUVSELEXT); //modeConfig.pullupEN;
 							break;
 			case TOK_ADC:	//temp=bpADC(BP_ADC_PROBE);
 							ADCON(); // turn ADC ON

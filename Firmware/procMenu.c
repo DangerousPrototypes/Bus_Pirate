@@ -574,7 +574,7 @@ end:
                         BP_PULLUP_OFF();
 
                         #ifdef BUSPIRATEV3 //only has Vext pullup source
-                            BP_PULLUP_ON(); //pseudofunction in hardwarevx.h
+                            BP_EXTPU_ON(); //pseudofunction in hardwarevx.h
                             BPMSG1091;
                             bpBR;
 	                        ADCON();
@@ -1545,7 +1545,7 @@ void statusInfo(void) {
 	//TODO: type of pullup selected for v4 and v5
     //pullups available, enabled?
     //was modeConfig.pullupEN
-    if (BP_PULLUP == 1) BPMSG1091;
+    if (BP_PUVSELEXT == 1) BPMSG1091;
     else BPMSG1089; //bpWmessage(MSG_OPT_PULLUP_ON); else bpWmessage(MSG_OPT_PULLUP_OFF);
     UART1TX(',');
     bpSP;

@@ -43,15 +43,15 @@
         #define BUSPIRATEV4
 #elif defined(__PIC24FJ64GA002__)       //v5/v3/v2go/v1a chip
         // Uncomment the hardware version you are building for
-        //#define BUSPIRATEV3    // V3 is also V2G0
-        #define BUSPIRATEV5    // V5 is v3.9 with hardware updates that need own firmware build
+        #define BUSPIRATEV3    // V3 is also V2G0
+        //#define BUSPIRATEV5    // V5 is v3.9 with hardware updates that need own firmware build
 #endif
 
 ////////////////////////////////////////
 // FIRMWARE VERSION STRING
 // Build Firmware Version String
 // used in 'i' and startup
-#define BP_FIRMWARE_STRING "Firmware v6.3-beta1 r2151 "
+#define BP_FIRMWARE_STRING "Firmware v8.0 rxxxx "
 
 
 ////////////////////////////////////////

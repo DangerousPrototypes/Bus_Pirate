@@ -64,11 +64,11 @@ unsigned char selfTest(unsigned char showProgress, unsigned char jumperTest){
 	BP_EXTPU_ON();
 	//bpPOSTWstring("PULLUP H");
 	BPMSG1167;
-	bpTest(BP_PULLUP,1);
+	bpTest(BP_PUVSELEXT,1);
 	BP_PULLUP_OFF();
 	//bpPOSTWstring("PULLUP L");
 	BPMSG1168;
-	bpTest(BP_PULLUP,0);
+	bpTest(BP_PUVSELEXT,0);
 	
 	BP_VREG_ON();
 	bpDelayMS(2);//in silent mode there's not enought delay for the power supplied to come on

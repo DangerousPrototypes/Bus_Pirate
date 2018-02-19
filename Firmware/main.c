@@ -166,13 +166,14 @@ void Initialize(void) {
 #if defined (BUSPIRATEV3)
 
     //verify that we are not on v5 hardware with pullup on the 4066 just to be safe!
-    BP_PULLUP_DIR=1; //input
-    if(BP_PULLUP==0){
+    BP_PUVSELEXT_DIR=1; //input
+	bpDelayMS(2);
+    if(BP_PUVSELEXT==0){
         //if this is v5 hardware PU pin is pulled low externally, 
         //if it is v3.x will be high
         while(1){
 			bpWline("Hardware mismatch!");
-			bpDelayUS(250);
+			bpDelayMS(250);
 		}
     }
 	
@@ -200,14 +201,15 @@ void Initialize(void) {
     bpConfig.HWversion_minor = '0';
 #elif defined (BUSPIRATEV5)
     //verify that we are not on v3 hardware with pullup on the 4066 just to be safe!
-    BP_PULLUP_DIR=1; //input
-    if(BP_PULLUP==1){
+    BP_PUVSELEXT_DIR=1; //input
+	bpDelayMS(2);
+    if(BP_PUVSELEXT==1){
         //if this is v5 hardware PU pin is pulled low externally, 
         //if it is v3.x will be high
-		BP_PULLUP_DIR=0; //output to disable pullups
+		BP_PUVSELEXT_DIR=0; //output to disable pullups
         while(1){
 			bpWline("Hardware mismatch!");
-			bpDelayUS(250);
+			bpDelayMS(250);
 		}
     }
 	bpConfig.HWversion_minor = '0';
