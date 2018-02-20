@@ -43,6 +43,13 @@ void bpInit(void){
 	BP_MISO_DIR=1;
 	BP_CS_DIR=1; 
 	BP_AUX0_DIR=1;
+	//clear any Open Drain control bits
+	BP_MOSI_ODC =1;
+	BP_CLK_ODC 	=1;
+	BP_MISO_ODC =1;
+	BP_CS_ODC =1;
+	BP_AUX0_ODC =1;
+
 	BP_LEDMODE=0; //mode LED OFF
 	BP_LEDMODE_DIR=0;
 	#ifdef BUSPIRATEV4
