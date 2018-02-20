@@ -135,12 +135,19 @@
 
 //pullup voltage enable/disable
 //always disables the other pullup
-//TODO: verify this!
-#define BP_PULLUP_SETUP()          BP_PUVSEL50_DIR=1; BP_PUVSEL33_DIR=1; BP_PUVSELEXT_DIR=1
-#define BP_PULLUP_OFF()          BP_PUVSEL50_DIR=1; BP_PUVSEL33_DIR=1; BP_PUVSELEXT_DIR=1
-#define BP_3V3PU_ON()           BP_PUVSEL50_DIR=1; BP_PUVSELEXT_DIR=1; BP_PUVSEL33=0; BP_PUVSEL33_DIR=0
-#define BP_5VPU_ON()            BP_PUVSEL33_DIR=1; BP_PUVSELEXT_DIR=1; BP_PUVSEL50=0; BP_PUVSEL50_DIR=0
-#define BP_EXTPU_ON()            BP_PUVSEL50_DIR=1; BP_PUVSEL33_DIR=1; BP_PUVSELEXT=0; BP_PUVSELEXT_DIR=0   
+//V4 hardware: 4066 is active high by pullup resistor, pull low to deactivate
+// optionally can feed 3.3v or 5.0v into the Vpu pin. Active low, held high by pullup. Pull low to enable
+//SETUP: 5.0 and 3.3 input (HiZ, preset the LOW for output), Vpu ouput low
+#define BP_PULLUP_SETUP()       BP_PUVSEL50_DIR=1; BP_PUVSEL50=0; BP_PUVSEL33_DIR=1; BP_PUVSEL33=0; BP_PUVSELEXT=0; BP_PUVSELEXT_DIR=0
+//OFF: 5.0 and 3.3 input/HIGH and Vpu output low
+#define BP_PULLUP_OFF()         BP_PUVSEL50_DIR=1; BP_PUVSEL33_DIR=1; BP_PUVSELEXT=0; BP_PUVSELEXT_DIR=0 
+//EXT: 5.0 3.3v input/HIGH (off), Vpu input/HIGH (enable 4066)
+#define BP_EXTPU_ON()           BP_PUVSEL50_DIR=1; BP_PUVSEL33_DIR=1; BP_PUVSELEXT_DIR=1
+//3.3 5v input/HIGH (off), 3.3V output/LOW enable, Vpu input/HIGH (enable 4066)
+#define BP_3V3PU_ON()           BP_PUVSEL50_DIR=1; BP_PUVSEL33=0; BP_PUVSEL33_DIR=0; BP_PUVSELEXT_DIR=1; BP_PUVSELEXT=0
+//5V: 3.3v input/HIGH (off), 5V output/LOW enable, Vpu input/HIGH (enable 4066)
+#define BP_5VPU_ON()            BP_PUVSEL33_DIR=1; BP_PUVSEL50=0; BP_PUVSEL50_DIR=0; BP_PUVSELEXT_DIR=1; BP_PUVSELEXT=0   
+
 
 //Open drain/high impedance pin setup
 #define BP_MOSI_ODC             ODCDbits.ODD1
