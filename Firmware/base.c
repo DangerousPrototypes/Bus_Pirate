@@ -60,7 +60,7 @@ void bpInit(void){
 
 	clearModeConfig(); //reset the mode settings structure
 	
-	BP_PULLUP_OFF(); //pullups off on all hardware revisions
+	BP_PULLUP_SETUP(); //pullups off on all hardware revisions
 
 	BP_VREG_OFF();//disable the VREG
 

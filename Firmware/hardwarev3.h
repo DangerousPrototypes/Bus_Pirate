@@ -128,6 +128,7 @@
 
 //pseudofunctions for pullup resistors
 //for V2/3 we need B5/pullup to be output and gnd to turn OFF the pullups...
+#define BP_PULLUP_SETUP() BP_PUVSELEXT=0;BP_PUVSELEXT_DIR=0
 #define BP_EXTPU_ON() BP_PUVSELEXT_DIR=1;BP_PUVSELEXT=0
 #define BP_PULLUP_OFF() BP_PUVSELEXT=0;BP_PUVSELEXT_DIR=0
 

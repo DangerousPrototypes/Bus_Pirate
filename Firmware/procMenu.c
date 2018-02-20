@@ -560,6 +560,7 @@ end:
                     } else {
                         BP_PULLUP_OFF(); //pseudofunction in hardwarevx.h
                         BPMSG1089;
+						BPMSG1090;
                         bpBR;
                     }
                     break;
@@ -575,11 +576,12 @@ end:
 
                         #ifdef BUSPIRATEV3 //only has Vext pullup source
                             BP_EXTPU_ON(); //pseudofunction in hardwarevx.h
-                            BPMSG1091;
+                        	BPMSG1089;
+							BPMSG1091;
                             bpBR;
 	                        ADCON();
 	                        if (bpADC(BP_ADC_VPU) < 0x50) { //no pullup voltage detected
-	                            bpWline("Warning: no voltage on Vpullup pin");
+	                            BPMSG2000; //"Warning: no voltage on Vpullup pin"
 	                        }
 	                        ADCOFF();
 						#elif defined(BUSPIRATEV4) || defined(BUSPIRATEV5) //selectable pullup voltage and menu                         
@@ -672,15 +674,17 @@ bpv4reset:
                         BP_VREG_ON();
                         ADCON(); // turn ADC ON
                         bpDelayMS(2); //wait for VREG to come up
-
+						
                         if ((bpADC(BP_ADC_3V3) > V33L) && (bpADC(BP_ADC_5V0) > V5L)) { //voltages are correct
-                            BPMSG1096;
+							BPMSG1096; //"POWER SUPPLIES "
+                        	BPMSG1091; //ON   
                             bpBR;
                             //modeConfig.vregEN=1;
                         } else {
                             BP_VREG_OFF();
-                            bpWline("VREG too low, is there a short?");
-                            BPMSG1097;
+                            BPMSG2001; //"VREG too low, is there a short?"
+							BPMSG1096; //"POWER SUPPLIES "
+                            BPMSG1090; //OFF
                             bpBR;
                         }
                         ADCOFF(); // turn ADC OFF
@@ -691,7 +695,8 @@ bpv4reset:
                         BPMSG1088;
                     } else {
                         BP_VREG_OFF();
-                        BPMSG1097;
+						BPMSG1096;
+                        BPMSG1090;
                         bpBR;
                         //modeConfig.vregEN=0;
                     }
@@ -1537,16 +1542,21 @@ void statusInfo(void) {
     pinStates();
 
     //vreg status (was modeConfig.vregEN)
-    if (BP_VREGEN == 1) BPMSG1096;
-    else BPMSG1097; //bpWmessage(MSG_VREG_ON); else bpWmessage(MSG_VREG_OFF);
+	BPMSG1096;//"POWER SUPPLIES "
+    if (BP_VREGEN == 1){
+		BPMSG1091;//ON
+	}else{
+		BPMSG1090; //OFF
+	}
     UART1TX(',');
     bpSP;
 
 	//TODO: type of pullup selected for v4 and v5
     //pullups available, enabled?
     //was modeConfig.pullupEN
-    if (BP_PUVSELEXT == 1) BPMSG1091;
-    else BPMSG1089; //bpWmessage(MSG_OPT_PULLUP_ON); else bpWmessage(MSG_OPT_PULLUP_OFF);
+	BPMSG1089; //"Pull-up resistors "
+    if (BP_PUVSELEXT == 1) BPMSG1091; //ON
+    else BPMSG1090; //OFF
     UART1TX(',');
     bpSP;
 
@@ -1808,12 +1818,11 @@ void setPullupVoltage(void) {
     {
         cmderror = 0;
 
-        bpWline("Select Vpu source");
-        bpWline(" 1) None");
-        bpWline(" 2) External");
-        bpWline(" 3) Onboard 3.3V");
-        bpWline(" 4) Onboard 5V");
-        //BPMSG1271;
+        #ifdef BUSPIRATEV4
+			BPMSG1271; //menu options
+		#elif defined (BUSPIRATEV5)
+			BPMSG5100; //menu options
+		#endif
 
         temp = getnumber(1, 1, 4, 0);
     }
@@ -1821,12 +1830,12 @@ void setPullupVoltage(void) {
     switch (temp) {
         case 2: 
             BP_EXTPU_ON();
-            bpWline("External");
+            bpWline("Vpu pin");
             //BPMSG1272; //;0;" external pullup voltage "
             //BPMSG1273; //1;"enabled"
              ADCON();
              if (bpADC(BP_ADC_VPU) < 0x50) { //no pullup voltage detected
-                 bpWline("Warning: no voltage on Vpullup pin");
+                 BPMSG2000; //"Warning: no voltage on Vpullup pin"
              }
              ADCOFF();
             break;

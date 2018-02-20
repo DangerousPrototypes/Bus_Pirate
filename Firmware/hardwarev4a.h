@@ -135,6 +135,8 @@
 
 //pullup voltage enable/disable
 //always disables the other pullup
+//TODO: verify this!
+#define BP_PULLUP_SETUP()          BP_PUVSEL50_DIR=1; BP_PUVSEL33_DIR=1; BP_PUVSELEXT_DIR=1
 #define BP_PULLUP_OFF()          BP_PUVSEL50_DIR=1; BP_PUVSEL33_DIR=1; BP_PUVSELEXT_DIR=1
 #define BP_3V3PU_ON()           BP_PUVSEL50_DIR=1; BP_PUVSELEXT_DIR=1; BP_PUVSEL33=0; BP_PUVSEL33_DIR=0
 #define BP_5VPU_ON()            BP_PUVSEL33_DIR=1; BP_PUVSELEXT_DIR=1; BP_PUVSEL50=0; BP_PUVSEL50_DIR=0
