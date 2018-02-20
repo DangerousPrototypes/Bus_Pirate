@@ -84,21 +84,13 @@ void SPIstartr(void) {
     } else {
         SPICS = 1;
     }
-    ///bpWmessage(MSG_CS_ENABLED);
     if (spiSettings.csl) UART1TX('/');
     BPMSG1159;
 }
 
 void SPIstart(void) {
+	SPIstartr();
     modeConfig.wwr = 0;
-    if (spiSettings.csl) {
-        SPICS = 0;
-    } else {
-        SPICS = 1;
-    }
-    //bpWmessage(MSG_CS_ENABLED);
-    if (spiSettings.csl) UART1TX('/');
-    BPMSG1159;
 }
 
 void SPIstop(void) {
@@ -251,7 +243,7 @@ void SPIsetup(void) {
     spiSetup(SPIspeed[modeConfig.speed]);
 
     // set cs the way the user wants
-    SPICS = spiSettings.csl;
+    //SPICS = spiSettings.csl; //now done properly in SPIsetup();
 }
 
 void SPIcleanup(void) {
@@ -337,9 +329,9 @@ void spiSetup(unsigned char spiSpeed) {
 	BP_MOSI_RPOUT = SDO1_IO; //B9 MOSI
 	BP_CLK_RPOUT = SCK1OUT_IO; //B8 CLK
 	
-    SPICS = 1; //B6 cs high
-    SPICS_TRIS = 0; //B6 cs output
-
+   	SPICS = spiSettings.csl; //initialize to high or low active according to user selection
+   	SPICS_TRIS = 0; //B6 cs output
+	
     //pps configures pins and this doesn't really matter....
     SPICLK_TRIS = 0; //B8 sck output
     SPIMISO_TRIS = 1; //B7 SDI input
