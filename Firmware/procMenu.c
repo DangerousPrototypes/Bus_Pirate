@@ -1619,7 +1619,7 @@ void pinStates(void) { //bpWline("Pinstates:");
 #endif
 #if defined(BUSPIRATEV4)
     BPMSG1257; //bpWstring("GND\t5.0V\t3.3V\tVPU\tADC\tAUX2\tAUX1\tAUX\t");
-#elif defined(BUSPIRATEV25)
+#elif defined(BUSPIRATEV2)
     BPMSG1235; //bpWstring("GND\tADC\t5.0V\t3.3V\tVPU\tAUX\t");
 #else
     BPMSG1227; //bpWstring("GND\t3.3V\t5.0V\tADC\tVPU\tAUX\t");
@@ -1646,7 +1646,7 @@ void pinStates(void) { //bpWline("Pinstates:");
     ADCON();
 
 
-#if defined(BUSPIRATEV25)
+#if defined(BUSPIRATEV2)
     bpWvolts(bpADC(BP_ADC_PROBE));
     BPMSG1045;
     UART1TX('\t');
@@ -1670,7 +1670,7 @@ void pinStates(void) { //bpWline("Pinstates:");
     UART1TX('\t');
 #endif
 
-#if defined(BUSPIRATEV25)
+#if defined(BUSPIRATEV2)
     bpWvolts(bpADC(BP_ADC_3V3));
     BPMSG1045;
     UART1TX('\t');
