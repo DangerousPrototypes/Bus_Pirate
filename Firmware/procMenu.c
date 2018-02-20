@@ -1522,6 +1522,10 @@ void versionInfo(void) {
 
 void statusInfo(void) {
 
+#if defined(BUSPIRATEV5)
+	unsigned int pu_en=1;
+#endif
+
 #ifdef BUSPIRATEV4
     bpWstring("CFG0: ");
     bpWinthex(bpReadFlash(CFG_ADDR_UPPER, CFG_ADDR_0));
@@ -1548,22 +1552,47 @@ void statusInfo(void) {
 	}else{
 		BPMSG1090; //OFF
 	}
-    UART1TX(',');
-    bpSP;
+    //UART1TX(',');
+    //bpSP;
+	bpBR;
 
 	//TODO: type of pullup selected for v4 and v5
     //pullups available, enabled?
     //was modeConfig.pullupEN
 	BPMSG1089; //"Pull-up resistors "
-    if (BP_PUVSELEXT == 1) BPMSG1091; //ON
-    else BPMSG1090; //OFF
+#if defined(BUSPIRATEv3) || defined (BUSPIRATEV4)
+    if (BP_PUVSELEXT == 1){
+ 		BPMSG1091; //ON
+    }else{
+		BPMSG1090; //OFF
+	}
     UART1TX(',');
     bpSP;
-
-#ifdef BUSPIRATEV4
-    if (BP_PUVSEL50_DIR == 0) bpWstring("Vpu=5V, ");
-    if (BP_PUVSEL33_DIR == 0) bpWstring("Vpu=3V3, ");
-
+	#ifdef BUSPIRATEV4
+	    if (BP_PUVSEL50_DIR == 0) bpWstring("Vpu=5V, ");
+	    if (BP_PUVSEL33_DIR == 0) bpWstring("Vpu=3V3, ");
+	#endif
+#elif defined(BUSPIRATEV5)
+    if (BP_PUVSELEXT == 1){
+		bpWstring("= Vpu pin");
+	}else if(BP_PUVSEL33 == 1){
+		bpWstring("= 3.3V");
+	}else if(BP_PUVSEL50 == 1){
+		bpWstring("= 5.0V");
+	}else{
+		BPMSG1090; //OFF
+		pu_en=0;
+ 	}  
+	if(pu_en==1){ 
+		UART1TX('(');
+		ADCON();
+	    bpWvolts(bpADC(BP_ADC_VPUN));
+		ADCOFF();
+	    BPMSG1045;
+		UART1TX(')');
+	}
+	UART1TX(',');
+    bpSP;
 #endif
 
     //open collector outputs?
