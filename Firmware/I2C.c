@@ -49,7 +49,7 @@ static struct _i2csniff {
 void hwi2cSetup(void);
 void hwi2cstart(void);
 void hwi2cstop(void);
-void hwi2csendack(unsigned char ack);
+unsigned char hwi2csendack(unsigned char ack);
 unsigned char hwi2cgetack(void);
 void hwi2cwrite(unsigned char c);
 unsigned char hwi2cread(void);
@@ -107,7 +107,8 @@ unsigned int I2Cwrite(unsigned int c) { //unsigned char c;
         BPMSG1060;
         bpSP;
 #ifdef BP_USE_I2C_HW
-        hwi2csendack(0); //all other reads get an ACK
+        if(hwi2csendack(0)==0) //all other reads get an ACK
+			BPMSG2002;
 #else
 		bbI2Cack();
 #endif
@@ -136,7 +137,8 @@ void I2Cstart(void) {
         BPMSG1061;
         bpBR; //bpWline(OUMSG_I2C_READ_PEND_NACK);
 #ifdef BP_USE_I2C_HW
-        hwi2csendack(1); //the last read before a stop/start condition gets an NACK
+        if(hwi2csendack(1)==0) //the last read before a stop/start condition gets an NACK
+			BPMSG2002;
 #else
 		bbI2Cnack();
 #endif
@@ -161,7 +163,8 @@ void I2Cstop(void) {
         BPMSG1061;
         bpBR; //bpWline(OUMSG_I2C_READ_PEND_NACK);
 #ifdef BP_USE_I2C_HW
-        hwi2csendack(1); //the last read before a stop/start condition gets an NACK
+        if(hwi2csendack(1)==0) //the last read before a stop/start condition gets an NACK
+			BPMSG2002;
 #else
 		bbI2Cnack();
 #endif
@@ -180,7 +183,7 @@ void I2Cstop(void) {
 void I2Csettings(void) { //bpWstring("I2C (mod spd)=( ");
     BPMSG1068;
 #ifdef BP_USE_I2C_HW
-    bpWdec(i2cmode);
+    bpWdec(1);
     bpSP;
 #else
     bpWdec(0);
@@ -192,25 +195,10 @@ void I2Csettings(void) { //bpWstring("I2C (mod spd)=( ");
 }
 
 void I2Csetup(void) {
-    int HW, speed;
-
-    HW = 0; // keep compiler happy if BP_USE_HW is not defined
-
-#ifdef BP_USE_I2C_HW
-    consumewhitechars();
-    HW = getint();
-#endif
+    int speed;
 
     consumewhitechars();
     speed = getint();
-
-#ifdef BP_USE_I2C_HW
-    if ((HW > 0) && (HW <= 2)) {
-        i2cmode = HW - 1;
-    } else {
-        speed = 0;
-    }
-#endif
 
     if ((speed > 0) && (speed <= 4)) {
         modeConfig.speed = speed - 1;
@@ -222,33 +210,20 @@ void I2Csetup(void) {
         cmderror = 0;
 
 #ifdef BP_USE_I2C_HW
-        //bpWline(OUMSG_I2C_CON);
-        BPMSG1064;
-        i2cmode = (getnumber(1, 1, 2, 0) - 1);
-#else
-        i2cmode = SOFT;
-#endif
-
-        if (i2cmode == SOFT) {
-            //bpWmessage(MSG_OPT_BB_SPEED);
-            BPMSG1065;
-            modeConfig.speed = (getnumber(1, 1, 4, 0) - 1);
-        } else {
-#if defined (BUSPIRATEV2)
+	#if defined (BUSPIRATEV2)
             // There is a hardware incompatibility with <B4
             // See http://forum.microchip.com/tm.aspx?m=271183&mpage=1
             if (bpConfig.dev_rev <= PIC_REV_A3) BPMSG1066; //bpWline(OUMSG_I2C_REV3_WARN);
-#endif
+	#endif
             //bpWline(OUMSG_I2C_HWSPEED);
             BPMSG1067;
             modeConfig.speed = (getnumber(1, 1, 3, 0) - 1);
-        }
-    } else {
-#if defined (BUSPIRATEV2)
-        // There is a hardware incompatibility with <B4
-        // See http://forum.microchip.com/tm.aspx?m=271183&mpage=1
-        if (bpConfig.dev_rev <= PIC_REV_A3) BPMSG1066; //bpWline(OUMSG_I2C_REV3_WARN);
+#else
+            //bpWmessage(MSG_OPT_BB_SPEED);
+            BPMSG1065;
+            modeConfig.speed = (getnumber(1, 1, 4, 0) - 1);
 #endif
+
         I2Csettings();
 
         ackPending = 0;
@@ -276,7 +251,6 @@ void I2Ccleanup(void) {
         I2C3CONbits.I2CEN = 0; //disable I2C module
 	#endif
 #endif
-    }
 }
 
 void I2Cmacro(unsigned int c) {
@@ -342,7 +316,9 @@ void I2Cmacro(unsigned int c) {
 
             break;
         case 2:
-            if (i2cmode == HARD)I2C1CONbits.I2CEN = 0; //disable I2C module
+#ifdef BP_USE_I2C_HW
+            I2C1CONbits.I2CEN = 0; //disable I2C module
+#endif
 
             //bpWline(OUMSG_I2C_MACRO_SNIFFER);
             BPMSG1071;
@@ -440,18 +416,33 @@ unsigned char hwi2cgetack(void) {
     return I2C1STATbits.ACKSTAT;
 }
 
-void hwi2csendack(unsigned char ack) {
+unsigned char hwi2csendack(unsigned char ack) {
+	unsigned int i;
+
 #if defined (BUSPIRATEV4)
     if (i2cinternal == 0) {
         I2C3CONbits.ACKDT = ack; //send ACK (0) or NACK(1)?
         I2C3CONbits.ACKEN = 1;
-        while (I2C3CONbits.ACKEN == 1);
-        return;
+	    i=0xffff;
+		while (i>0){
+			if(I2C3CONbits.ACKEN == 0)
+				return 1;
+			i--;
+		};
+		return 0;
     }
 #endif
     I2C1CONbits.ACKDT = ack; //send ACK (0) or NACK(1)?
     I2C1CONbits.ACKEN = 1;
-    while (I2C1CONbits.ACKEN == 1);
+    //while(I2C1CONbits.ACKEN == 1);
+	i=0xffff;
+	while (i>0){
+		if(I2C1CONbits.ACKEN == 0)
+			return 1;
+		i--;
+	};
+	return 0;
+	
 }
 
 void hwi2cwrite(unsigned char c) {
