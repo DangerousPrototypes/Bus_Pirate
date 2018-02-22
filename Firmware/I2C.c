@@ -22,8 +22,6 @@
 #include "procMenu.h"		// for the userinteraction subs
 
 //software or hardware I2C mode defines
-#define SOFT 0
-#define HARD 1
 #if defined (BUSPIRATEV4)
 #define BP_USE_I2C_HW
 unsigned char i2cinternal = 0;
@@ -66,7 +64,6 @@ void I2C_Setup(void);
 void I2C_SnifferSetup(void);
 void I2C_Sniffer(unsigned char termMode);
 
-int i2cmode;
 int ackPending;
 
 /*
@@ -86,24 +83,18 @@ unsigned int I2Cread(void) {
         //bpWmessage(MSG_ACK);
         BPMSG1060;
         bpSP;
-        if (i2cmode == SOFT) {
-            bbI2Cack();
-        }
 #ifdef BP_USE_I2C_HW
-        else {
-            hwi2csendack(0); //all other reads get an ACK
-        }
+		hwi2csendack(0); //all other reads get an ACK
+#else
+		bbI2Cack();
 #endif
         ackPending = 0;
     }
 
-    if (i2cmode == SOFT) {
-        c = bbReadByte();
-    }
 #ifdef BP_USE_I2C_HW
-    else {
-        c = hwi2cread();
-    }
+	c = hwi2cread();
+#else
+	c = bbReadByte();
 #endif
     ackPending = 1;
     return c;
@@ -115,26 +106,20 @@ unsigned int I2Cwrite(unsigned int c) { //unsigned char c;
         //bpWmessage(MSG_ACK);
         BPMSG1060;
         bpSP;
-        if (i2cmode == SOFT) {
-            bbI2Cack();
-        }
 #ifdef BP_USE_I2C_HW
-        else {
-            hwi2csendack(0); //all other reads get an ACK
-        }
+        hwi2csendack(0); //all other reads get an ACK
+#else
+		bbI2Cack();
 #endif
         ackPending = 0;
     }
 
-    if (i2cmode == SOFT) {
-        bbWriteByte(c);
-        c = bbReadBit();
-    }
 #ifdef BP_USE_I2C_HW
-    else {
-        hwi2cwrite(c);
-        c = hwi2cgetack();
-    }
+    hwi2cwrite(c);
+    c = hwi2cgetack();
+#else
+    bbWriteByte(c);
+    c = bbReadBit();
 #endif
     bpSP;
     if (c == 0) { //bpWmessage(MSG_ACK);
@@ -150,27 +135,21 @@ void I2Cstart(void) {
     if (ackPending) { //bpWmessage(MSG_NACK);
         BPMSG1061;
         bpBR; //bpWline(OUMSG_I2C_READ_PEND_NACK);
-        if (i2cmode == SOFT) {
-            bbI2Cnack();
-        }
 #ifdef BP_USE_I2C_HW
-        else {
-            hwi2csendack(1); //the last read before a stop/start condition gets an NACK
-        }
+        hwi2csendack(1); //the last read before a stop/start condition gets an NACK
+#else
+		bbI2Cnack();
 #endif
         ackPending = 0;
     }
 
-    if (i2cmode == SOFT) {
-        if (bbI2Cstart()) {//bus contention
-            BPMSG1019; //warning
-            BPMSG1020; //short or no pullups
-            bpBR;
-        }
-    }
 #ifdef BP_USE_I2C_HW
-    else {
-        hwi2cstart();
+    hwi2cstart();
+#else
+    if (bbI2Cstart()) {//bus contention
+        BPMSG1019; //warning
+        BPMSG1020; //short or no pullups
+        bpBR;
     }
 #endif
     //bpWmessage(MSG_I2C_START);
@@ -181,24 +160,18 @@ void I2Cstop(void) {
     if (ackPending) { //bpWmessage(MSG_NACK);
         BPMSG1061;
         bpBR; //bpWline(OUMSG_I2C_READ_PEND_NACK);
-        if (i2cmode == SOFT) {
-            bbI2Cnack();
-        }
 #ifdef BP_USE_I2C_HW
-        else {
-            hwi2csendack(1); //the last read before a stop/start condition gets an NACK
-        }
+        hwi2csendack(1); //the last read before a stop/start condition gets an NACK
+#else
+		bbI2Cnack();
 #endif
         ackPending = 0;
     }
 
-    if (i2cmode == SOFT) {
-        bbI2Cstop();
-    }
 #ifdef BP_USE_I2C_HW
-    else {
-        hwi2cstop();
-    }
+    hwi2cstop();
+#else
+	bbI2Cstop();
 #endif
     //bpWmessage(MSG_I2C_STOP);
     BPMSG1063;
@@ -226,8 +199,6 @@ void I2Csetup(void) {
 #ifdef BP_USE_I2C_HW
     consumewhitechars();
     HW = getint();
-#else
-    i2cmode = SOFT;
 #endif
 
     consumewhitechars();
@@ -286,27 +257,24 @@ void I2Csetup(void) {
 
     //set the options avaiable here....
     modeConfig.HiZ = 1; //yes, always hiz
-
-    if (i2cmode == SOFT) {
-        SDA_TRIS = 1;
-        SCL_TRIS = 1;
-        SCL = 0; //B8 scl
-        SDA = 0; //B9 sda
-        bbSetup(2, modeConfig.speed); //configure the bitbang library for 2-wire, set the speed
-    }
 #ifdef BP_USE_I2C_HW
-    else {
-        hwi2cSetup();
-    }
+	hwi2cSetup();
+#else
+    SDA_TRIS = 1;
+    SCL_TRIS = 1;
+    SCL = 0; //B8 scl
+    SDA = 0; //B9 sda
+    bbSetup(2, modeConfig.speed); //configure the bitbang library for 2-wire, set the speed
 #endif
 }
 
 void I2Ccleanup(void) {
     ackPending = 0; //clear any pending ACK from previous use
-    if (i2cmode == HARD) {
-        I2C1CONbits.I2CEN = 0; //disable I2C module
-#ifdef BUSPIRATEV4
+#ifdef BP_USE_I2C_HW
+    I2C1CONbits.I2CEN = 0; //disable I2C module
+	#ifdef BUSPIRATEV4
         I2C3CONbits.I2CEN = 0; //disable I2C module
+	#endif
 #endif
     }
 }
@@ -335,18 +303,14 @@ void I2Cmacro(unsigned int c) {
                 return;
             }
             for (i = 0; i < 0x100; i++) {
-
-                if (i2cmode == SOFT) {
-                    bbI2Cstart(); //send start
-                    bbWriteByte(i); //send address
-                    c = bbReadBit(); //look for ack
-                }
 #ifdef BP_USE_I2C_HW
-                else {
-                    hwi2cstart();
-                    hwi2cwrite(i);
-                    c = hwi2cgetack();
-                }
+				hwi2cstart();
+				hwi2cwrite(i);
+				c = hwi2cgetack();
+#else
+                bbI2Cstart(); //send start
+                bbWriteByte(i); //send address
+                c = bbReadBit(); //look for ack
 #endif		
                 if (c == 0) {//0 is ACK
 
@@ -356,24 +320,22 @@ void I2Cmacro(unsigned int c) {
                     if ((i & 0b1) == 0) {//if the first bit is set it's a read address, send a byte plus nack to clean up
                         bpWstring(" W");
                     } else {
-                        if (i2cmode == SOFT) {
-                            bbReadByte();
-                            bbI2Cnack(); //bbWriteBit(1);//high bit is NACK
-                        }
 #ifdef BP_USE_I2C_HW
-                        else {
-                            hwi2cread();
-                            hwi2csendack(1); //high bit is NACK
-                        }
+						hwi2cread();
+						hwi2csendack(1); //high bit is NACK
+#else
+						bbReadByte();
+						bbI2Cnack(); //bbWriteBit(1);//high bit is NACK
 #endif
                         bpWstring(" R");
                     }
                     bpWstring(")");
                     bpSP;
                 }
-                if (i2cmode == SOFT) bbI2Cstop();
 #ifdef BP_USE_I2C_HW
-                else hwi2cstop();
+                hwi2cstop();
+#else
+				bbI2Cstop();
 #endif
             }
             bpWBR;
@@ -388,7 +350,7 @@ void I2Cmacro(unsigned int c) {
             I2C_Sniffer(1); //set for terminal output
 
 #ifdef BP_USE_I2C_HW
-            if (i2cmode == HARD) hwi2cSetup(); //setup hardware I2C again
+            hwi2cSetup(); //setup hardware I2C again
 #endif
             break;
 #if defined (BUSPIRATEV4)
