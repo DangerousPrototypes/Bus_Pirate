@@ -132,11 +132,12 @@ void bpADCCprobe(void)
 
 //print byte c to the user terminal in the format 
 //  specified by the bpConfig.displayMode setting
-void bpWbyte(unsigned int c)
-{	if(modeConfig.numbits<16)
+void bpRWbyte(unsigned int c, unsigned char direction)
+{	
+	if(modeConfig.numbits<16)
 	{	c&=(0x7FFF>>((16-modeConfig.numbits)-1));
 	}
-	switch(bpConfig.displayMode){
+	switch(bpConfig.displayMode[direction]){
 		case HEX:
 			if(modeConfig.int16) bpWinthex(c); else bpWhex(c);
 			break;

@@ -139,8 +139,8 @@ void Initialize(void) {
 
     //put startup values in config (do first)
     bpConfig.termSpeed = 8; //default PC side port speed, startup in 115200, or saved state (later)....
-    bpConfig.displayMode = HEX;
-
+    bpConfig.displayMode[0] = HEX;
+	bpConfig.displayMode[1] = HEX;
     bpInit(); //put startup values in config (do first)clean up, exit in HI-Z
 
 #if defined (BUSPIRATEV2)

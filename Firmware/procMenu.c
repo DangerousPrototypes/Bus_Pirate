@@ -898,7 +898,7 @@ bpv4reset:
                         if (modeConfig.lsbEN == 1) {//adjust bitorder
                             received = bpRevByte(received);
                         }
-                        bpWbyte(received); //TODO: adjust to seperate write mode!
+                        bpRWbyte(received,1);
                         if (((modeConfig.int16 == 0) && (modeConfig.numbits != 8)) || ((modeConfig.int16 == 1) && (modeConfig.numbits != 16))) {
                             UART1TX(';');
                             bpWdec(modeConfig.numbits);
@@ -1764,25 +1764,38 @@ void pinState(unsigned int pin) {
 //user terminal number display mode dialog (eg HEX, DEC, BIN, RAW)
 
 void setDisplayMode(void) {
-    int mode;
+    int writeMode,readMode;
 
     cmdstart = (cmdstart + 1) & CMDLENMSK;
 
     consumewhitechars();
-    mode = getint();
+    writeMode = getint();
+    consumewhitechars();
+    readMode = getint();
 
-    if ((mode > 0) && (mode <= 5)) {
-        bpConfig.displayMode = mode - 1;
+    if ((writeMode > 0) && (writeMode <= 5)) {
+        bpConfig.displayMode[0] = writeMode - 1;
     } else {
-        cmderror = 0;
-        //bpWmessage(MSG_OPT_DISPLAYMODE); //show the display mode options message
-        BPMSG1127;
-        //	bpConfig.displayMode=(bpUserNumberPrompt(1, 4, 1)-1); //get, store user reply
-        bpConfig.displayMode = getnumber(1, 1, 5, 0) - 1; //get, store user reply
+        writeMode = 0;
+	}
+
+    if ((readMode > 0) && (readMode <= 5)) {
+        bpConfig.displayMode[0] = readMode - 1;
+    } else {
+        writeMode = 0;
+	}
+
+	if(writeMode==0){
+		cmderror = 0; // reset errorflag because of no cmdlineinput
+		BPMSG1101;
+        BPMSG1127; //Bus write values display mode
+        bpConfig.displayMode[0] = getnumber(1, 1, 5, 0) - 1; //get, store user reply
+		BPMSG1102;
+        BPMSG1127;//bus read values display mode
+        bpConfig.displayMode[1] = getnumber(1, 1, 5, 0) - 1; //get, store user reply
     }
-    //bpWmessage(MSG_OPT_DISPLAYMODESET);//show display mode update text
-    BPMSG1128;
-} //
+    BPMSG1128; //Display Mode Set
+} 
 
 //configure user terminal side UART baud rate
 

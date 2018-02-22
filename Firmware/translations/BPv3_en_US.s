@@ -1,4 +1,3 @@
-#ifdef LANGUAGE_EN_US
 .global _bpmessages
 _bpmessages:
 	.pascii	"WRITE BIT: "
@@ -78,7 +77,7 @@ _bpmessages:
 	.pascii	"RESET"
 	.pascii	"BOOTLOADER"
 	.pascii	"AUX INPUT/HI-Z, READ: "
-	.pascii	"POWER SUPPLIES "
+	.pascii	"Power supplies "
 	.pascii	"DATA STATE: "
 	.pascii	"DELAY "
 	.pascii	"us"
@@ -105,7 +104,7 @@ _bpmessages:
 	.pascii	"MSB set: MOST sig bit first"
 	.pascii	"LSB set: LEAST sig bit first"
 	.pascii	" Bootloader v"
-	.pascii	" 1. HEX\r\n 2. DEC\r\n 3. BIN\r\n 4. RAW\r\n 5. ASCII"
+	.pascii	"\r\n 1. HEX\r\n 2. DEC\r\n 3. BIN\r\n 4. RAW\r\n 5. ASCII"
 	.pascii	"Display format set"
 	.pascii	"Voltage monitors: "
 	.pascii	"5V: "
@@ -164,7 +163,7 @@ _bpmessages:
 	.pascii	" OK"
 	.pascii	" FAIL"
 	.pascii	"PUSEL"
-	.pascii	"Select pull-up source\r\n 1. None\r\n 2.Vpu pin\r\n 3. 3.3V\r\n 4. 5V"
+	.pascii	"Select pull-up source\r\n 1. None\r\n 2. Vpu pin\r\n 3. 3.3V\r\n 4. 5V"
 	.pascii	"Set speed:\r\n 1. 30KHz\r\n 2. 125KHz\r\n 3. 250KHz\r\n 4. 1MHz"
 	.pascii	"Clock polarity:\r\n 1. Idle low *default\r\n 2. Idle high"
 	.pascii	"Output clock edge:\r\n 1. Idle to active\r\n 2. Active to idle *default"
@@ -232,6 +231,7 @@ _bpmessages:
 	.pascii	" bps"
 	.pascii	"Warning: no voltage on Vpu pin"
 	.pascii	"VREG too low, is there a short?"
+	.pascii	"TIMEOUT!\r\n"
 	.pascii	" General\t\t\t\t\tProtocol interaction"
 	.pascii	" ---------------------------------------------------------------------------"
 	.pascii	" ?\tThis help\t\t\t(0)\tList current macros"
@@ -255,5 +255,3 @@ _bpmessages:
 	.pascii	" s\tScript engine\t\t\t:\tRepeat e.g. r:10"
 	.pascii	" v\tShow volts/states\t\t.\tBits to read/write e.g. 0x55.2"
 	.pascii	" w/W\tPSU (off/ON)\t\t<x>/<x= >/<0>\tUsermacro x/assign x/list all"
-
-#endif

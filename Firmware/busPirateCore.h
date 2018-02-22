@@ -62,7 +62,7 @@ struct _bpConfig {
 		BIN,
 		RAW,
 		ASCII,
-	}displayMode;
+	}displayMode[2];
 	protocol_t busMode;
 	// Device IDs from the chip
 	unsigned int dev_type;

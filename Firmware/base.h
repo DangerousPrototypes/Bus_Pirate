@@ -273,7 +273,8 @@ void bpADCCprobe(void);
 
 //print byte c to the user terminal in the format 
 //  specified by the bpConfig.displayMode setting
-void bpWbyte(unsigned int c);
+void bpRWbyte(unsigned int c, unsigned char direction);
+#define bpWbyte(c) bpRWbyte(c,0);
 
 //delays used by many libraries
 //void bpDelayMS(const unsigned char delay);
