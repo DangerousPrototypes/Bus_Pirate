@@ -1,0 +1,1 @@
+C:\Progra~2\Microchip\MPLABX\v3.26\mplab_ipe\ipecmd.exe -P24FJ64GA002 -TPPK3 -M -F"c:\buspirate\bpv3-BL44FW510-DUMP.hex" -W3.3 -OB

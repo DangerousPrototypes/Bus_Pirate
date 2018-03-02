@@ -165,9 +165,7 @@ class testSuite:
 			i=i+1
 					
 		result['timestamp']['stop']=time.time()
-		r={}
-		r[result['device']]=result
-		return r
+		return result
 							
 	def display(self, output):
 		print(output);
@@ -193,7 +191,7 @@ class testSuite:
 t=testSuite(args['port'],115200,1)
 
 version=t.getVersion()
-result=[]
+result={}
 
 #are we loading a single script or a folder of scripts?
 if os.path.isfile(args['test']):
@@ -201,14 +199,16 @@ if os.path.isfile(args['test']):
 	if testStatus == False:
 		print('Skipped test, hardware version not supported!')
 	else:
-		result.append(t.run())
+		testoutput=t.run()
+		result[testoutput['device']]=testoutput
 elif os.path.isdir(args['test']):
 	for filename in glob.glob(os.path.join(args['test'], '*.json')):
 		testStatus=t.importTest(filename)
 		if testStatus == False:
 			print('Skipped test, hardware version not supported!')
 		else:
-			result.append(t.run())
+			testoutput=t.run()
+			result[testoutput['device']]=testoutput
 
 t.saveResult(result,args['result'])
 
