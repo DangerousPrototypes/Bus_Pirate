@@ -1522,10 +1522,6 @@ void versionInfo(void) {
 
 void statusInfo(void) {
 
-#if defined(BUSPIRATEV5)
-	unsigned int pu_en=1;
-#endif
-
 #ifdef BUSPIRATEV4
     bpWstring("CFG0: ");
     bpWinthex(bpReadFlash(CFG_ADDR_UPPER, CFG_ADDR_0));
@@ -1573,17 +1569,16 @@ void statusInfo(void) {
 	    if (BP_PUVSEL33_DIR == 0) bpWstring("Vpu=3V3, ");
 	#endif
 #elif defined(BUSPIRATEV5)
-    if (BP_PUVSELEXT == 1){
-		bpWstring("= Vpu pin");
-	}else if(BP_PUVSEL33 == 1){
-		bpWstring("= 3.3V");
-	}else if(BP_PUVSEL50 == 1){
-		bpWstring("= 5.0V");
-	}else{
+	if(BP_PUVSELEXT==0){
 		BPMSG1090; //OFF
-		pu_en=0;
- 	}  
-	if(pu_en==1){ 
+ 	}else{
+ 		if (BP_PUVSEL33==0){
+			bpWstring("= Vpu pin");
+		}else if(BP_PUVSEL50==0){
+			bpWstring("= 3.3V");
+		}else{
+			bpWstring("= 5.0V");
+		}
 		UART1TX('(');
 		ADCON();
 	    bpWvolts(bpADC(BP_ADC_VPUN));
