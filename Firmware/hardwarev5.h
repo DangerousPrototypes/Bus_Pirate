@@ -87,7 +87,7 @@
 #define BP_ADC_3V3 10
 #define BP_ADC_5V0 9
 #define BP_ADC_VPU 11
-#define BP_ADC_VPUN 2 //ADC connected to 74hct4066 pullup voltage output
+#define BP_ADC_VPUN 4 //ADC connected to 74hct4066 pullup voltage output
 
 //calculate the acceptable range of voltages for the power supplies
 //these values will be compared to the ADC reading from the supply monitor
@@ -107,7 +107,7 @@
 #define BP_ADC_3V3_CFG AD1PCFGbits.PCFG10 //B14/AN10/ADC3/33V 
 #define BP_ADC_5V0_CFG AD1PCFGbits.PCFG9 //B15/AN9/ADC4/50V
 #define BP_ADC_VPU_CFG AD1PCFGbits.PCFG11 //B13/AN11/ADC2/Vextpullup
-#define BP_ADC_VPUN_CFG AD1PCFGbits.PCFG2 //B2/AN4/ADC5/VPU net
+#define BP_ADC_VPUN_CFG AD1PCFGbits.PCFG4 //B2/AN4/ADC5/VPU net
 
 #define BP_ADC_PINSETUP() BP_ADC_PROBE_CFG=0;BP_ADC_3V3_CFG=0;BP_ADC_5V0_CFG=0;BP_ADC_VPU_CFG=0;BP_ADC_VPUN_CFG=0
 
@@ -139,13 +139,17 @@
 //it uses the 74HCT4066 with has a 2.0v on level, so instead of pulling high with VUSB, 
 //we drive it directly with the bus pirate pin. 
 //pullup voltage enable/disable
-//always disables the other pullup
+//BL1551 selects source of pullup. 
+//BP_PUVSELEXT turns pullups off and on
+//V33PU    	|	V50PU	|	Source
+// 0		|	X		|	Vexternal
+// 1		|	0		|	SWV33
+// 1		|	1		|	SWV50
 #define BP_PULLUP_SETUP() BP_PUVSELEXT=0;BP_PUVSELEXT_DIR=0; BP_PUVSEL33=0; BP_PUVSEL33_DIR=0; BP_PUVSEL50=0; BP_PUVSEL50_DIR=0
 #define BP_PULLUP_OFF() BP_PUVSELEXT=0; BP_PUVSEL33=0; BP_PUVSEL50=0
-#define BP_3V3PU_ON()          BP_PUVSELEXT=0; BP_PUVSEL50=0; BP_PUVSEL33=1
-#define BP_5VPU_ON()           BP_PUVSELEXT=0; BP_PUVSEL33=0; BP_PUVSEL50=1
-#define BP_EXTPU_ON()            BP_PUVSEL50=0; BP_PUVSEL33=0; BP_PUVSELEXT=1
-
+#define BP_EXTPU_ON()          BP_PUVSEL33=0; BP_PUVSEL50=0; BP_PUVSELEXT=1
+#define BP_3V3PU_ON()          BP_PUVSEL33=1; BP_PUVSEL50=0; BP_PUVSELEXT=1
+#define BP_5VPU_ON()           BP_PUVSEL33=1; BP_PUVSEL50=1; BP_PUVSELEXT=1
 
 //pseudofunctions for voltage regulator switch
 #define BP_VREG_ON() BP_VREGEN_DIR=0; BP_VREGEN=1

@@ -224,8 +224,6 @@ void I2Csetup(void) {
             modeConfig.speed = (getnumber(1, 1, 4, 0) - 1);
 #endif
 
-        I2Csettings();
-
         ackPending = 0;
         //		I2Cstop();			// this needs to be done after a mode change??
     }
