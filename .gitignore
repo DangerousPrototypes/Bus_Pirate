@@ -1,4 +1,6 @@
 /Firmware/busPirate.X/build/default/
 /Firmware/busPirate.X/dist/
+/Firmware/busPirate5X.X/build/default/
+/Firmware/busPirate5X.X/dist/
 /Firmware/work/*
 /Firmware/output/*
