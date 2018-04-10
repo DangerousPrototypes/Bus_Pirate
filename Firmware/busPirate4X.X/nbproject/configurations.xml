@@ -7,14 +7,21 @@
       <logicalFolder name="hardware profiles"
                      displayName="hardware profiles"
                      projectFiles="true">
+        <itemPath>../hardwarev1a.h</itemPath>
         <itemPath>../hardwarev3.h</itemPath>
         <itemPath>../hardwarev4a.h</itemPath>
-        <itemPath>../hardwarev5.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="jtag" displayName="jtag" projectFiles="true">
+        <itemPath>../jtag/ports.h</itemPath>
+        <itemPath>../jtag/lenval.h</itemPath>
+        <itemPath>../jtag/micro.h</itemPath>
       </logicalFolder>
       <logicalFolder name="translations"
                      displayName="translations"
                      projectFiles="true">
-        <itemPath>../translations/BPv3_en_US.h</itemPath>
+        <itemPath>../translations/BPv4_en_US.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="usb" displayName="usb" projectFiles="true">
       </logicalFolder>
       <itemPath>../raw2wire.h</itemPath>
       <itemPath>../raw3wire.h</itemPath>
@@ -34,31 +41,45 @@
       <itemPath>../binIO.h</itemPath>
       <itemPath>../binIOhelpers.h</itemPath>
       <itemPath>../binwire.h</itemPath>
+      <itemPath>../SUMP.h</itemPath>
       <itemPath>../basic.h</itemPath>
       <itemPath>../pic.h</itemPath>
       <itemPath>../HD44780.h</itemPath>
       <itemPath>../pc_at_keyboard.h</itemPath>
       <itemPath>../OpenOCD.h</itemPath>
       <itemPath>../dio.h</itemPath>
+      <itemPath>../dp_usb/usb_stack.h</itemPath>
+      <itemPath>../dp_usb/cdc.h</itemPath>
       <itemPath>../Compiler.h</itemPath>
       <itemPath>../configwords.h</itemPath>
       <itemPath>../descriptors.h</itemPath>
-      <itemPath>../usb_lang.h</itemPath>
+      <itemPath>../dp_usb/picusb.h</itemPath>
+      <itemPath>../onboardEEPROM.h</itemPath>
       <itemPath>../1wire_lib.h</itemPath>
-      <itemPath>../SUMP.h</itemPath>
+      <itemPath>../jtag.h</itemPath>
+      <itemPath>../smps.h</itemPath>
+      <itemPath>../prj_usb_config.h</itemPath>
+      <itemPath>../dp_usb/usb_stack_globals.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
                    projectFiles="true">
-      <itemPath>../p24FJ64GA002.gld</itemPath>
+      <itemPath>../p24FJ256GB106.gld</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <logicalFolder name="jtag" displayName="jtag" projectFiles="true">
+        <itemPath>../jtag/ports.c</itemPath>
+        <itemPath>../jtag/lenval.c</itemPath>
+        <itemPath>../jtag/micro.c</itemPath>
+      </logicalFolder>
       <logicalFolder name="translations"
                      displayName="translations"
                      projectFiles="true">
-        <itemPath>../translations/BPv3_en_US.s</itemPath>
+        <itemPath>../translations/BPv4_en_US.s</itemPath>
+      </logicalFolder>
+      <logicalFolder name="usb" displayName="usb" projectFiles="true">
       </logicalFolder>
       <itemPath>../main.c</itemPath>
       <itemPath>../raw2wire.c</itemPath>
@@ -84,10 +105,13 @@
       <itemPath>../HD44780.c</itemPath>
       <itemPath>../pc_at_keyboard.c</itemPath>
       <itemPath>../dio.c</itemPath>
+      <itemPath>../dp_usb/cdc.c</itemPath>
+      <itemPath>../dp_usb/usb_stack.c</itemPath>
+      <itemPath>../onboardEEPROM.c</itemPath>
       <itemPath>../1wire_lib.c</itemPath>
-      <itemPath>../OpenOCD.c</itemPath>
-      <itemPath>../OpenOCD_asm.S</itemPath>
-      <itemPath>../SUMP.c</itemPath>
+      <itemPath>../jtag.c</itemPath>
+      <itemPath>../smps.c</itemPath>
+      <itemPath>../JTR_SUMP.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -97,6 +121,8 @@
   </logicalFolder>
   <sourceRootList>
     <Elem>..</Elem>
+    <Elem>..\jtag</Elem>
+    <Elem>..\dp_usb</Elem>
     <Elem>..\translations</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
@@ -104,7 +130,7 @@
     <conf name="default" type="2">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
-        <targetDevice>PIC24FJ64GA002</targetDevice>
+        <targetDevice>PIC24FJ256GB106</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
         <platformTool>PICkit3PlatformTool</platformTool>
@@ -150,7 +176,7 @@
         <property key="enable-symbols" value="true"/>
         <property key="enable-unroll-loops" value="false"/>
         <property key="extra-include-directories"
-                  value="../../../../../../Microchip Solutions/BPv4;../../microchip/include;..;../translations;."/>
+                  value="..;../dp_usb;../jtag;../translations;."/>
         <property key="isolate-each-function" value="false"/>
         <property key="keep-inline" value="false"/>
         <property key="oXC16gcc-align-arr" value="false"/>
@@ -167,14 +193,14 @@
         <property key="oXC16gcc-sfr-warn" value="false"/>
         <property key="oXC16gcc-smar-io-lvl" value="1"/>
         <property key="oXC16gcc-smart-io-fmt" value=""/>
-        <property key="optimization-level" value="1"/>
+        <property key="optimization-level" value="0"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
         <property key="preprocessor-macros" value=""/>
         <property key="scalar-model" value="default"/>
         <property key="use-cci" value="false"/>
         <property key="use-iar" value="false"/>
-        <appendMe value="-DBUSPIRATEV5=1"/>
+        <appendMe value="-DBUSPIRATEV4=1"/>
       </C30>
       <C30-AR>
         <property key="additional-options-chop-files" value="false"/>
@@ -182,9 +208,8 @@
       <C30-AS>
         <property key="assembler-symbols" value=""/>
         <property key="expand-macros" value="false"/>
-        <property key="extra-include-directories-for-assembler" value="..;."/>
-        <property key="extra-include-directories-for-preprocessor"
-                  value="../../../../../../Microchip Solutions/BPv4;../../microchip/include;..;../translations;."/>
+        <property key="extra-include-directories-for-assembler" value="..;;."/>
+        <property key="extra-include-directories-for-preprocessor" value=""/>
         <property key="false-conditionals" value="false"/>
         <property key="keep-locals" value="false"/>
         <property key="list-assembly" value="false"/>
@@ -227,7 +252,7 @@
         <property key="input-libraries" value=""/>
         <property key="linker-stack" value="true"/>
         <property key="linker-symbols" value=""/>
-        <property key="map-file" value="&quot;${DISTDIR}/busPirate5X.X.${IMAGE_TYPE}.map&quot;"/>
+        <property key="map-file" value="&quot;${DISTDIR}/busPirate4X.X.${IMAGE_TYPE}.map&quot;"/>
         <property key="oXC16ld-extra-opts" value=""/>
         <property key="oXC16ld-fill-upper" value="0"/>
         <property key="oXC16ld-force-link" value="false"/>
@@ -260,22 +285,35 @@
       <PICkit3PlatformTool>
         <property key="ADC 1" value="true"/>
         <property key="AutoSelectMemRanges" value="auto"/>
+        <property key="CLOCK CONTROL" value="true"/>
+        <property key="COMPARATOR" value="true"/>
         <property key="CRC" value="true"/>
         <property key="Freeze All Other Peripherals" value="true"/>
         <property key="I2C1" value="true"/>
         <property key="I2C2" value="true"/>
+        <property key="I2C3" value="true"/>
         <property key="INPUT CAPTURE 1" value="true"/>
         <property key="INPUT CAPTURE 2" value="true"/>
         <property key="INPUT CAPTURE 3" value="true"/>
         <property key="INPUT CAPTURE 4" value="true"/>
         <property key="INPUT CAPTURE 5" value="true"/>
+        <property key="INPUT CAPTURE 6" value="true"/>
+        <property key="INPUT CAPTURE 7" value="true"/>
+        <property key="INPUT CAPTURE 8" value="true"/>
+        <property key="INPUT CAPTURE 9" value="true"/>
         <property key="OUTPUT COMPARE 1" value="true"/>
         <property key="OUTPUT COMPARE 2" value="true"/>
         <property key="OUTPUT COMPARE 3" value="true"/>
         <property key="OUTPUT COMPARE 4" value="true"/>
         <property key="OUTPUT COMPARE 5" value="true"/>
+        <property key="OUTPUT COMPARE 6" value="true"/>
+        <property key="OUTPUT COMPARE 7" value="true"/>
+        <property key="OUTPUT COMPARE 8" value="true"/>
+        <property key="OUTPUT COMPARE 9" value="true"/>
+        <property key="PARALLEL MASTER/SLAVE PORT" value="true"/>
         <property key="SPI 1" value="true"/>
         <property key="SPI 2" value="true"/>
+        <property key="SPI 3" value="true"/>
         <property key="SecureSegment.SegmentProgramming" value="FullChipProgramming"/>
         <property key="TIMER1" value="true"/>
         <property key="TIMER2" value="true"/>
@@ -287,6 +325,9 @@
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
         <property key="UART 1" value="true"/>
         <property key="UART 2" value="true"/>
+        <property key="UART 3" value="true"/>
+        <property key="UART 4" value="true"/>
+        <property key="UCNFG1" value="true"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>
@@ -297,7 +338,7 @@
         <property key="memories.flashdata" value="true"/>
         <property key="memories.id" value="true"/>
         <property key="memories.programmemory" value="true"/>
-        <property key="memories.programmemory.end" value="0xabfb"/>
+        <property key="memories.programmemory.end" value="0x2abf7"/>
         <property key="memories.programmemory.partition2" value="true"/>
         <property key="memories.programmemory.partition2.end"
                   value="${memories.programmemory.partition2.end.value}"/>
@@ -312,7 +353,7 @@
         <property key="programoptions.preservedataflash" value="false"/>
         <property key="programoptions.preserveeeprom" value="false"/>
         <property key="programoptions.preserveprogramrange" value="false"/>
-        <property key="programoptions.preserveprogramrange.end" value="0xabfb"/>
+        <property key="programoptions.preserveprogramrange.end" value="0x2abf7"/>
         <property key="programoptions.preserveprogramrange.start" value="0x0"/>
         <property key="programoptions.preserveuserid" value="false"/>
         <property key="programoptions.programcalmem" value="false"/>

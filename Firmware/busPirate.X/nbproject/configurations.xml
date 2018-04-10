@@ -7,12 +7,12 @@
       <logicalFolder name="hardware profiles"
                      displayName="hardware profiles"
                      projectFiles="true">
-        <itemPath>../hardwarev1a.h</itemPath>
+        <itemPath>../hardwarev5.h</itemPath>
       </logicalFolder>
       <logicalFolder name="translations"
                      displayName="translations"
                      projectFiles="true">
-        <itemPath>../translations/BPv4_en_US.h</itemPath>
+        <itemPath>../translations/BPv3_en_US.h</itemPath>
       </logicalFolder>
       <itemPath>../1wire.h</itemPath>
       <itemPath>../AUXpin.h</itemPath>
@@ -33,24 +33,17 @@
       <itemPath>../binwire.h</itemPath>
       <itemPath>../bitbang.h</itemPath>
       <itemPath>../busPirateCore.h</itemPath>
-      <itemPath>../dp_usb/cdc.h</itemPath>
       <itemPath>../configwords.h</itemPath>
-      <itemPath>../descriptors.h</itemPath>
       <itemPath>../dio.h</itemPath>
       <itemPath>../globals.h</itemPath>
-      <itemPath>../hardwarev3.h</itemPath>
-      <itemPath>../hardwarev4a.h</itemPath>
       <itemPath>../1wire_lib.h</itemPath>
       <itemPath>../pc_at_keyboard.h</itemPath>
       <itemPath>../pic.h</itemPath>
-      <itemPath>../dp_usb/picusb.h</itemPath>
       <itemPath>../procMenu.h</itemPath>
       <itemPath>../raw2wire.h</itemPath>
       <itemPath>../raw3wire.h</itemPath>
       <itemPath>../selftest.h</itemPath>
       <itemPath>../uart2io.h</itemPath>
-      <itemPath>../usb_lang.h</itemPath>
-      <itemPath>../dp_usb/usb_stack.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LibraryFiles"
                    displayName="Library Files"
@@ -59,7 +52,7 @@
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
                    projectFiles="true">
-      <itemPath>../p24FJ256GB106.gld</itemPath>
+      <itemPath>../p24FJ64GA002.gld</itemPath>
     </logicalFolder>
     <logicalFolder name="ObjectFiles"
                    displayName="Object Files"
@@ -71,7 +64,7 @@
       <logicalFolder name="translations"
                      displayName="translations"
                      projectFiles="true">
-        <itemPath>../translations/BPv4_en_US.s</itemPath>
+        <itemPath>../translations/BPv3_en_US.s</itemPath>
       </logicalFolder>
       <itemPath>../1wire.c</itemPath>
       <itemPath>../AUXpin.c</itemPath>
@@ -89,24 +82,17 @@
       <itemPath>../binwire.c</itemPath>
       <itemPath>../bitbang.c</itemPath>
       <itemPath>../busPirateCore.c</itemPath>
-      <itemPath>../dp_usb/cdc.c</itemPath>
       <itemPath>../dio.c</itemPath>
-      <itemPath>../jtag.c</itemPath>
-      <itemPath>../jtag/lenval.c</itemPath>
-      <itemPath>../jtag/micro.c</itemPath>
       <itemPath>../jtag/ports.c</itemPath>
       <itemPath>../1wire_lib.c</itemPath>
       <itemPath>../main.c</itemPath>
-      <itemPath>../onboardEEPROM.c</itemPath>
       <itemPath>../pc_at_keyboard.c</itemPath>
       <itemPath>../pic.c</itemPath>
       <itemPath>../procMenu.c</itemPath>
       <itemPath>../raw2wire.c</itemPath>
       <itemPath>../raw3wire.c</itemPath>
       <itemPath>../selftest.c</itemPath>
-      <itemPath>../smps.c</itemPath>
       <itemPath>../uart2io.c</itemPath>
-      <itemPath>../dp_usb/usb_stack.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -122,13 +108,13 @@
     <conf name="default" type="2">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
-        <targetDevice>PIC24FJ256GB106</targetDevice>
+        <targetDevice>PIC24FJ64GA002</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
         <platformTool>Simulator</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>1.25</languageToolchainVersion>
-        <platform>2</platform>
+        <languageToolchainVersion>1.34</languageToolchainVersion>
+        <platform>3</platform>
       </toolsSet>
       <compileType>
         <linkerTool>
@@ -294,6 +280,8 @@
         <property key="periphComp4.gte" value="gt"/>
         <property key="periphComp5.gte" value="gt"/>
         <property key="periphComp6.gte" value="gt"/>
+        <property key="reset.scl" value="false"/>
+        <property key="reset.type" value="MCLR"/>
         <property key="tracecontrol.include.timestamp" value="summarydataenabled"/>
         <property key="tracecontrol.select" value="0"/>
         <property key="tracecontrol.stallontracebufferfull" value="false"/>
@@ -355,6 +343,10 @@
                   value="report"/>
         <property key="warningmessagebreakoptions.W0013_CORE_STACK_UNDERFLOW_RESET"
                   value="report"/>
+        <property key="warningmessagebreakoptions.W0014_CORE_INVALID_OPCODE"
+                  value="report"/>
+        <property key="warningmessagebreakoptions.W0015_CORE_INVALID_ALT_WREG_SET"
+                  value="report"/>
         <property key="warningmessagebreakoptions.W0101_SIM_UPDATE_FAILED"
                   value="report"/>
         <property key="warningmessagebreakoptions.W0102_SIM_PERIPH_MISSING"
@@ -364,6 +356,8 @@
         <property key="warningmessagebreakoptions.W0104_SIM_FAILED_TO_INIT_TOOL"
                   value="report"/>
         <property key="warningmessagebreakoptions.W0105_SIM_INVALID_FIELD"
+                  value="report"/>
+        <property key="warningmessagebreakoptions.W0106_SIM_PERIPH_PARTIAL_SUPPORT"
                   value="report"/>
         <property key="warningmessagebreakoptions.W0201_ADC_NO_STIMULUS_FILE"
                   value="report"/>
@@ -420,6 +414,16 @@
                   value="report"/>
         <property key="warningmessagebreakoptions.W0229_ADC_INVALID_ADCS"
                   value="report"/>
+        <property key="warningmessagebreakoptions.W0230_ADC_TRIGSEL_NOT_SUPPORTED"
+                  value="report"/>
+        <property key="warningmessagebreakoptions.W0400_PWM_PWM_FASTER_THAN_FOSC"
+                  value="report"/>
+        <property key="warningmessagebreakoptions.W0700_CLC_GENERAL_WARNING"
+                  value="report"/>
+        <property key="warningmessagebreakoptions.W0701_CLC_CLCOUT_AS_INPUT"
+                  value="report"/>
+        <property key="warningmessagebreakoptions.W0702_CLC_CIRCULAR_LOOP"
+                  value="report"/>
         <property key="warningmessagebreakoptions.W1201_DATAFLASH_MEM_OUTSIDE_RANGE"
                   value="report"/>
         <property key="warningmessagebreakoptions.W1202_DATAFLASH_ERASE_WHILE_LOCKED"
@@ -434,6 +438,7 @@
                   value="report"/>
         <property key="warningmessagebreakoptions.W1405_DMA_IRQ_DIR_MISMATCH"
                   value="report"/>
+        <property key="warningmessagebreakoptions.W1600_PPS_INVALID_MAP" value="report"/>
         <property key="warningmessagebreakoptions.W2001_INPUTCAPTURE_TMR3_UNAVAILABLE"
                   value="report"/>
         <property key="warningmessagebreakoptions.W2002_INPUTCAPTURE_CAPTURE_EMPTY"
@@ -463,6 +468,18 @@
         <property key="warningmessagebreakoptions.W9204_UART_RX_EMPTY_QUEUE"
                   value="report"/>
         <property key="warningmessagebreakoptions.W9205_UART_TX_BADFILE" value="report"/>
+        <property key="warningmessagebreakoptions.W9401_CVREF_INVALIDSOURCESELECTION"
+                  value="report"/>
+        <property key="warningmessagebreakoptions.W9402_CVREF_INPUT_OUTPUTPINCONFLICT"
+                  value="report"/>
+        <property key="warningmessagebreakoptions.W9601_COMP_FVR_SOURCE_UNAVAILABLE"
+                  value="report"/>
+        <property key="warningmessagebreakoptions.W9602_COMP_DAC_SOURCE_UNAVAILABLE"
+                  value="report"/>
+        <property key="warningmessagebreakoptions.W9603_COMP_CVREF_SOURCE_UNAVAILABLE"
+                  value="report"/>
+        <property key="warningmessagebreakoptions.W9801_FVR_INVALID_MODE_SELECTION"
+                  value="report"/>
         <property key="warningmessagebreakoptions.W9801_SCL_BAD_SUBTYPE_INDICATION"
                   value="report"/>
         <property key="warningmessagebreakoptions.W9802_SCL_FILE_NOT_FOUND"

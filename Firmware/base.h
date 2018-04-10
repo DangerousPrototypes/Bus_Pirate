@@ -39,13 +39,14 @@
 
 ///////////////////////////////////////
 // HARDWARE VERSION
-#if defined(__PIC24FJ256GB106__)        //v4 chip
-        #define BUSPIRATEV4
-#elif defined(__PIC24FJ64GA002__)       //v5/v3/v2go/v1a chip
-        // Uncomment the hardware version you are building for
-        //#define BUSPIRATEV3    // V3 is also V2G0
-        #define BUSPIRATEV5    // V5 is v3.9 with hardware updates that need own firmware build
-#endif
+// NOW DEFINED IN COMPILER COMMAND FOR EASIER COMPILING ON THE CI SERVER
+//#if defined(__PIC24FJ256GB106__)        //v4 chip
+//        #define BUSPIRATEV4
+//#elif defined(__PIC24FJ64GA002__)       //v5/v3/v2go/v1a chip
+//        // Uncomment the hardware version you are building for
+//        //#define BUSPIRATEV3    // V3 is also V2G0
+//        #define BUSPIRATEV5    // V5 is v3.9 with hardware updates that need own firmware build
+//#endif
 
 ////////////////////////////////////////
 // FIRMWARE VERSION STRING

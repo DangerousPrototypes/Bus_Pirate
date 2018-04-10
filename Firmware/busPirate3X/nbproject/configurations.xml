@@ -174,7 +174,7 @@
         <property key="scalar-model" value="default"/>
         <property key="use-cci" value="false"/>
         <property key="use-iar" value="false"/>
-        <appendMe value="-DBUSPIRATEV5=1"/>
+        <appendMe value="-DBUSPIRATEV3=1"/>
       </C30>
       <C30-AR>
         <property key="additional-options-chop-files" value="false"/>
@@ -182,9 +182,9 @@
       <C30-AS>
         <property key="assembler-symbols" value=""/>
         <property key="expand-macros" value="false"/>
-        <property key="extra-include-directories-for-assembler" value="..;."/>
+        <property key="extra-include-directories-for-assembler" value="..;;."/>
         <property key="extra-include-directories-for-preprocessor"
-                  value="../../../../../../Microchip Solutions/BPv4;../../microchip/include;..;../translations;."/>
+                  value="../../../../../../Microchip Solutions/BPv4;../../microchip/include;..;../translations;;."/>
         <property key="false-conditionals" value="false"/>
         <property key="keep-locals" value="false"/>
         <property key="list-assembly" value="false"/>

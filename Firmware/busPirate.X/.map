@@ -1,0 +1,118 @@
+Microchip Technology Inc, v1.34 (A)
+
+Tool Name:
+  c:\program files (x86)\microchip\xc16\v1.34\bin\bin\..\bin/elf-ld.exe
+
+Command:
+  -p24FJ64GA002 \
+  -o \
+  dist/default/production/busPirate.X.production.elf \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/.. \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../support/PIC24E/gld \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../support/PIC24F/gld \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../support/PIC24H/gld \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../support/dsPIC30F/gld \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../support/dsPIC33C/gld \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../support/dsPIC33E/gld \
+  -Lc:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../support/dsPIC33F/gld \
+  build/default/production/_ext/1472/1wire.o \
+  build/default/production/_ext/1472/AUXpin.o \
+  build/default/production/_ext/1472/HD44780.o \
+  build/default/production/_ext/1472/I2C.o \
+  build/default/production/_ext/1472/SPI.o \
+  build/default/production/_ext/1472/SUMP.o \
+  build/default/production/_ext/1472/UART.o \
+  build/default/production/_ext/1472/base.o \
+  build/default/production/_ext/1472/baseIO.o \
+  build/default/production/_ext/1472/baseUI.o \
+  build/default/production/_ext/1472/basic.o \
+  build/default/production/_ext/1472/binIO.o \
+  build/default/production/_ext/1472/binIOhelpers.o \
+  build/default/production/_ext/1472/binwire.o \
+  build/default/production/_ext/1472/bitbang.o \
+  build/default/production/_ext/1472/busPirateCore.o \
+  build/default/production/_ext/1472/dio.o \
+  build/default/production/_ext/760884769/ports.o \
+  build/default/production/_ext/1472/1wire_lib.o \
+  build/default/production/_ext/1472/main.o \
+  build/default/production/_ext/1472/pc_at_keyboard.o \
+  build/default/production/_ext/1472/pic.o \
+  build/default/production/_ext/1472/procMenu.o \
+  build/default/production/_ext/1472/raw2wire.o \
+  build/default/production/_ext/1472/raw3wire.o \
+  build/default/production/_ext/1472/selftest.o \
+  build/default/production/_ext/1472/uart2io.o \
+  build/default/production/_ext/1011476433/BPv3_en_US.o \
+  --defsym=__MPLAB_BUILD=1 \
+  -Tp24FJ64GA002.gld.00 \
+  --no-check-sections \
+  --data-init \
+  --pack-data \
+  --handles \
+  --isr \
+  --no-gc-sections \
+  --fill-upper=0 \
+  --stackguard=16 \
+  --library-path=../../../../Program Files/Microchip/MPLAB C30/lib \
+  --library-path=.. \
+  --no-force-link \
+  --smart-io \
+  -Map=.map \
+  --report-mem \
+  --memorysummary \
+  dist/default/production/memoryfile.xml \
+  -start-group \
+  --library=pic30-elf \
+  --library=m-elf \
+  --library=c-elf \
+  -end-group \
+
+
+Optional library libpPIC24Fxxx.a not found
+Archive member included because of file (symbol)
+
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libpic30-elf.a(crt0_standard.o)
+                              (__resetPRI)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libpic30-elf.a(data_init_standard.o)
+                              c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libpic30-elf.a(crt0_standard.o) (__data_init_standard)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libpic30-elf.a(crt_start_mode_normal.eo)
+                              (__crt_start_mode_normal)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(addsf3.eo)
+                              build/default/production/_ext/1472/AUXpin.o (___addsf3)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(divsf3.eo)
+                              build/default/production/_ext/1472/AUXpin.o (___divsf3)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(feqltle.eo)
+                              build/default/production/_ext/1472/AUXpin.o (___ltsf2)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(fgtge.eo)
+                              build/default/production/_ext/1472/AUXpin.o (___gtsf2)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(fixunssfdi.eo)
+                              build/default/production/_ext/1472/AUXpin.o (___fixunssfdi)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(fixunssfsi.eo)
+                              build/default/production/_ext/1472/AUXpin.o (___fixunssfsi)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(floatsisf.eo)
+                              build/default/production/_ext/1472/AUXpin.o (___floatsisf)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(floatundisf.eo)
+                              build/default/production/_ext/1472/AUXpin.o (___floatundisf)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(floatunsisf.eo)
+                              build/default/production/_ext/1472/AUXpin.o (___floatunsisf)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(fpack.eo)
+                              c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(addsf3.eo) (__fpack)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(funpack.eo)
+                              c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(fixunssfdi.eo) (__funpack)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(funpack2.eo)
+                              c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(addsf3.eo) (__funpack2)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(futil.eo)
+                              c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(addsf3.eo) (__fPropagateNaN)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(mulsf3.eo)
+                              build/default/production/_ext/1472/AUXpin.o (___mulsf3)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(udivsi3.eo)
+                              build/default/production/_ext/1472/AUXpin.o (___udivsi3)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(umodsi3.eo)
+                              build/default/production/_ext/1472/baseIO.o (___umodsi3)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(divmoddi3.eo)
+                              build/default/production/_ext/1472/AUXpin.o (___udivdi3)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(fcompare.eo)
+                              c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(feqltle.eo) (__fcompare)
+c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(floatdisf.eo)
+                              c:/program files (x86)/microchip/xc16/v1.34/bin/bin/../../lib\libm-elf.a(floatsisf.eo) (___floatdisf)

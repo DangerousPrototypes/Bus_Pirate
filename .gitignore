@@ -2,5 +2,9 @@
 /Firmware/busPirate.X/dist/
 /Firmware/busPirate5X.X/build/default/
 /Firmware/busPirate5X.X/dist/
+/Firmware/busPirate4X.X/build/default/
+/Firmware/busPirate4X.X/dist/
+/Firmware/busPirate3X.X/build/default/
+/Firmware/busPirate3X.X/dist/
 /Firmware/work/*
 /Firmware/output/*
