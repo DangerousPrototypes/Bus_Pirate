@@ -52,8 +52,14 @@ void SUMPreset(void){
 	BP_LEDMODE=0;//LED
 	CNPU1=0; //pullups off
 	CNPU2=0;
-	CNEN1=0; //all change notice off
-	CNEN2=0;
+    //all change notice off
+#ifdef BUSPIRATEV4
+    CNEN1 = 0;
+    CNEN4 = 0;
+#elif defined(BUSPIRATEV3)
+    CNEN1=0; 
+    CNEN2 = 0;
+#endif
 	T4CON=0; //stop count
 	IPC4bits.CNIP=0;
 
@@ -160,11 +166,45 @@ unsigned char SUMPlogicCommand(unsigned char inByte){
 			switch(sumpRX.command[0]){
 
 				case SUMP_TRIG: //set CN on these pins
-					if(sumpRX.command[1] & 0b10000)	CNEN2|=0b1; //AUX
+#ifdef BUSPIRATEV4
+                    /* Set a trigger on the AUX0 pin. */
+                    if (sumpRX.command[1] & 0b00100000)
+                        // CN14
+                        CNEN1 |= 1 << 14;
+
+                    /* Set a trigger on the CS pin. */
+                    if (sumpRX.command[1] & 0b00010000)
+                        // CN13
+                        CNEN1 |= 1 << 13;
+
+                    /* Set a trigger on the MISO pin. */
+                    if (sumpRX.command[1] & 0b00001000)
+                        // CN52
+                        CNEN4 |= 1 << 4;
+
+                    /* Set a trigger on the CLOCK pin. */
+                    if (sumpRX.command[1] & 0b00000100)
+                        // CN51
+                        CNEN4 |= 1 << 3;
+
+                    /* Set a trigger on the MOSI pin. */
+                    if (sumpRX.command[1] & 0b00000010)
+                        // CN50
+                        CNEN4 |= 1 << 2;
+
+                    /* Set a trigger on the AUX2 pin. */
+                    if (sumpRX.command[1] & 0b00000001)
+                        // CN49
+                        CNEN4 |= 1 << 1;
+#elif defined(BUSPIRATEV3)
+                    if(sumpRX.command[1] & 0b10000)	CNEN2|=0b1; //AUX
 					if(sumpRX.command[1] & 0b1000)  CNEN2|=0b100000;
 					if(sumpRX.command[1] & 0b100)   CNEN2|=0b1000000;
 					if(sumpRX.command[1] & 0b10)  	CNEN2|=0b10000000;
 					if(sumpRX.command[1] & 0b1) 	CNEN2|=0b100000000;
+#endif
+                    break;
+                    
 /*
 				case SUMP_FLAGS:
 					sumpPadBytes=0;//if user forgot to uncheck chan groups 2,3,4, we can send padding bytes
@@ -223,22 +263,39 @@ unsigned char SUMPlogicService(void){
 
 	switch(LAstate){//dump data
 		case LA_ARMED: //check interrupt flags
-			if(IFS1bits.CNIF==0){//no flags
-				if(CNEN2) //if no trigger just continue
-					break;
-			}
+            /* Skip if no interrupt and no trigger set. */
+#ifdef BUSPIRATEV4
+            if (!IFS1bits.CNIF && (CNEN1 || CNEN4)) {
+                break;
+            }
+#elif defined(BUSPIRATEV3)
+            if (!IFS1bits.CNIF && CNEN2) {
+                break;
+            }
+#endif
 	
 			//else sample
 			T4CONbits.TON=1;//start timer4
 			IFS1bits.T5IF=0;//clear interrupt flag//setup timer and wait
 
 			for(i=0;i<sumpSamples;i++){ //take SAMPLE_SIZE samples
-				bpConfig.terminalInput[i]=(PORTB>>6); //change to pointer for faster use...
+#ifdef BUSPIRATEV4
+				bpConfig.terminalInput[i]=IOPOR; //change to pointer for faster use...
+#elif defined(BUSPIRATEV3)
+                bpConfig.terminalInput[i]=(IOPOR>>6); //change to pointer for faster use...
+#endif
 				while(IFS1bits.T5IF==0); //wait for timer4 (timer 5 interrupt)
 				IFS1bits.T5IF=0;//clear interrupt flag
 			}
 			
-			CNEN2=0;//change notice off
+#ifdef BUSPIRATEV4
+            /* Disable change notification for 0 to 15 and 48 to 63. */
+            CNEN1 = 0;
+            CNEN4 = 0;
+#elif defined(BUSPIRATEV3)
+            /* Disable change notification for pins 16 to 31. */
+            CNEN2 = 0;
+#endif
 			T4CON=0; //stop count
 
 			for(i=sumpSamples; i>0; i--){ //send back to SUMP, backwards
