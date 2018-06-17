@@ -444,7 +444,7 @@ void UARTstop(void)
 
 unsigned int UARTperiodic(void)
 {	unsigned int temp;
-
+    unsigned int received;
 	temp=0;
 	while(UART2RXRdy())			//data ready
 	{	if(uartSettings.eu==1)
@@ -453,7 +453,13 @@ unsigned int UARTperiodic(void)
 			BPMSG1102;
 			if(U2STAbits.PERR) BPMSG1194;	//bpWstring("-p "); //show any errors
 			if(U2STAbits.FERR) BPMSG1195;	//bpWstring("-f ");
-			bpWbyte(UART2RX());
+            received = UART2RX();
+			bpWbyte(received);
+            // Support for 9-bit UART
+            if (modeConfig.numbits == 9) {
+                UART1TX(':');
+                bpEchoState(received & 0x100);
+            }
 			if(U2STAbits.OERR)
 			{	//bpWstring("*Bytes dropped*");
 				BPMSG1196;
