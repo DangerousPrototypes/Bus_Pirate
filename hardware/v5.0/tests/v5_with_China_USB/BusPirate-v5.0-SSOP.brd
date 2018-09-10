@@ -114,10 +114,10 @@
 <text x="29.5275" y="47.545625" size="1.6764" layer="25" font="vector" ratio="16" align="center">MODE</text>
 <text x="38.897575" y="47.507625" size="1.6764" layer="25" font="vector" ratio="16" rot="R180" align="center">VREG</text>
 <text x="25.4" y="13.97" size="2.54" layer="26" font="vector" ratio="12" rot="MR0" align="center">BPv5.0</text>
-<text x="11.733625" y="47.587" size="1.6764" layer="26" font="vector" ratio="16" rot="MR180" align="center">PWR</text>
-<text x="29.16605" y="47.587" size="1.6764" layer="26" font="vector" ratio="16" rot="MR180" align="center">MODE</text>
-<text x="38.74985" y="47.507625" size="1.6764" layer="26" font="vector" ratio="16" rot="MR180" align="center">VREG</text>
-<text x="20.74125" y="47.507625" size="1.6764" layer="26" font="vector" ratio="16" rot="MR180" align="center">USB</text>
+<text x="11.733625" y="47.587" size="1.6764" layer="26" font="vector" ratio="16" rot="SMR180" align="center">PWR</text>
+<text x="29.16605" y="47.587" size="1.6764" layer="26" font="vector" ratio="16" rot="SMR180" align="center">MODE</text>
+<text x="38.74985" y="47.507625" size="1.6764" layer="26" font="vector" ratio="16" rot="SMR180" align="center">VREG</text>
+<text x="20.74125" y="47.507625" size="1.6764" layer="26" font="vector" ratio="16" rot="SMR180" align="center">USB</text>
 <text x="20.79625" y="47.545625" size="1.6764" layer="25" font="vector" ratio="16" rot="R180" align="center">USB</text>
 <text x="60.96" y="34.29" size="1.6764" layer="49" font="vector" align="center-left">5V</text>
 <text x="60.96" y="36.83" size="1.6764" layer="49" font="vector" align="center-left">GND</text>
@@ -142,11 +142,11 @@
 <text x="55.88" y="6.35" size="1.778" layer="49" font="vector">Bus Pirate v5.0</text>
 <text x="64.77" y="1.27" size="1.778" layer="49" font="vector">FEB 2018</text>
 <text x="55.88" y="-1.27" size="1.27" layer="49" font="vector">http://dangerousprototypes.com</text>
-<text x="16.113125" y="2.54" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center-left">PGC</text>
-<text x="14.843125" y="2.54" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center-left">PGD</text>
-<text x="13.573125" y="2.54" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center-left">GND</text>
-<text x="12.3825" y="2.54" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center-left">+3V3</text>
-<text x="11.1125" y="2.54" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center-left">!MLCR</text>
+<text x="14.843125" y="2.54" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center-left">PGC</text>
+<text x="13.573125" y="2.54" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center-left">PGD</text>
+<text x="12.303125" y="2.54" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center-left">GND</text>
+<text x="11.1125" y="2.54" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center-left">+3V3</text>
+<text x="9.8425" y="2.54" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center-left">!MLCR</text>
 <text x="45.72" y="36.909375" size="1.143" layer="22" font="vector" ratio="15" rot="MR0" align="center-right">GND</text>
 <text x="45.72" y="31.75" size="1.143" layer="22" font="vector" ratio="15" rot="MR0" align="center-right">3V3</text>
 <text x="45.72" y="26.67" size="1.143" layer="22" font="vector" ratio="15" rot="MR0" align="center-right">ADC</text>
@@ -158,6 +158,12 @@
 <text x="45.72" y="29.21" size="1.143" layer="22" font="vector" ratio="15" rot="MR0" align="center-right">VPU</text>
 <text x="45.72" y="34.29" size="1.143" layer="22" font="vector" ratio="15" rot="MR0" align="center-right">5V</text>
 <text x="24.13" y="22.86" size="0.8128" layer="25" font="vector" ratio="12" rot="R90" align="center">v.trocio</text>
+<polygon width="0.0254" layer="25">
+<vertex x="19.002" y="-1.047"/>
+<vertex x="18.186" y="-2.009"/>
+<vertex x="19.818" y="-2.009"/>
+</polygon>
+<text x="16.113125" y="2.54" size="1.016" layer="21" font="vector" ratio="12" rot="R90" align="center-left">NC</text>
 <text x="31.75" y="-2.54" size="1.6764" layer="49" font="vector" rot="R270" align="center-left">NC</text>
 <text x="11.43" y="7.064375" size="1.143" layer="21" font="vector" ratio="15" rot="R180" align="center-right">ICSP</text>
 </plain>
@@ -26751,6 +26757,22 @@ http://dangerousprototypes.com</description>
 <rectangle x1="-4.35" y1="-0.455" x2="-3.7" y2="0.455" layer="51"/>
 <rectangle x1="3.7" y1="-0.455" x2="4.35" y2="0.455" layer="51"/>
 </package>
+<package name="M1X6">
+<wire x1="-1.27" y1="-1.27" x2="1.27" y2="-1.27" width="0.1524" layer="21"/>
+<wire x1="1.27" y1="-1.27" x2="13.97" y2="-1.27" width="0.1524" layer="21"/>
+<wire x1="13.97" y1="-1.27" x2="13.97" y2="1.27" width="0.1524" layer="21"/>
+<wire x1="13.97" y1="1.27" x2="1.27" y2="1.27" width="0.1524" layer="21"/>
+<wire x1="1.27" y1="1.27" x2="-1.27" y2="1.27" width="0.1524" layer="21"/>
+<wire x1="-1.27" y1="1.27" x2="-1.27" y2="-1.27" width="0.1524" layer="21"/>
+<wire x1="1.27" y1="1.27" x2="1.27" y2="-1.27" width="0.1524" layer="21"/>
+<pad name="1" x="0" y="0" drill="1.02" diameter="1.632" shape="square" first="yes"/>
+<pad name="2" x="2.54" y="0" drill="1.02" diameter="1.632"/>
+<pad name="3" x="5.08" y="0" drill="1.02" diameter="1.632"/>
+<pad name="4" x="7.62" y="0" drill="1.02" diameter="1.632"/>
+<pad name="5" x="10.16" y="0" drill="1.02" diameter="1.632"/>
+<pad name="6" x="12.7" y="0" drill="1.02" diameter="1.632"/>
+<text x="-1.27" y="1.5875" size="1.27" layer="21" ratio="10">&gt;NAME</text>
+</package>
 <package name="M1X10_MALE_RIGHT_ANGLES_PTH_SHROUDED">
 <description>Molex PN: 70553-0044
 &lt;br&gt; Distance from edge to center: 6.795 mm</description>
@@ -26844,13 +26866,13 @@ http://dangerousprototypes.com</description>
 <rectangle x1="-0.6" y1="0.5" x2="-0.3" y2="0.8" layer="51"/>
 <rectangle x1="-0.625" y1="0.925" x2="-0.3" y2="1" layer="51"/>
 </package>
-<package name="SC-70-6">
-<smd name="1" x="-0.65" y="-0.9" dx="0.47" dy="1" layer="1" stop="no"/>
-<smd name="2" x="0" y="-0.9" dx="0.47" dy="1" layer="1" stop="no"/>
-<smd name="3" x="0.65" y="-0.9" dx="0.47" dy="1" layer="1" stop="no"/>
-<smd name="4" x="0.65" y="0.9" dx="0.47" dy="1" layer="1" stop="no"/>
-<smd name="5" x="0" y="0.9" dx="0.47" dy="1" layer="1" stop="no"/>
-<smd name="6" x="-0.65" y="0.9" dx="0.47" dy="1" layer="1" stop="no"/>
+<package name="SOT-363">
+<smd name="1" x="-0.75" y="-0.9" dx="0.6" dy="0.6" layer="1"/>
+<smd name="2" x="0" y="-0.9" dx="0.4" dy="0.5" layer="1"/>
+<smd name="3" x="0.75" y="-0.9" dx="0.6" dy="0.6" layer="1"/>
+<smd name="4" x="0.75" y="0.9" dx="0.6" dy="0.6" layer="1"/>
+<smd name="5" x="0" y="0.9" dx="0.4" dy="0.5" layer="1"/>
+<smd name="6" x="-0.75" y="0.9" dx="0.6" dy="0.6" layer="1"/>
 <wire x1="-1.05" y1="0.625" x2="1.05" y2="0.625" width="0.127" layer="51"/>
 <wire x1="1.05" y1="0.625" x2="1.05" y2="-0.625" width="0.127" layer="51"/>
 <wire x1="1.05" y1="-0.625" x2="-1.05" y2="-0.625" width="0.127" layer="51"/>
@@ -26862,31 +26884,8 @@ http://dangerousprototypes.com</description>
 <rectangle x1="-0.125" y1="-1.15" x2="0.125" y2="-0.625" layer="51"/>
 <rectangle x1="-0.775" y1="-1.15" x2="-0.525" y2="-0.625" layer="51"/>
 <circle x="-0.8" y="-0.375" radius="0" width="0.127" layer="51"/>
-<text x="0" y="2.54" size="1.27" layer="25" font="vector" ratio="10" align="center">&gt;NAME</text>
-<text x="0" y="-2.54" size="1.27" layer="27" font="vector" ratio="10" align="center">&gt;VALUE</text>
-<wire x1="-1.05" y1="-0.625" x2="-1.05" y2="0.625" width="0.127" layer="21"/>
-<wire x1="1.05" y1="0.625" x2="1.05" y2="-0.625" width="0.127" layer="21"/>
-<rectangle x1="-0.285" y1="0.35" x2="0.285" y2="1.45" layer="29"/>
-<rectangle x1="0.365" y1="0.35" x2="0.935" y2="1.45" layer="29"/>
-<rectangle x1="-0.935" y1="0.35" x2="-0.365" y2="1.45" layer="29"/>
-<rectangle x1="-0.285" y1="-1.45" x2="0.285" y2="-0.35" layer="29"/>
-<rectangle x1="0.365" y1="-1.45" x2="0.935" y2="-0.35" layer="29"/>
-<rectangle x1="-0.935" y1="-1.45" x2="-0.365" y2="-0.35" layer="29"/>
-</package>
-<package name="M1X5">
-<wire x1="-6.35" y1="-1.27" x2="-6.35" y2="1.27" width="0.1524" layer="21"/>
-<wire x1="-6.35" y1="1.27" x2="-3.81" y2="1.27" width="0.1524" layer="21"/>
-<wire x1="-3.81" y1="1.27" x2="6.35" y2="1.27" width="0.1524" layer="21"/>
-<wire x1="6.35" y1="1.27" x2="6.35" y2="-1.27" width="0.1524" layer="21"/>
-<wire x1="6.35" y1="-1.27" x2="-3.81" y2="-1.27" width="0.1524" layer="21"/>
-<wire x1="-3.81" y1="-1.27" x2="-6.35" y2="-1.27" width="0.1524" layer="21"/>
-<wire x1="-3.81" y1="-1.27" x2="-3.81" y2="1.27" width="0.1524" layer="21"/>
-<pad name="1" x="-5.08" y="0" drill="1.02" shape="square" first="yes"/>
-<pad name="2" x="-2.54" y="0" drill="1.02"/>
-<pad name="3" x="0" y="0" drill="1.02"/>
-<pad name="4" x="2.54" y="0" drill="1.02"/>
-<pad name="5" x="5.08" y="0" drill="1.02"/>
-<text x="-6.35" y="1.5875" size="1.27" layer="21" ratio="10">&gt;NAME</text>
+<text x="-1.27" y="1.905" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
+<text x="-1.27" y="-3.175" size="1.27" layer="27" font="vector" ratio="10">&gt;VALUE</text>
 </package>
 </packages>
 </library>
@@ -27090,7 +27089,7 @@ http://dangerousprototypes.com</description>
 <attribute name="VALUE" x="13.9966" y="46.5114" size="1.27" layer="27" font="vector" ratio="12" rot="R180"/>
 </element>
 <element name="C1" library="dp_devices" package="C603" value="0.1uF" x="26.67" y="30.48" smashed="yes" rot="R90">
-<attribute name="NAME" x="25.487525" y="30.43875" size="1.016" layer="25" font="vector" ratio="12" rot="R90" align="center"/>
+<attribute name="NAME" x="26.598775" y="33.455" size="1.016" layer="25" font="vector" ratio="12" rot="R90" align="center"/>
 <attribute name="VALUE" x="27.305" y="29.21" size="1.27" layer="27" font="vector" rot="R90"/>
 </element>
 <element name="C2" library="dp_devices" package="C603" value="0.1uF" x="18.415" y="16.81775" smashed="yes" rot="R180">
@@ -27191,7 +27190,7 @@ http://dangerousprototypes.com</description>
 <attribute name="VALUE" x="30.02" y="28.67" size="1.27" layer="27" font="vector" rot="R270"/>
 </element>
 <element name="IC1" library="dp_devices" package="SSOP28" value="PIC24FJ64GA002" x="22.86" y="23.01875" smashed="yes" rot="R270">
-<attribute name="NAME" x="17.637125" y="25.434" size="1.016" layer="25" font="vector" ratio="12" rot="R90" align="center"/>
+<attribute name="NAME" x="22.875875" y="30.1965" size="1.016" layer="25" font="vector" ratio="12" rot="R90" align="center"/>
 <attribute name="VALUE" x="22.225" y="27.04875" size="1.27" layer="27" font="vector" ratio="10" rot="R270"/>
 </element>
 <element name="VR1" library="dp_devices" package="SOT-23-5" value="MCP1801T-3302I/OT" x="6.762" y="37.9945" smashed="yes" rot="R90">
@@ -27216,11 +27215,14 @@ http://dangerousprototypes.com</description>
 <element name="PCB1" library="dp_devices.v6" package="DP5050_V1" value="PCB_DP_SQUARE-5X5" x="25.4" y="25.4" locked="yes">
 <attribute name="PCB_SIZE" value="DP5050_V1" x="25.4" y="25.4" size="1.778" layer="27" display="off"/>
 </element>
-<element name="RN4" library="dp_devices" package="RN8P-4R-CRA06S" value="10k" x="38.1" y="4.7625" smashed="yes" rot="R270">
-<attribute name="NAME" x="40.624375" y="4.905625" size="1.016" layer="25" font="vector" ratio="12" rot="R90" align="center"/>
-<attribute name="VALUE" x="35.1" y="6.7625" size="1.27" layer="27" font="vector" rot="R270"/>
+<element name="RN4" library="dp_devices" package="RN8P-4R-CRA06S" value="10k" x="36.83" y="4.7625" smashed="yes" rot="R270">
+<attribute name="NAME" x="39.354375" y="4.905625" size="1.016" layer="25" font="vector" ratio="12" rot="R90" align="center"/>
+<attribute name="VALUE" x="33.83" y="6.7625" size="1.27" layer="27" font="vector" rot="R270"/>
 </element>
 <element name="CON3" library="dp_devices.v6" package="CON_USB_MICRO-B-1-MD05SMXXX-01" value="CON-USB-F-MICRO-B" x="2.54" y="25.4" rot="R270"/>
+<element name="CON2" library="dp_devices.v6" package="M1X6" value="CON_HEADER_1X06-PTH" x="19.05" y="3.81" smashed="yes">
+<attribute name="NAME" x="17.78" y="5.3975" size="1.143" layer="21" font="vector" ratio="12"/>
+</element>
 <element name="CON1" library="dp_devices.v6" package="M1X10_MALE_RIGHT_ANGLES_PTH_SHROUDED" value="CON_HEADER_1X10-RIGHT_ANGLED_PTH_SHROUDED" x="43.605" y="25.4" smashed="yes" rot="R270">
 <attribute name="NAME" x="35.588125" y="37.94125" size="1.016" layer="25" font="vector" ratio="12" rot="R270" align="center"/>
 <attribute name="VALUE" x="34.715" y="39.37" size="1.27" layer="27" font="vector" ratio="10" rot="R270"/>
@@ -27229,13 +27231,13 @@ http://dangerousprototypes.com</description>
 <attribute name="NAME" x="22.848125" y="13.799375" size="1.27" layer="25" font="vector" ratio="12" rot="R270" align="center"/>
 <attribute name="VALUE" x="30.07125" y="18.03625" size="1.27" layer="27" rot="R180"/>
 </element>
-<element name="IC5" library="dp_devices.v6" package="SC-70-6" value="IC_BL1551" x="38.1" y="8.89" smashed="yes" rot="R90">
-<attribute name="NAME" x="40.084375" y="8.89" size="1.016" layer="25" font="vector" ratio="12" rot="R90" align="center"/>
-<attribute name="VALUE" x="41.275" y="7.62" size="1.27" layer="27" font="vector" ratio="10" rot="R90"/>
+<element name="IC5" library="dp_devices.v6" package="SOT-363" value="IC_BL1551" x="36.83" y="8.89" smashed="yes" rot="R90">
+<attribute name="NAME" x="38.814375" y="8.89" size="1.016" layer="25" font="vector" ratio="12" rot="R90" align="center"/>
+<attribute name="VALUE" x="40.005" y="7.62" size="1.27" layer="27" font="vector" ratio="10" rot="R90"/>
 </element>
-<element name="IC6" library="dp_devices.v6" package="SC-70-6" value="IC_BL1551" x="33.099375" y="8.89" smashed="yes" rot="R90">
-<attribute name="NAME" x="35.2425" y="8.89" size="1.016" layer="25" font="vector" ratio="12" rot="R90" align="center"/>
-<attribute name="VALUE" x="36.274375" y="7.62" size="1.27" layer="27" font="vector" ratio="10" rot="R90"/>
+<element name="IC6" library="dp_devices.v6" package="SOT-363" value="IC_BL1551" x="33.02" y="8.89" smashed="yes" rot="R90">
+<attribute name="NAME" x="33.02" y="6.985" size="1.016" layer="25" font="vector" ratio="12" align="center"/>
+<attribute name="VALUE" x="36.195" y="7.62" size="1.27" layer="27" font="vector" ratio="10" rot="R90"/>
 </element>
 <element name="R5" library="dp_devices" package="R603" value="10K" x="29.21" y="9.763125" smashed="yes" rot="R180">
 <attribute name="NAME" x="31.40075" y="10.89025" size="1.016" layer="25" font="vector" ratio="12" rot="R180" align="center"/>
@@ -27244,17 +27246,6 @@ http://dangerousprototypes.com</description>
 <element name="R7" library="dp_devices" package="R603" value="10K" x="29.21" y="8.334375" smashed="yes" rot="R180">
 <attribute name="NAME" x="29.24175" y="6.88975" size="1.016" layer="25" font="vector" ratio="12" align="center"/>
 <attribute name="VALUE" x="29.972" y="10.620375" size="1.27" layer="27" font="vector" rot="R180"/>
-</element>
-<element name="CON2" library="dp_devices.v6" package="M1X5" value="CON_HEADER_1X05-PTH" x="25.4" y="3.81" smashed="yes">
-<attribute name="NAME" x="25.4" y="5.794375" size="1.016" layer="21" font="vector" ratio="12" align="center"/>
-</element>
-<element name="C12" library="dp_devices" package="C603" value="0.1uF" x="33.099375" y="6.35" smashed="yes" rot="R180">
-<attribute name="NAME" x="33.4645" y="5.095875" size="1.016" layer="25" font="vector" ratio="12" rot="R180" align="center"/>
-<attribute name="VALUE" x="33.861375" y="8.636" size="1.27" layer="27" rot="R180"/>
-</element>
-<element name="R8" library="dp_devices" package="R603" value="10K" x="22.86" y="30.95625" smashed="yes" rot="R270">
-<attribute name="NAME" x="21.415375" y="30.9245" size="1.016" layer="25" font="vector" ratio="12" rot="R270" align="center"/>
-<attribute name="VALUE" x="20.574" y="31.71825" size="1.27" layer="27" font="vector" rot="R270"/>
 </element>
 </elements>
 <signals>
@@ -27324,7 +27315,7 @@ http://dangerousprototypes.com</description>
 <contactref element="IC4" pad="13"/>
 <contactref element="IC4" pad="5"/>
 <via x="28.305075" y="21.1137" extent="1-16" drill="0.508"/>
-<via x="38.25875" y="10.398125" extent="1-16" drill="0.508"/>
+<via x="36.83" y="10.16" extent="1-16" drill="0.508"/>
 <via x="16.51" y="12.7" extent="1-16" drill="0.508"/>
 <via x="15.954375" y="35.71875" extent="1-16" drill="0.508"/>
 <via x="12.779375" y="33.17875" extent="1-16" drill="0.508"/>
@@ -27345,8 +27336,8 @@ http://dangerousprototypes.com</description>
 <via x="41.91" y="46.99" extent="1-16" drill="0.508"/>
 <via x="8.89" y="46.99" extent="1-16" drill="0.508"/>
 <via x="3.81" y="41.91" extent="1-16" drill="0.508"/>
-<via x="40.560625" y="5.635625" extent="1-16" drill="0.508"/>
-<via x="38.1" y="7.3025" extent="1-16" drill="0.508"/>
+<via x="39.290625" y="5.635625" extent="1-16" drill="0.508"/>
+<via x="36.83" y="7.46125" extent="1-16" drill="0.508"/>
 <via x="30.083125" y="6.0325" extent="1-16" drill="0.508"/>
 <via x="31.194375" y="16.03375" extent="1-16" drill="0.508"/>
 <contactref element="RN4" pad="7"/>
@@ -27358,6 +27349,7 @@ http://dangerousprototypes.com</description>
 <contactref element="CON3" pad="GND4"/>
 <contactref element="CON3" pad="GND3"/>
 <contactref element="CON3" pad="GND2"/>
+<contactref element="CON2" pad="3"/>
 <contactref element="CON1" pad="1"/>
 <via x="3.095625" y="19.3675" extent="1-16" drill="0.508"/>
 <contactref element="IC2" pad="7"/>
@@ -27365,21 +27357,10 @@ http://dangerousprototypes.com</description>
 <contactref element="IC6" pad="2"/>
 <contactref element="R7" pad="1"/>
 <contactref element="RN4" pad="8"/>
-<via x="34.29" y="11.191875" extent="1-16" drill="0.508"/>
-<via x="33.099375" y="7.46125" extent="1-16" drill="0.508"/>
+<via x="33.734375" y="10.795" extent="1-16" drill="0.508"/>
+<via x="33.02" y="7.699375" extent="1-16" drill="0.508"/>
 <via x="27.225625" y="8.89" extent="1-16" drill="0.508"/>
 <via x="30.083125" y="10.95375" extent="1-16" drill="0.508"/>
-<contactref element="CON2" pad="3"/>
-<contactref element="C12" pad="2"/>
-<via x="40.878125" y="9.04875" extent="1-16" drill="0.508"/>
-<wire x1="33.999375" y1="8.89" x2="33.17875" y2="8.89" width="0.3048" layer="1"/>
-<wire x1="33.17875" y1="8.89" x2="33.099375" y2="8.810625" width="0.3048" layer="1"/>
-<wire x1="33.099375" y1="7.46125" x2="33.099375" y2="8.810625" width="0.3556" layer="1"/>
-<wire x1="33.099375" y1="8.810625" x2="33.099375" y2="10.16" width="0.3556" layer="1"/>
-<wire x1="38.1" y1="7.3025" x2="38.1" y2="10.16" width="0.3048" layer="1"/>
-<contactref element="R8" pad="1"/>
-<via x="22.86" y="34.29" extent="1-16" drill="0.508"/>
-<via x="17.62125" y="22.70125" extent="1-16" drill="0.508"/>
 </signal>
 <signal name="MCLR">
 <contactref element="R1" pad="1"/>
@@ -27389,14 +27370,12 @@ http://dangerousprototypes.com</description>
 <wire x1="19.20875" y1="28.2575" x2="19.20875" y2="27.2485" width="0.3048" layer="1"/>
 <wire x1="19.20875" y1="27.2485" x2="19.204" y2="27.24375" width="0.3048" layer="1"/>
 <wire x1="17.36" y1="11.43" x2="19.05" y2="11.43" width="0.3048" layer="1"/>
+<contactref element="CON2" pad="1"/>
 <wire x1="19.20875" y1="28.2575" x2="19.20875" y2="18.89125" width="0.3048" layer="16"/>
 <wire x1="19.05" y1="15.08125" x2="19.05" y2="18.7325" width="0.3048" layer="16"/>
 <wire x1="19.05" y1="18.7325" x2="19.20875" y2="18.89125" width="0.3048" layer="16"/>
 <wire x1="19.05" y1="15.08125" x2="19.05" y2="11.43" width="0.3048" layer="1"/>
-<contactref element="CON2" pad="1"/>
-<wire x1="19.05" y1="11.43" x2="19.05" y2="8.89" width="0.3048" layer="1"/>
-<wire x1="19.05" y1="8.89" x2="20.32" y2="7.62" width="0.3048" layer="1"/>
-<wire x1="20.32" y1="7.62" x2="20.32" y2="3.81" width="0.3048" layer="1"/>
+<wire x1="19.05" y1="11.43" x2="19.05" y2="3.81" width="0.3048" layer="1"/>
 </signal>
 <signal name="N$7">
 <contactref element="LED1" pad="A"/>
@@ -27416,25 +27395,26 @@ http://dangerousprototypes.com</description>
 <contactref element="IC1" pad="4"/>
 <wire x1="21.855" y1="25.29375" x2="19.204" y2="25.29375" width="0.3048" layer="1"/>
 <wire x1="23.415625" y1="23.733125" x2="21.855" y2="25.29375" width="0.3048" layer="1"/>
-<wire x1="25.161875" y1="6.588125" x2="27.94" y2="3.81" width="0.3048" layer="1"/>
+<contactref element="CON2" pad="4"/>
+<wire x1="25.161875" y1="6.588125" x2="26.67" y2="5.08" width="0.3048" layer="1"/>
+<wire x1="26.67" y1="5.08" x2="26.67" y2="3.81" width="0.3048" layer="1"/>
 <wire x1="23.415625" y1="10.874375" x2="23.415625" y2="23.733125" width="0.3048" layer="1"/>
 <wire x1="23.415625" y1="10.874375" x2="25.161875" y2="9.128125" width="0.3048" layer="1"/>
 <wire x1="25.161875" y1="9.128125" x2="25.161875" y2="6.588125" width="0.3048" layer="1"/>
-<contactref element="CON2" pad="4"/>
 </signal>
 <signal name="PGC">
 <contactref element="IC1" pad="5"/>
 <wire x1="21.362" y1="24.64375" x2="19.204" y2="24.64375" width="0.3048" layer="1"/>
 <wire x1="22.86" y1="23.14575" x2="21.362" y2="24.64375" width="0.3048" layer="1"/>
+<contactref element="CON2" pad="5"/>
+<wire x1="25.4" y1="5.08" x2="25.4" y2="3.254375" width="0.3048" layer="1"/>
+<wire x1="25.4" y1="3.254375" x2="26.273125" y2="2.38125" width="0.3048" layer="1"/>
+<wire x1="26.273125" y1="2.38125" x2="27.78125" y2="2.38125" width="0.3048" layer="1"/>
+<wire x1="27.78125" y1="2.38125" x2="29.21" y2="3.81" width="0.3048" layer="1"/>
+<wire x1="24.60625" y1="5.87375" x2="25.4" y2="5.08" width="0.3048" layer="1"/>
 <wire x1="22.86" y1="10.63625" x2="22.86" y2="23.14575" width="0.3048" layer="1"/>
 <wire x1="22.86" y1="10.63625" x2="24.60625" y2="8.89" width="0.3048" layer="1"/>
-<wire x1="24.60625" y1="8.89" x2="24.60625" y2="6.270625" width="0.3048" layer="1"/>
-<contactref element="CON2" pad="5"/>
-<wire x1="24.60625" y1="6.270625" x2="26.51125" y2="4.365625" width="0.3048" layer="1"/>
-<wire x1="26.51125" y1="4.365625" x2="26.51125" y2="3.571875" width="0.3048" layer="1"/>
-<wire x1="26.51125" y1="3.571875" x2="27.543125" y2="2.54" width="0.3048" layer="1"/>
-<wire x1="27.543125" y1="2.54" x2="29.21" y2="2.54" width="0.3048" layer="1"/>
-<wire x1="29.21" y1="2.54" x2="30.48" y2="3.81" width="0.3048" layer="1"/>
+<wire x1="24.60625" y1="8.89" x2="24.60625" y2="5.87375" width="0.3048" layer="1"/>
 </signal>
 <signal name="TX">
 <contactref element="IC1" pad="14"/>
@@ -27470,9 +27450,8 @@ http://dangerousprototypes.com</description>
 <wire x1="39.290625" y1="29.21" x2="37.19" y2="29.21" width="0.4064" layer="1"/>
 <contactref element="IC6" pad="3"/>
 <wire x1="39.766875" y1="13.096875" x2="37.703125" y2="11.033125" width="0.4064" layer="1"/>
-<wire x1="35.956875" y1="11.033125" x2="37.703125" y2="11.033125" width="0.4064" layer="1"/>
-<wire x1="33.999375" y1="9.54" x2="34.46375" y2="9.54" width="0.4064" layer="1"/>
-<wire x1="34.46375" y1="9.54" x2="35.956875" y2="11.033125" width="0.4064" layer="1"/>
+<wire x1="35.313125" y1="11.033125" x2="37.703125" y2="11.033125" width="0.4064" layer="1"/>
+<wire x1="35.313125" y1="11.033125" x2="33.92" y2="9.64" width="0.4064" layer="1"/>
 </signal>
 <signal name="ADC1">
 <contactref element="RN2" pad="3"/>
@@ -27504,13 +27483,13 @@ http://dangerousprototypes.com</description>
 <wire x1="37.19" y1="31.75" x2="42.38625" y2="31.75" width="0.8128" layer="1"/>
 <wire x1="33.995" y1="31.35" x2="36.79" y2="31.35" width="0.4064" layer="1"/>
 <wire x1="36.79" y1="31.35" x2="37.19" y2="31.75" width="0.4064" layer="1"/>
-<wire x1="42.38625" y1="31.75" x2="42.38625" y2="11.7475" width="0.4064" layer="1"/>
+<wire x1="42.38625" y1="31.75" x2="42.38625" y2="13.17625" width="0.4064" layer="1"/>
 <wire x1="42.38625" y1="31.75" x2="42.38625" y2="37.62375" width="0.8128" layer="1"/>
 <wire x1="42.38625" y1="37.62375" x2="40.64" y2="39.37" width="0.8128" layer="1"/>
 <wire x1="40.64" y1="39.37" x2="38.1" y2="39.37" width="0.8128" layer="1"/>
 <contactref element="IC5" pad="3"/>
-<wire x1="39" y1="9.54" x2="40.17875" y2="9.54" width="0.4064" layer="1"/>
-<wire x1="40.17875" y1="9.54" x2="42.38625" y2="11.7475" width="0.4064" layer="1"/>
+<wire x1="37.73" y1="9.64" x2="38.85" y2="9.64" width="0.4064" layer="1"/>
+<wire x1="38.85" y1="9.64" x2="42.38625" y2="13.17625" width="0.4064" layer="1"/>
 </signal>
 <signal name="SWV50">
 <contactref element="C9" pad="1"/>
@@ -27533,13 +27512,14 @@ http://dangerousprototypes.com</description>
 <via x="21.5258" y="38.947" extent="1-16" drill="0.762"/>
 <contactref element="CON1" pad="2"/>
 <wire x1="37.19" y1="34.29" x2="34.702" y2="34.29" width="0.8128" layer="1"/>
-<wire x1="37.19" y1="34.29" x2="40.64" y2="34.29" width="0.4064" layer="16"/>
-<wire x1="41.91" y1="33.02" x2="41.91" y2="8.89" width="0.4064" layer="16"/>
+<wire x1="37.19" y1="34.29" x2="39.37" y2="34.29" width="0.4064" layer="16"/>
+<wire x1="39.37" y1="34.29" x2="40.64" y2="33.02" width="0.4064" layer="16"/>
+<wire x1="40.64" y1="33.02" x2="40.64" y2="10.16" width="0.4064" layer="16"/>
 <contactref element="IC5" pad="1"/>
-<via x="41.91" y="8.89" extent="1-16" drill="0.508"/>
-<wire x1="40.64" y1="34.29" x2="41.91" y2="33.02" width="0.4064" layer="16"/>
-<wire x1="39" y1="8.24" x2="41.26" y2="8.24" width="0.4064" layer="1"/>
-<wire x1="41.26" y1="8.24" x2="41.91" y2="8.89" width="0.4064" layer="1"/>
+<via x="39.37" y="8.89" extent="1-16" drill="0.508"/>
+<wire x1="37.73" y1="8.14" x2="38.62" y2="8.14" width="0.4064" layer="1"/>
+<wire x1="38.62" y1="8.14" x2="39.37" y2="8.89" width="0.4064" layer="1"/>
+<wire x1="40.64" y1="10.16" x2="39.37" y2="8.89" width="0.4064" layer="16"/>
 </signal>
 <signal name="AUX1">
 <contactref element="IC1" pad="21"/>
@@ -27597,11 +27577,11 @@ http://dangerousprototypes.com</description>
 <signal name="LD1">
 <contactref element="R4" pad="2"/>
 <contactref element="IC1" pad="3"/>
-<wire x1="19.204" y1="25.94375" x2="20.403375" y2="25.94375" width="0.3048" layer="1"/>
-<wire x1="20.403375" y1="25.94375" x2="25.4" y2="30.940375" width="0.3048" layer="1"/>
+<wire x1="19.204" y1="25.94375" x2="20.324" y2="25.94375" width="0.3048" layer="1"/>
+<wire x1="20.324" y1="25.94375" x2="25.4" y2="31.01975" width="0.3048" layer="1"/>
 <wire x1="27.94" y1="43.894375" x2="27.94" y2="35.56" width="0.3048" layer="1"/>
 <wire x1="27.94" y1="35.56" x2="25.4" y2="33.02" width="0.3048" layer="1"/>
-<wire x1="25.4" y1="33.02" x2="25.4" y2="30.940375" width="0.3048" layer="1"/>
+<wire x1="25.4" y1="33.02" x2="25.4" y2="31.01975" width="0.3048" layer="1"/>
 <wire x1="29.063" y1="44.2" x2="28.245625" y2="44.2" width="0.3048" layer="1"/>
 <wire x1="28.245625" y1="44.2" x2="27.94" y2="43.894375" width="0.3048" layer="1"/>
 </signal>
@@ -27610,19 +27590,15 @@ http://dangerousprototypes.com</description>
 <contactref element="VR2" pad="3"/>
 <contactref element="VR3" pad="3"/>
 <wire x1="17.78" y1="35.56" x2="17.1149" y2="36.2251" width="0.3048" layer="1"/>
-<wire x1="20.24375" y1="26.59375" x2="19.204" y2="26.59375" width="0.3048" layer="1"/>
+<wire x1="20.0215" y1="26.59375" x2="19.204" y2="26.59375" width="0.3048" layer="1"/>
 <wire x1="17.115" y1="36.2252" x2="17.115" y2="37.0445" width="0.3048" layer="1"/>
 <wire x1="17.1149" y1="36.2251" x2="17.115" y2="36.2252" width="0.3048" layer="1"/>
 <wire x1="26.572" y1="35.56" x2="26.572" y2="37.0445" width="0.3048" layer="1"/>
 <wire x1="17.78" y1="35.56" x2="23.891875" y2="35.56" width="0.3048" layer="1"/>
 <wire x1="23.891875" y1="35.56" x2="26.572" y2="35.56" width="0.3048" layer="1"/>
-<wire x1="24.032" y1="30.461375" x2="24.032" y2="35.419875" width="0.3048" layer="1"/>
+<wire x1="20.0215" y1="26.59375" x2="24.032" y2="30.60425" width="0.3048" layer="1"/>
+<wire x1="24.032" y1="30.60425" x2="24.032" y2="35.419875" width="0.3048" layer="1"/>
 <wire x1="24.032" y1="35.419875" x2="23.891875" y2="35.56" width="0.3048" layer="1"/>
-<contactref element="R8" pad="2"/>
-<wire x1="20.24375" y1="26.59375" x2="22.86" y2="29.21" width="0.3048" layer="1"/>
-<wire x1="22.86" y1="29.21" x2="22.86" y2="30.10625" width="0.3048" layer="1"/>
-<wire x1="22.86" y1="30.10625" x2="23.676875" y2="30.10625" width="0.3048" layer="1"/>
-<wire x1="23.676875" y1="30.10625" x2="24.032" y2="30.461375" width="0.3048" layer="1"/>
 </signal>
 <signal name="N$18">
 <contactref element="LED3" pad="A"/>
@@ -27831,29 +27807,23 @@ http://dangerousprototypes.com</description>
 <wire x1="24.22125" y1="11.86125" x2="24.81" y2="11.86125" width="0.3048" layer="1"/>
 <wire x1="24.81" y1="11.86125" x2="25.0825" y2="11.58875" width="0.3048" layer="1"/>
 <wire x1="25.0825" y1="11.58875" x2="25.0825" y2="11.033125" width="0.3048" layer="1"/>
-<via x="35.163125" y="7.699375" extent="1-16" drill="0.508"/>
+<wire x1="35.93" y1="8.89" x2="35.321875" y2="8.89" width="0.3556" layer="1"/>
+<wire x1="35.321875" y1="8.89" x2="35.08375" y2="8.651875" width="0.3556" layer="1"/>
+<wire x1="35.08375" y1="8.651875" x2="35.08375" y2="7.699375" width="0.3556" layer="1"/>
+<via x="35.08375" y="7.699375" extent="1-16" drill="0.508"/>
 <wire x1="25.87625" y1="11.033125" x2="25.0825" y2="11.033125" width="0.3556" layer="16"/>
 <wire x1="25.0825" y1="11.033125" x2="25.87625" y2="11.033125" width="0.3556" layer="1"/>
 <wire x1="25.87625" y1="11.033125" x2="26.19375" y2="10.715625" width="0.3556" layer="1"/>
 <wire x1="26.19375" y1="10.715625" x2="26.19375" y2="9.74" width="0.3556" layer="1"/>
-<wire x1="32.199375" y1="8.89" x2="31.194375" y2="8.89" width="0.3048" layer="1"/>
-<via x="31.194375" y="8.89" extent="1-16" drill="0.508"/>
+<wire x1="32.12" y1="8.89" x2="31.353125" y2="8.89" width="0.3048" layer="1"/>
+<via x="31.353125" y="8.89" extent="1-16" drill="0.508"/>
 <wire x1="30.559375" y1="11.826875" x2="25.0825" y2="11.826875" width="0.3556" layer="16"/>
 <wire x1="25.0825" y1="11.826875" x2="25.0825" y2="11.033125" width="0.3556" layer="16"/>
-<wire x1="35.163125" y1="7.699375" x2="34.528125" y2="7.699375" width="0.3556" layer="16"/>
+<wire x1="31.353125" y1="8.89" x2="31.353125" y2="11.033125" width="0.3556" layer="16"/>
+<wire x1="35.08375" y1="7.699375" x2="34.528125" y2="7.699375" width="0.3556" layer="16"/>
 <wire x1="34.528125" y1="7.699375" x2="33.3375" y2="8.89" width="0.3556" layer="16"/>
-<wire x1="33.3375" y1="8.89" x2="31.194375" y2="8.89" width="0.3556" layer="16"/>
-<wire x1="30.559375" y1="11.826875" x2="31.194375" y2="11.191875" width="0.3556" layer="16"/>
-<contactref element="C12" pad="1"/>
-<wire x1="33.949375" y1="6.35" x2="33.9725" y2="6.35" width="0.3556" layer="1"/>
-<wire x1="37.2" y1="8.89" x2="36.35375" y2="8.89" width="0.3048" layer="1"/>
-<wire x1="36.35375" y1="8.89" x2="35.163125" y2="7.699375" width="0.3048" layer="1"/>
-<wire x1="31.194375" y1="8.89" x2="31.194375" y2="11.191875" width="0.3556" layer="16"/>
-<wire x1="35.163125" y1="7.699375" x2="35.163125" y2="7.46125" width="0.3048" layer="1"/>
-<wire x1="35.163125" y1="7.46125" x2="34.210625" y2="6.50875" width="0.3048" layer="1"/>
-<wire x1="33.9725" y1="6.50875" x2="34.210625" y2="6.50875" width="0.3048" layer="1"/>
-<wire x1="33.949375" y1="6.35" x2="34.051875" y2="6.35" width="0.3048" layer="1"/>
-<wire x1="34.051875" y1="6.35" x2="34.210625" y2="6.50875" width="0.3048" layer="1"/>
+<wire x1="33.3375" y1="8.89" x2="31.353125" y2="8.89" width="0.3556" layer="16"/>
+<wire x1="30.559375" y1="11.826875" x2="31.353125" y2="11.033125" width="0.3556" layer="16"/>
 </signal>
 <signal name="+3V3">
 <contactref element="C7" pad="1"/>
@@ -27916,16 +27886,16 @@ http://dangerousprototypes.com</description>
 <wire x1="3.698875" y1="35.448875" x2="1.905" y2="33.655" width="0.8128" layer="16"/>
 <via x="4.206875" y="35.448875" extent="1-16" drill="0.762"/>
 <wire x1="4.206875" y1="35.448875" x2="4.206875" y2="37.0445" width="0.3048" layer="1"/>
+<contactref element="CON2" pad="2"/>
 <wire x1="21.021" y1="16.69075" x2="21.021" y2="11.496" width="0.8128" layer="1"/>
 <wire x1="21.021" y1="11.496" x2="20.955" y2="11.43" width="0.8128" layer="1"/>
-<wire x1="20.955" y1="11.43" x2="20.955" y2="5.715" width="0.4064" layer="16"/>
+<wire x1="20.955" y1="11.43" x2="20.955" y2="4.445" width="0.4064" layer="16"/>
+<wire x1="20.955" y1="4.445" x2="21.59" y2="3.81" width="0.4064" layer="16"/>
 <wire x1="20.038" y1="44.2" x2="18.029375" y2="44.2" width="0.3048" layer="1"/>
 <wire x1="18.029375" y1="44.2" x2="17.168125" y2="43.33875" width="0.3048" layer="1"/>
 <wire x1="11.013" y1="44.2" x2="11.013" y2="43.676375" width="0.3048" layer="1"/>
 <wire x1="11.013" y1="43.676375" x2="11.350625" y2="43.33875" width="0.3048" layer="1"/>
 <wire x1="11.013" y1="44.2" x2="8.084375" y2="44.2" width="0.3048" layer="1"/>
-<contactref element="CON2" pad="2"/>
-<wire x1="20.955" y1="5.715" x2="22.86" y2="3.81" width="0.4064" layer="16"/>
 </signal>
 <signal name="V33PU">
 <contactref element="IC1" pad="7"/>
@@ -27935,20 +27905,16 @@ http://dangerousprototypes.com</description>
 <contactref element="IC6" pad="6"/>
 <contactref element="RN4" pad="3"/>
 <via x="22.621875" y="7.9375" extent="1-16" drill="0.508"/>
-<wire x1="31.035625" y1="7.9375" x2="31.27375" y2="7.699375" width="0.3048" layer="16"/>
-<via x="31.27375" y="7.699375" extent="1-16" drill="0.508"/>
-<wire x1="22.621875" y1="7.9375" x2="31.035625" y2="7.9375" width="0.3048" layer="16"/>
+<wire x1="31.353125" y1="7.9375" x2="32.146875" y2="7.14375" width="0.3048" layer="16"/>
+<via x="32.146875" y="7.14375" extent="1-16" drill="0.508"/>
+<wire x1="32.146875" y1="7.14375" x2="32.146875" y2="8.113125" width="0.3048" layer="1"/>
+<wire x1="32.146875" y1="8.113125" x2="32.12" y2="8.14" width="0.3048" layer="1"/>
+<wire x1="35.855" y1="4.3625" x2="33.7375" y2="4.3625" width="0.3048" layer="1"/>
+<wire x1="32.146875" y1="7.14375" x2="32.146875" y2="5.953125" width="0.3048" layer="1"/>
+<wire x1="32.146875" y1="5.953125" x2="33.7375" y2="4.3625" width="0.3048" layer="1"/>
+<wire x1="22.621875" y1="7.9375" x2="31.353125" y2="7.9375" width="0.3048" layer="16"/>
 <wire x1="22.621875" y1="7.9375" x2="22.225" y2="7.9375" width="0.3048" layer="1"/>
 <wire x1="22.225" y1="7.9375" x2="21.828125" y2="8.334375" width="0.3048" layer="1"/>
-<wire x1="37.125" y1="4.3625" x2="35.880625" y2="4.3625" width="0.3048" layer="1"/>
-<wire x1="35.880625" y1="4.3625" x2="35.8775" y2="4.365625" width="0.3048" layer="1"/>
-<via x="35.8775" y="4.365625" extent="1-16" drill="0.508"/>
-<wire x1="35.8775" y1="4.365625" x2="35.8775" y2="5.794375" width="0.3048" layer="16"/>
-<wire x1="35.8775" y1="5.794375" x2="35.56" y2="6.111875" width="0.3048" layer="16"/>
-<wire x1="35.56" y1="6.111875" x2="32.86125" y2="6.111875" width="0.3048" layer="16"/>
-<wire x1="32.86125" y1="6.111875" x2="31.27375" y2="7.699375" width="0.3048" layer="16"/>
-<wire x1="32.199375" y1="8.24" x2="31.814375" y2="8.24" width="0.3556" layer="1"/>
-<wire x1="31.814375" y1="8.24" x2="31.27375" y2="7.699375" width="0.3556" layer="1"/>
 </signal>
 <signal name="V50PU">
 <contactref element="IC1" pad="9"/>
@@ -27963,17 +27929,18 @@ http://dangerousprototypes.com</description>
 <contactref element="IC5" pad="6"/>
 <contactref element="RN4" pad="2"/>
 <via x="22.621875" y="6.905625" extent="1-16" drill="0.508"/>
-<via x="35.08375" y="5.159375" extent="1-16" drill="0.508"/>
+<via x="32.86125" y="6.429375" extent="1-16" drill="0.508"/>
+<wire x1="32.86125" y1="6.429375" x2="34.128125" y2="5.1625" width="0.3048" layer="1"/>
+<wire x1="35.855" y1="5.1625" x2="34.128125" y2="5.1625" width="0.3048" layer="1"/>
+<wire x1="35.93" y1="8.14" x2="35.93" y2="7.275625" width="0.3048" layer="1"/>
+<wire x1="35.93" y1="7.275625" x2="35.56" y2="6.905625" width="0.3048" layer="1"/>
+<wire x1="35.56" y1="6.905625" x2="33.3375" y2="6.905625" width="0.3048" layer="1"/>
+<wire x1="33.3375" y1="6.905625" x2="32.86125" y2="6.429375" width="0.3048" layer="1"/>
 <wire x1="19.923125" y1="9.36625" x2="22.38375" y2="6.905625" width="0.3048" layer="1"/>
 <wire x1="22.621875" y1="6.905625" x2="22.38375" y2="6.905625" width="0.3048" layer="1"/>
 <wire x1="22.621875" y1="6.905625" x2="31.115" y2="6.905625" width="0.3048" layer="16"/>
-<wire x1="37.125" y1="5.1625" x2="35.16625" y2="5.1625" width="0.3048" layer="1"/>
-<wire x1="35.16625" y1="5.1625" x2="35.08375" y2="5.159375" width="0.3048" layer="1"/>
-<wire x1="35.08375" y1="5.159375" x2="35.08375" y2="6.270625" width="0.3048" layer="1"/>
-<wire x1="35.08375" y1="5.159375" x2="32.86125" y2="5.159375" width="0.3048" layer="16"/>
-<wire x1="32.86125" y1="5.159375" x2="31.115" y2="6.905625" width="0.3048" layer="16"/>
-<wire x1="35.08375" y1="6.270625" x2="37.053125" y2="8.24" width="0.3048" layer="1"/>
-<wire x1="37.2" y1="8.24" x2="37.053125" y2="8.24" width="0.3048" layer="1"/>
+<wire x1="31.115" y1="6.905625" x2="31.59125" y2="6.429375" width="0.3048" layer="16"/>
+<wire x1="31.59125" y1="6.429375" x2="32.86125" y2="6.429375" width="0.3048" layer="16"/>
 </signal>
 <signal name="N$4">
 <contactref element="RN3" pad="2"/>
@@ -27985,9 +27952,11 @@ http://dangerousprototypes.com</description>
 <signal name="N$12">
 <contactref element="IC5" pad="4"/>
 <contactref element="IC6" pad="1"/>
-<wire x1="33.999375" y1="8.24" x2="34.671875" y2="8.24" width="0.3048" layer="1"/>
-<wire x1="34.671875" y1="8.24" x2="35.971875" y2="9.54" width="0.3048" layer="1"/>
-<wire x1="37.2" y1="9.54" x2="35.971875" y2="9.54" width="0.3048" layer="1"/>
+<wire x1="35.93" y1="9.64" x2="34.960625" y2="9.64" width="0.3048" layer="1"/>
+<wire x1="34.960625" y1="9.64" x2="34.528125" y2="9.2075" width="0.3048" layer="1"/>
+<wire x1="34.528125" y1="9.2075" x2="34.528125" y2="8.255" width="0.3048" layer="1"/>
+<wire x1="34.528125" y1="8.255" x2="34.413125" y2="8.14" width="0.3048" layer="1"/>
+<wire x1="33.92" y1="8.14" x2="34.413125" y2="8.14" width="0.3048" layer="1"/>
 </signal>
 <signal name="ADC_VPUN">
 <contactref element="IC1" pad="6"/>
@@ -28026,7 +27995,7 @@ http://dangerousprototypes.com</description>
 <wire x1="30.07125" y1="14.46125" x2="28.74875" y2="14.46125" width="0.3048" layer="1"/>
 <wire x1="28.74875" y1="14.46125" x2="28.575" y2="14.2875" width="0.3048" layer="1"/>
 <contactref element="RN4" pad="1"/>
-<via x="36.98875" y="6.985" extent="1-16" drill="0.508"/>
+<via x="34.528125" y="6.0325" extent="1-16" drill="0.508"/>
 <wire x1="26.516" y1="23.34375" x2="35.170625" y2="23.34375" width="0.3048" layer="1"/>
 <wire x1="35.170625" y1="23.34375" x2="35.321875" y2="23.495" width="0.3048" layer="1"/>
 <via x="35.321875" y="23.495" extent="1-16" drill="0.508"/>
@@ -28034,18 +28003,19 @@ http://dangerousprototypes.com</description>
 <wire x1="35.798125" y1="23.495" x2="36.5125" y2="22.780625" width="0.3048" layer="16"/>
 <wire x1="36.5125" y1="22.780625" x2="38.179375" y2="22.780625" width="0.3048" layer="16"/>
 <wire x1="38.179375" y1="22.780625" x2="39.37" y2="21.59" width="0.3048" layer="16"/>
-<wire x1="39.37" y1="21.59" x2="39.37" y2="8.89" width="0.3048" layer="16"/>
-<wire x1="39.37" y1="8.89" x2="39.37" y2="6.429375" width="0.3048" layer="16"/>
+<wire x1="39.37" y1="21.59" x2="39.37" y2="10.16" width="0.3048" layer="16"/>
+<wire x1="39.37" y1="10.16" x2="38.338125" y2="9.128125" width="0.3048" layer="16"/>
+<wire x1="38.338125" y1="9.128125" x2="38.338125" y2="8.73125" width="0.3048" layer="16"/>
+<wire x1="38.338125" y1="8.73125" x2="38.338125" y2="6.82625" width="0.3048" layer="16"/>
 <wire x1="30.7975" y1="12.3825" x2="34.29" y2="8.89" width="0.3048" layer="16"/>
-<wire x1="34.29" y1="8.89" x2="39.37" y2="8.89" width="0.3048" layer="16"/>
+<wire x1="34.29" y1="8.89" x2="38.179375" y2="8.89" width="0.3048" layer="16"/>
+<wire x1="38.179375" y1="8.89" x2="38.338125" y2="8.73125" width="0.3048" layer="16"/>
+<wire x1="35.855" y1="6.0575" x2="34.553125" y2="6.0575" width="0.3048" layer="1"/>
+<wire x1="34.553125" y1="6.0575" x2="34.528125" y2="6.0325" width="0.3048" layer="1"/>
+<wire x1="34.528125" y1="6.0325" x2="37.544375" y2="6.0325" width="0.3048" layer="16"/>
+<wire x1="37.544375" y1="6.0325" x2="38.338125" y2="6.82625" width="0.3048" layer="16"/>
 <wire x1="30.7975" y1="12.3825" x2="26.908125" y2="12.3825" width="0.3048" layer="16"/>
 <wire x1="26.908125" y1="12.3825" x2="26.3525" y2="12.938125" width="0.3048" layer="16"/>
-<wire x1="36.98875" y1="6.985" x2="36.98875" y2="6.19375" width="0.3556" layer="1"/>
-<wire x1="36.98875" y1="6.19375" x2="37.125" y2="6.0575" width="0.3556" layer="1"/>
-<wire x1="36.98875" y1="6.985" x2="36.98875" y2="6.50875" width="0.3048" layer="16"/>
-<wire x1="36.98875" y1="6.50875" x2="37.30625" y2="6.19125" width="0.3048" layer="16"/>
-<wire x1="37.30625" y1="6.19125" x2="39.131875" y2="6.19125" width="0.3048" layer="16"/>
-<wire x1="39.131875" y1="6.19125" x2="39.37" y2="6.429375" width="0.3048" layer="16"/>
 </signal>
 <signal name="VPUN">
 <contactref element="IC2" pad="2"/>
@@ -28061,12 +28031,11 @@ http://dangerousprototypes.com</description>
 <wire x1="28.41625" y1="13.17625" x2="28.971875" y2="13.17625" width="0.3048" layer="1"/>
 <wire x1="28.971875" y1="13.17625" x2="30.05625" y2="13.17625" width="0.3048" layer="1"/>
 <wire x1="30.05625" y1="13.17625" x2="30.07125" y2="13.16125" width="0.3048" layer="1"/>
+<wire x1="32.12" y1="9.64" x2="30.183125" y2="9.64" width="0.3556" layer="1"/>
+<wire x1="30.183125" y1="9.64" x2="30.06" y2="9.763125" width="0.3556" layer="1"/>
 <wire x1="29.05125" y1="10.771875" x2="29.05125" y2="13.096875" width="0.3048" layer="1"/>
 <wire x1="29.05125" y1="13.096875" x2="28.971875" y2="13.17625" width="0.3048" layer="1"/>
 <wire x1="29.05125" y1="10.771875" x2="30.06" y2="9.763125" width="0.3048" layer="1"/>
-<wire x1="32.199375" y1="9.54" x2="31.814375" y2="9.54" width="0.3556" layer="1"/>
-<wire x1="31.814375" y1="9.54" x2="31.59125" y2="9.763125" width="0.3556" layer="1"/>
-<wire x1="31.59125" y1="9.763125" x2="30.06" y2="9.763125" width="0.3556" layer="1"/>
 </signal>
 <signal name="N$2">
 <contactref element="RN3" pad="1"/>
