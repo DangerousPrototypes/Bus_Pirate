@@ -1,4 +1,4 @@
-#include <QtGui>
+#include <QtWidgets>
 #include "BinMode.h"
 #include "BPSettings.h"
 #include "MainWin.h"
@@ -108,7 +108,7 @@ void I2CGui::search_i2c()
 		parent->bp->i2c_stop();
 
 		dev_addr = QString("%1 (%2 %3)").arg(dev, 0, 16).arg(addr, 0, 16).arg(rw);
-		postMsgEvent(dev_addr.toAscii());
+		postMsgEvent(dev_addr.toLatin1());
 	}
 	QCoreApplication::sendEvent(parent->parent, new BPStatusMsgEvent(end_msg));
 }

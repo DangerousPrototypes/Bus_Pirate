@@ -1,7 +1,7 @@
 #ifndef __IFACE_H
 #define __IFACE_H
 
-#include <QtGui>
+#include <QtWidgets>
 
 enum bbio_pins
 {

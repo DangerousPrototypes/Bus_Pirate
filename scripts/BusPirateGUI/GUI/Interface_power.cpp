@@ -1,4 +1,4 @@
-#include <QtGui>
+#include <QtWidgets>
 #include "BinMode.h"
 #include "BPSettings.h"
 #include "MainWin.h"

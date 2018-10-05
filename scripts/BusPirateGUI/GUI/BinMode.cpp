@@ -1,4 +1,4 @@
-#include <QtGui>
+#include <QtWidgets>
 #include "qextserialport/qextserialport.h"
 #include "Events.h"
 #include "MainWin.h"

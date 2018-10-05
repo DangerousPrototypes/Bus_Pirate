@@ -19,20 +19,30 @@
 #include "base.h"
 #include "bitbang.h"
 #include "selftest.h"
-#include "SPI.h"
-#include "I2C.h"
-#include "UART.h"
-#include "1wire.h"
-#include "binwire.h"
-#include "OpenOCD.h"
-#include "pic.h"
+
+#ifdef BP_USE_HWSPI
+	#include "SPI.h"
+#endif
+#ifdef BP_USE_I2C
+	#include "I2C.h"
+#endif
+#ifdef BP_USE_HWUART
+	#include "UART.h"
+#endif
+#ifdef BP_USE_1WIRE
+	#include "1wire.h"
+#endif
+#ifdef BP_USE_PIC
+	#include "pic.h"
+#endif
+#ifdef BP_USE_JTAG
+	#include "jtag.h"
+#endif
+
 #include "binIO.h"
 #include "AUXpin.h"
-//--- Added JM
-#ifdef BUSPIRATEV4
-#include "jtag.h"
-#endif
-//--- End added JM
+#include "binwire.h"
+#include "OpenOCD.h"
 
 
 

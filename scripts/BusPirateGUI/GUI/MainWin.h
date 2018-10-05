@@ -1,7 +1,7 @@
 #ifndef __QMAIN_H
 #define __QMAIN_H
 
-#include <QtGui>
+#include <QtWidgets>
 
 class SpiGui;
 class JtagGui;
