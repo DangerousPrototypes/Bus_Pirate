@@ -834,7 +834,7 @@ bpv4reset:
                         cmderror = 1;
                     }
                     break;
-                case 0x22: //bpWline("-send string");
+                case '"': //bpWline("-send string");
                     cmderror = 1;
                     temp = 1;
 
@@ -943,6 +943,11 @@ bpv4reset:
                         if (((modeConfig.int16 == 0) && (modeConfig.numbits != 8)) || ((modeConfig.int16 == 1) && (modeConfig.numbits != 16))) {
                             UART1TX(';');
                             bpWdec(modeConfig.numbits);
+                            // Support for 9-bit UART
+                            if (modeConfig.numbits == 9) {
+                                UART1TX(':');
+                                bpEchoState(received & 0x100);
+                            }
                         }
                         bpSP;
                     }
