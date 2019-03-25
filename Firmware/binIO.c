@@ -1,5 +1,5 @@
 /*
- * This file is part of the Bus Pirate project (http://code.google.com/p/the-bus-pirate/).
+ * This file is part of the Bus Pirate project (https://github.com/DangerousPrototypes/Bus_Pirate).
  *
  * Written and maintained by the Bus Pirate project.
  *
@@ -27,6 +27,7 @@
 #include "OpenOCD.h"
 #include "pic.h"
 #include "binIO.h"
+#include "binIO_defines.h"
 #include "AUXpin.h"
 //--- Added JM
 #ifdef BUSPIRATEV4
@@ -99,58 +100,58 @@ void binBB(void) {
 
         inByte = getRXbyte();
 
-        if ((inByte & 0b10000000) == 0) {//if command bit cleared, process command
+        if ((inByte & BP_BINM_SET_PINS) == 0) {//if command bit cleared, process command
             if (inByte == 0) {//reset, send BB version
                 binBBversion();
-            } else if (inByte == 1) {//goto SPI mode
+            } else if (inByte == BP_MODE_SPI) {//goto SPI mode
                 binReset();
 #ifdef BP_USE_HWSPI
                 binSPI(); //go into rawSPI loop
 #endif
                 binReset();
                 binBBversion(); //say name on return
-            } else if (inByte == 2) {//goto I2C mode
+            } else if (inByte == BP_MODE_I2C) {//goto I2C mode
                 binReset();
 #ifdef BP_USE_I2C
                 binI2C();
 #endif
                 binReset();
                 binBBversion(); //say name on return
-            } else if (inByte == 3) {//goto UART mode
+            } else if (inByte == BP_MODE_UART) {//goto UART mode
                 binReset();
 #ifdef BP_USE_HWUART
                 binUART();
 #endif
                 binReset();
                 binBBversion(); //say name on return
-            } else if (inByte == 4) {//goto 1WIRE mode
+            } else if (inByte == BP_MODE_RAW_1WIRE) {//goto 1WIRE mode
                 binReset();
 #ifdef BP_USE_1WIRE
                 bin1WIRE();
 #endif
                 binReset();
                 binBBversion(); //say name on return
-            } else if (inByte == 5) {//goto RAW WIRE mode
+            } else if (inByte == BP_MODE_RAW_WIRE) {//goto RAW WIRE mode
                 binReset();
                 binwire();
                 binReset();
                 binBBversion(); //say name on return
-            } else if (inByte == 6) {//goto OpenOCD mode
+            } else if (inByte == BP_MODE_OPEN_OCD) {//goto OpenOCD mode
                 binReset();
 #ifndef BUSPIRATEV4
                 binOpenOCD();
 #endif
                 binReset();
                 binBBversion(); //say name on return
-            } else if (inByte == 7) {//goto pic mode
+            } else if (inByte == BP_MODE_PIC_PROGRAM) {//goto pic mode
                 binReset();
 #ifdef BP_USE_PIC
                 binpic();
 #endif
                 binReset();
                 binBBversion(); //say name on return
-            } else if (inByte == 0b1111) {//return to terminal
-                UART1TX(1);
+            } else if (inByte == BP_BINM_RESET_TO_TERM) {//return to terminal
+                UART1TX(BP_OK);
                 BP_LEDMODE = 0; //light MODE LED
                 WAITTXEmpty(); //wait untill TX finishes
 #ifndef BUSPIRATEV4
@@ -162,12 +163,12 @@ void binBB(void) {
 #endif
                 //self test is only for v2go and v3
 #ifndef BUSPIRATEV1A 
-            } else if (inByte == 0b10000) {//short self test
+            } else if (inByte == BP_BINM_SELF_TEST_SHORT) {//short self test
                 binSelfTest(0);
-            } else if (inByte == 0b10001) {//full self test with jumpers
+            } else if (inByte == BP_BINM_SELF_TEST_FULL) {//full self test with jumpers
                 binSelfTest(1);
 #endif
-            } else if (inByte == 0b10010) {//setup PWM
+            } else if (inByte == BP_BINM_SETUP_PWM) {//setup PWM
 
                 //cleanup timers from FREQ measure
                 T2CON = 0; //16 bit mode
@@ -195,19 +196,19 @@ void binBB(void) {
 
                 T2CONbits.TON = 1; // Start Timer2
                 UART1TX(1);
-            } else if (inByte == 0b10011) {//clear PWM
+            } else if (inByte == BP_BINM_CLEAR_PWM) {//clear PWM
                 T2CON = 0; // stop Timer2
                 OC5CON = 0;
                 BP_AUX_RPOUT = 0; //remove output from AUX pin
-                UART1TX(1);
+                UART1TX(BP_OK);
                 //ADC only for v1, v2, v3
-            } else if (inByte == 0b10100) {//ADC reading (x/1024)*6.6volts
+            } else if (inByte == BP_BINM_ADC_MEASURE) {//ADC reading (x/1024)*6.6volts
                 AD1CON1bits.ADON = 1; // turn ADC ON
                 i = bpADC(BP_ADC_PROBE); //take measurement
                 AD1CON1bits.ADON = 0; // turn ADC OFF
                 UART1TX((i >> 8)); //send upper 8 bits
                 UART1TX(i); //send lower 8 bits
-            } else if (inByte == 0b10101) {//ADC reading (x/1024)*6.6volts
+            } else if (inByte == BP_BINM_ADC_MEASURE_CONT) {//ADC reading (x/1024)*6.6volts
                 AD1CON1bits.ADON = 1; // turn ADC ON
                 while (1) {
                     i = bpADC(BP_ADC_PROBE); //take measurement
@@ -222,7 +223,7 @@ void binBB(void) {
                     }
                 }
                 AD1CON1bits.ADON = 0; // turn ADC OFF
-			}else if (inByte==0b10110){ //binary frequency count access
+			}else if (inByte==BP_BINM_ADC_STOP_CONT){ //binary frequency count access
 				unsigned long l;
 				l=bpBinFreq();
 				UART1TX((l>>(8*3)));
@@ -231,16 +232,16 @@ void binBB(void) {
 				UART1TX((l));
 //--- Added JM
 #ifdef BUSPIRATEV4			
-            } else if (inByte == 0b11000) {  //XSVF Player to program CPLD
+            } else if (inByte == BP_MODE_XSVF_PLAYER) {  //XSVF Player to program CPLD
                 BP_VREGEN = 1;
                 bpWstring("XSV1");
 		jtag();
 #endif
 //--- End added JM
-            } else if ((inByte >> 5)&0b010) {//set pin direction, return read
+            } else if (inByte & BP_BINM_CONFIGURE_PINS) {//set pin direction, return read
                 UART1TX(binBBpindirectionset(inByte));
             } else {//unknown command, error
-                UART1TX(0);
+                UART1TX(BP_NOT_OK);
             }
 
         } else {//data for pins
@@ -272,23 +273,23 @@ unsigned char binBBpindirectionset(unsigned char inByte) {
     //but it makes it work for all hardware versions
     //without special adjustments
     i = 0;
-    if (inByte & 0b10000)i = 1;
+    if (inByte & BP_PIN_AUX0)i = 1;
     BP_AUX0_DIR = i;
 
     i = 0;
-    if (inByte & 0b1000)i = 1;
+    if (inByte & BP_PIN_MOSI)i = 1;
     BP_MOSI_DIR = i;
 
     i = 0;
-    if (inByte & 0b100)i = 1;
+    if (inByte & BP_PIN_CLK)i = 1;
     BP_CLK_DIR = i;
 
     i = 0;
-    if (inByte & 0b10)i = 1;
+    if (inByte & BP_PIN_MISO)i = 1;
     BP_MISO_DIR = i;
 
     i = 0;
-    if (inByte & 0b1)i = 1;
+    if (inByte & BP_PIN_CS)i = 1;
     BP_CS_DIR = i;
 
     //delay for a brief period
@@ -296,11 +297,11 @@ unsigned char binBBpindirectionset(unsigned char inByte) {
 
     //return PORT read
     inByte &= (~0b00011111);
-    if (BP_AUX0 != 0)inByte |= 0b10000;
-    if (BP_MOSI != 0)inByte |= 0b1000;
-    if (BP_CLK != 0)inByte |= 0b100;
-    if (BP_MISO != 0)inByte |= 0b10;
-    if (BP_CS != 0)inByte |= 0b1;
+    if (BP_AUX0 != 0)inByte |= BP_PIN_AUX0;
+    if (BP_MOSI != 0)inByte |= BP_PIN_MOSI;
+    if (BP_CLK != 0)inByte |= BP_PIN_CLK;
+    if (BP_MISO != 0)inByte |= BP_PIN_MISO;
+    if (BP_CS != 0)inByte |= BP_PIN_CS;
 
     return inByte; //return the read
 }
@@ -308,14 +309,14 @@ unsigned char binBBpindirectionset(unsigned char inByte) {
 unsigned char binBBpinset(unsigned char inByte) {
     unsigned char i;
 
-    if (inByte & 0b1000000) {
+    if (inByte & BP_PIN_VREG) {
         BP_VREG_ON(); //power on
     } else {
         BP_VREG_OFF(); //power off
     }
 
 #ifndef BUSPIRATEV1A 
-    if (inByte & 0b100000) {
+    if (inByte & BP_PIN_PULLUPS) {
         BP_PULLUP_ON(); //pullups on
     } else {
         BP_PULLUP_OFF();
@@ -327,23 +328,23 @@ unsigned char binBBpinset(unsigned char inByte) {
     //but it makes it work for all hardware versions
     //without special adjustments
     i = 0;
-    if (inByte & 0b10000)i = 1;
+    if (inByte & BP_PIN_AUX0)i = 1;
     BP_AUX0 = i;
 
     i = 0;
-    if (inByte & 0b1000)i = 1;
+    if (inByte & BP_PIN_MOSI)i = 1;
     BP_MOSI = i;
 
     i = 0;
-    if (inByte & 0b100)i = 1;
+    if (inByte & BP_PIN_CLK)i = 1;
     BP_CLK = i;
 
     i = 0;
-    if (inByte & 0b10)i = 1;
+    if (inByte & BP_PIN_MISO)i = 1;
     BP_MISO = i;
 
     i = 0;
-    if (inByte & 0b1)i = 1;
+    if (inByte & BP_PIN_CS)i = 1;
     BP_CS = i;
 
     //delay for a brief period
@@ -351,11 +352,11 @@ unsigned char binBBpinset(unsigned char inByte) {
 
     //return PORT read
     inByte &= (~0b00011111);
-    if (BP_AUX0 != 0)inByte |= 0b10000;
-    if (BP_MOSI != 0)inByte |= 0b1000;
-    if (BP_CLK != 0)inByte |= 0b100;
-    if (BP_MISO != 0)inByte |= 0b10;
-    if (BP_CS != 0)inByte |= 0b1;
+    if (BP_AUX0 != 0)inByte |= BP_PIN_AUX0;
+    if (BP_MOSI != 0)inByte |= BP_PIN_MOSI;
+    if (BP_CLK != 0)inByte |= BP_PIN_CLK;
+    if (BP_MISO != 0)inByte |= BP_PIN_MISO;
+    if (BP_CS != 0)inByte |= BP_PIN_CS;
 
     return inByte; //return the read
 }

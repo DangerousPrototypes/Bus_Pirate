@@ -51,6 +51,7 @@
       <itemPath>../uart2io.h</itemPath>
       <itemPath>../usb_lang.h</itemPath>
       <itemPath>../dp_usb/usb_stack.h</itemPath>
+      <itemPath>../binIO_defines.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LibraryFiles"
                    displayName="Library Files"
